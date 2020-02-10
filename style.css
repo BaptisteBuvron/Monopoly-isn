@@ -1,0 +1,30 @@
+
+#game{
+    text-align: center;
+}
+
+#game div{
+    width: 50px;
+    height: 100px;
+    border: 1px solid black;
+    display: inline-block;
+    
+}
+#game .corner{
+    width: 100px;
+}
+#game .right, #game .left{
+    width: 100px;
+    height: 50px;
+}
+#game .void{
+    height: 50px;
+    border: 1px solid black;
+}
+
+
+#game .property.top .color{
+    width: 50px;
+    height: 20px;
+    background-color: red;
+}
