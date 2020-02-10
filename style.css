@@ -1,30 +1,159 @@
 
 #game{
     text-align: center;
+   
 }
 
+/* Style d'une div */
 #game div{
-    width: 50px;
-    height: 100px;
-    border: 1px solid black;
+    width: 65px;
+    height: 140px;
     display: inline-block;
+    border: 1px solid black;
     
 }
+/* Style d'une div correspondant  a un coin */
 #game .corner{
-    width: 100px;
+    width: 140px;
 }
+
+/* Style d'une div étant soit à gauche soit à droite */
 #game .right, #game .left{
-    width: 100px;
-    height: 50px;
+    width: 140px;
+    height: 65px;
 }
+
+/* Style d'une div vide */
 #game .void{
-    height: 50px;
-    border: 1px solid black;
+    height: 65px;
+    border: 1px solid white;
 }
 
 
-#game .property.top .color{
-    width: 50px;
-    height: 20px;
+/* Style des div des extrémités */
+#game .top, #game .left, #game .right, #game .bottom{
+    font-size: 0px;
+    position: relative;
+}
+
+
+
+
+/* Style des div color propriété en haut */
+#game .property.top .color{ /* Les éléments possèdant la classe color enfant d'un parent possédant les classe property et top */
+    height: 20%; 
+    border: none;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    
+
+}
+
+/* Style des div title propriété en haut */
+#game .property.top .title{
+    height: 80%;
+    border: none;
+}
+
+
+
+
+
+/* Style des div title propriété a gauche */
+#game .property.left .title{
+    left: 0px;
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border: none;
+}
+
+/* Style des div color propriété a gauche */
+#game .property.left .color{
+    position: absolute;
+    width: 20%; 
+    height: 100%;
+    border: none;
+    border-left: 1px solid black;
+    right: 0px;
+}
+
+
+
+
+/* Style des div title propriété a droite */
+#game .property.right .title{
+    right: 0px;
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border: none;
+}
+
+
+/* Style des div color propriété en a droite */
+#game .property.right .color{
+    position: absolute;
+    width: 20%; 
+    height: 100%;
+    border: none;
+    border-right: 1px solid black;
+    left: 0px;
+    
+}
+
+
+
+/* Style des div color propriété en bas */
+#game .property.bottom .color{
+    position: absolute;
+    height: 20%; 
+    border: none;
+    border-bottom: 1px solid black;
+    top: 0px;
+    left: 0px;
+}
+
+
+/* Style des div title propriété en bas */
+#game .property.bottom .title{
+    position: absolute;
+    height: 80%;
+    border: none;
+    bottom: 0px;
+}
+
+
+
+/* Style des éléments avec la classe color enfant d'élement avec la classe property_group_1 enfant d'élément avec l'id game */
+#game .property_group_1 .color{
+    background-color: brown;
+}
+
+#game .property_group_2 .color{
+    background-color: aquamarine;
+}
+
+#game .property_group_3 .color{
+    background-color: pink;
+}
+
+#game .property_group_4 .color{
+    background-color: orange;
+}
+
+#game .property_group_5 .color{
     background-color: red;
+}
+
+#game .property_group_6 .color{
+    background-color: yellow;
+}
+
+#game .property_group_7 .color{
+    background-color: green;
+}
+
+#game .property_group_8 .color{
+    background-color: blue;
 }
