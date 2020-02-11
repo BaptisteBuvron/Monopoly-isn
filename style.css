@@ -1,6 +1,10 @@
 
 #game{
 text-align: center;
+width: 928px;
+height: 924px;
+margin: auto;
+background-color: rgb(175, 231, 204);
    
 }
 
@@ -27,7 +31,7 @@ text-align: center;
 /* Style d'une div vide */
 #game .void{
     height: 65px;
-    border: 1px solid white;
+    border: 1px solid rgb(175, 231, 204);
 }
 
 
@@ -55,9 +59,6 @@ text-align: center;
     height: 80%;
     border: none;
 }
-
-
-
 
 
 /* Style des div content propriété a gauche */
@@ -124,14 +125,70 @@ text-align: center;
     bottom: 0px;
 }
 
-#game .prison .cells{
-    position: absolute;
-    height: 60%;
-    width: 70%;
-    top: 0px;
-    right: 0px;
-    background-color: orange;
+
+/*Background des cases à fonctions */
+
+#game .prison{
+    background-image: url('pictures/jail.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    
 }
+
+#game .start{
+    background-image: url('pictures/go.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .property.left.electric{
+    background-image: url('pictures/electric.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .property.top.water{
+    background-image: url('pictures/water.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .corner.top.go-to-jail{
+    background-image: url('pictures/go-to-jail.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .right.community-chest{
+    background-image: url('pictures/community-chest.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
+}
+
+
+#game .left.community-chest{
+    background-image: url('pictures/community-chest.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .right.tax{
+    background-image: url('pictures/tax.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .corner.top.free-parking{
+    background-image: url('pictures/free-parking.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+
 
 
 /* Style des éléments avec la classe title enfant d'élement avec la classe property_group_1 enfant d'élément avec l'id game */
