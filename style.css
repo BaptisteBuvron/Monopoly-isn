@@ -1,0 +1,225 @@
+
+#game{
+text-align: center;
+width: 928px;
+height: 924px;
+margin: auto;
+background-color: rgb(175, 231, 204);
+   
+}
+
+/* Style d'une div */
+#game div{
+    width: 65px;
+    height: 140px;
+    display: inline-block;
+    border: 1px solid black;
+
+    
+}
+/* Style d'une div correspondant  a un coin */
+#game .corner{
+    width: 140px;
+}
+
+/* Style d'une div étant soit à gauche soit à droite */
+#game .right, #game .left{
+    width: 140px;
+    height: 65px;
+}
+
+/* Style d'une div vide */
+#game .void{
+    height: 65px;
+    border: 1px solid rgb(175, 231, 204);
+}
+
+
+/* Style des div des extrémités */
+#game .top, #game .left, #game .right, #game .bottom, #game .corner{
+    font-size: 0px;
+    position: relative;
+}
+
+
+
+
+/* Style des div title propriété en haut */
+#game .property.top .title{ /* Les éléments possèdant la classe title enfant d'un parent possédant les classe property et top */
+    height: 20%; 
+    border: none;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    
+
+}
+
+/* Style des div content propriété en haut */
+#game .property.top .content{
+    height: 80%;
+    border: none;
+}
+
+
+/* Style des div content propriété a gauche */
+#game .property.left .content{
+    left: 0px;
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border: none;
+}
+
+/* Style des div title propriété a gauche */
+#game .property.left .title{
+    position: absolute;
+    width: 20%; 
+    height: 100%;
+    border: none;
+    border-left: 1px solid black;
+    right: 0px;
+}
+
+
+
+
+/* Style des div content propriété a droite */
+#game .property.right .content{
+    right: 0px;
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border: none;
+}
+
+
+/* Style des div title propriété en a droite */
+#game .property.right .title{
+    position: absolute;
+    width: 20%; 
+    height: 100%;
+    border: none;
+    border-right: 1px solid black;
+    left: 0px;
+    
+}
+
+
+
+/* Style des div title propriété en bas */
+#game .property.bottom .title{
+    position: absolute;
+    height: 20%; 
+    border: none;
+    border-bottom: 1px solid black;
+    top: 0px;
+    left: 0px;
+}
+
+
+/* Style des div content propriété en bas */
+#game .property.bottom .content{
+    position: absolute;
+    height: 80%;
+    border: none;
+    bottom: 0px;
+}
+
+
+/*Background des cases à fonctions */
+
+#game .prison{
+    background-image: url('pictures/jail.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    
+}
+
+#game .start{
+    background-image: url('pictures/go.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .property.left.electric{
+    background-image: url('pictures/electric.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .property.top.water{
+    background-image: url('pictures/water.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .corner.top.go-to-jail{
+    background-image: url('pictures/go-to-jail.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .right.community-chest{
+    background-image: url('pictures/community-chest.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(180deg);
+}
+
+
+#game .left.community-chest{
+    background-image: url('pictures/community-chest.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .right.tax{
+    background-image: url('pictures/tax.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .corner.top.free-parking{
+    background-image: url('pictures/free-parking.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+
+
+
+/* Style des éléments avec la classe title enfant d'élement avec la classe property_group_1 enfant d'élément avec l'id game */
+#game [data-group='group1'] .title{
+    background-color: brown;
+}
+
+#game [data-group='group2'] .title{
+    background-color: aquamarine;
+}
+
+#game [data-group='group3'] .title{
+    background-color: pink;
+}
+
+#game [data-group='group4'] .title{
+    background-color: orange;
+}
+
+#game [data-group='group5'] .title{
+    background-color: red;
+}
+
+#game [data-group='group6'] .title{
+    background-color: yellow;
+}
+
+#game [data-group='group7'] .title{
+    background-color: green;
+}
+
+#game [data-group='group8'] .title{
+    background-color: blue;
+}
