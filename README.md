@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+# HTML
 
-You can use the [editor on GitHub](https://github.com/BaptisteBuvron/Monopoly-isn/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Le plateau de jeu est créer entièrement en html et css : 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Chaque case est représenté par une balise `div`.
 
-### Markdown
+Chaque `div` peut comporter les classes suivantes:
+- `top, left, right, bottom, void` en fonction de leur position
+- `property, taxe, community-chest, prison, start, free-parking, electric, water` en fonction de leur fonction dans le jeu. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+
+## Exemple : 
 
 ```markdown
-Syntax highlighted code block
+<div class="corner top free-parking"></div>
+        <div class="property top" data-group="group5">
+            <div class="content"></div>
+            <div class="title"></div>
+        </div>
+        <div class="top"></div>
+        <div class="property top" data-group="group5">
+            <div class="content"></div>
+            <div class="title"></div>
+        </div>
+        <div class="property top" data-group="group5">
+            <div class="content"></div>
+            <div class="title"></div>
+        </div>
+```
+# CSS
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/BaptisteBuvron/Monopoly-isn/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
