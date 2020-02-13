@@ -43,6 +43,42 @@ Pour les éléments de classe `right` et `left` enfant d'un élément possédant
 
 ```
 
+## Les propriétés
+
+Chaque propriétés possèdent une div `content` et `title`.
+Pour que c'est div réagissent en fonction de leur parent et non de la balise `body`, on utilise une propriété des `positions`. 
+Un élément positionné avec position: `absolute` va être positionné par rapport à son parent le plus proche positionné (avec une valeur de position différente de static).
+
+Les parents ont une position `relative` (autre que static)
+```markdown
+#game .top, #game .left, #game .right, #game .bottom, #game .corner{
+    font-size: 0px;
+    position: relative;
+}
+```
+
+Les enfants ont une position `absolute`.
+```markdown
+/* Style des div content propriété a gauche */
+#game .property.left .content{
+    left: 0px;
+    position: absolute;
+    width: 80%;
+    height: 100%;
+    border: none;
+}
+
+/* Style des div title propriété a gauche */
+#game .property.left .title{
+    position: absolute;
+    width: 20%; 
+    height: 100%;
+    border: none;
+    border-left: 1px solid black;
+    right: 0px;
+}
+```
+
 
 
 
