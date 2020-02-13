@@ -31,7 +31,7 @@ Chaque `div` peut comporter les classes suivantes:
 
 Chaque case du jeu est stylisé en fonction de sa classe. Ainsi par exemple : 
 
-Pour les éléments de classe 'right' et 'left' enfant d'un élément possédant l'id 'game':
+Pour les éléments de classe `right` et `left` enfant d'un élément possédant l'id `game` : 
 
 ```markdown
 
@@ -42,5 +42,7 @@ Pour les éléments de classe 'right' et 'left' enfant d'un élément possédant
 }
 
 ```
+
+
 
 
