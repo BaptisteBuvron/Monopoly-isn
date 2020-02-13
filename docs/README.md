@@ -78,7 +78,34 @@ Les enfants ont une position `absolute`.
     right: 0px;
 }
 ```
+Chaque propriété possède un groupe, ce groupe est répéré avec `data-group="group1"`
 
+Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`
 
+```markdown
+#game [data-group='group1'] .title{
+    background-color: brown;
+}
+
+#game [data-group='group2'] .title{
+    background-color: aquamarine;
+}
+
+...
+```
+
+## Les cases à fonctions
+
+Les cases à fonctions sont repéré avec leur classe, en fonction de cette classe une image de fond d'écran leur est attribuée.
+
+```markdown
+<div class="corner prison"></div>
+
+#game .prison{
+    background-image: url('pictures/jail.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;    
+}
+```
 
 
