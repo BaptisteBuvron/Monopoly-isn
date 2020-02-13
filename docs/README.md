@@ -46,7 +46,7 @@ Pour les éléments de classe `right` et `left` enfant d'un élément possédant
 ## Les propriétés
 
 Chaque propriétés possèdent une div `content` et `title`.
-Pour que c'est div réagissent en fonction de leur parent et non de la balise `body`, on utilise une propriété des `positions`. 
+Pour que c'est div réagissent en fonction de leur parent et non de la balise `body`, on utilise une propriété des `position`. 
 Un élément positionné avec position: `absolute` va être positionné par rapport à son parent le plus proche positionné (avec une valeur de position différente de static).
 
 Les parents ont une position `relative` (autre que static)
