@@ -4,7 +4,7 @@ text-align: center;
 width: 928px;
 height: 924px;
 margin: auto;
-background-color: rgb(175, 231, 204);
+background-color: rgb(218, 233, 212);
    
 }
 
@@ -31,7 +31,7 @@ background-color: rgb(175, 231, 204);
 /* Style d'une div vide */
 #game .void{
     height: 65px;
-    border: 1px solid rgb(175, 231, 204);
+    border: 1px solid rgb(218, 233, 212);
 }
 
 
@@ -137,7 +137,7 @@ background-color: rgb(175, 231, 204);
 }
 
 #game .start{
-    background-image: url('pictures/go.png');
+    background-image: url('pictures/go.jpg');
     background-size: contain;
     background-repeat: no-repeat;
 }
@@ -146,12 +146,14 @@ background-color: rgb(175, 231, 204);
     background-image: url('pictures/electric.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #game .property.top.water{
     background-image: url('pictures/water.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #game .corner.top.go-to-jail{
@@ -178,12 +180,14 @@ background-color: rgb(175, 231, 204);
     background-image: url('pictures/tax.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 #game .corner.top.free-parking{
     background-image: url('pictures/free-parking.jpg');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 
