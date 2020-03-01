@@ -1,4 +1,4 @@
-# Joueur au jeu : 
+# Joueur au jeu 
 - [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
 # Sommaire
 1. [HTML](#html)
