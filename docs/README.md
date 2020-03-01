@@ -33,6 +33,17 @@ Chaque `div` peut comporter les classes suivantes:
             <div class="title"></div>
 </div>
 ```
+
+##Numéro de case
+
+Chaque case possède un id permettant de savoir qu'elle est son numéro de case :
+```markdown
+<div id="cell2" class="property bottom" data-group="group1">
+            <div class="content"></div>
+            <div class="title"></div>
+</div>
+<div id="cell1" class="corner start"></div>
+```
 # CSS
 
 Chaque case du jeu est stylisé en fonction de sa classe. Ainsi par exemple : 
