@@ -2,7 +2,7 @@
 1. [HTML](#html)
 2. [CSS](#css)
 3. [JavaScript](#javascript)
-[Le jeu](../index.html)
+4. [Le jeu](../index.html)
 
 # HTML
 
