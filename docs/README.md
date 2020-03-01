@@ -35,7 +35,7 @@ Chaque `div` peut comporter les classes suivantes:
 </div>
 ```
 
-##Numéro de case
+## Numéro de case
 
 Chaque case possède un id permettant de savoir qu'elle est son numéro de case :
 ```markdown
