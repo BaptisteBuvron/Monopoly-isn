@@ -1,7 +1,7 @@
 # Sommaire
-1. [HTML](#HTML)
-2. [CSS](#CSS)
-3. [JavaScript](#JavaScript)
+1. [HTML](#html)
+2. [CSS](#css)
+3. [JavaScript](#javascript)
 
 # HTML
 
