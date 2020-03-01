@@ -1,5 +1,6 @@
-# Joueur au jeu 
+# Jeu du Monopoly
 - [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
+- [Le Github](https://github.com/BaptisteBuvron/Monopoly-isn)
 
 # Sommaire
 1. [HTML](#html)
