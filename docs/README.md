@@ -1,5 +1,7 @@
 # Sommaire
-- [HTML](#HTML)
+1. [HTML](#HTML)
+2. [CSS](#CSS)
+3. [JavaScript](#JavaScript)
 
 # HTML
 
@@ -110,5 +112,5 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
     background-repeat: no-repeat;    
 }
 ```
-
+# JavaScript
 
