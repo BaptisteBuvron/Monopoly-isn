@@ -2,7 +2,7 @@
 1. [HTML](#html)
 2. [CSS](#css)
 3. [JavaScript](#javascript)
-4. [Le jeu](../index.html)
+4. [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
 
 # HTML
 
