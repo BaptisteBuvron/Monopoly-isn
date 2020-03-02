@@ -131,12 +131,37 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
 
 ## Objet Monopoly
 
-Un objet monopoly a été créer, toute les fonctions liéer au déroulement du jeu du monopoly seront des propriétés de l'objet Monopoly :
+Un objet Monopoly a été créer, toutes les fonctions lier au déroulement du jeu du Monopoly seront des propriétés de l’objet Monopoly :
 
 ```markdown
 var Monopoly = new Object();
 ```
 ## Les fonctions
+
+### Monopoly.getNbrPlayer
+
+Cette propriété de l'objet Monopoly est appelée au chargement de du page et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est appelée. Sinon la propriété `Monopoly CreatePlayer ` est appelée.
+
+```markdown
+Monopoly.getNbrPlayer = function(){
+    $( document ).ready(function() {
+        $("#modal-player").modal('show');
+        $("#modal-player").modal({backdrop: 'static', keyboard: false})  
+    });
+    $("#button-nbrPlayer").click(function(){
+        var nbrPlayer = parseInt($("#nbrPlayer").val());
+        if (nbrPlayer > 5 || nbrPlayer <2) {
+            Monopoly.getNbrPlayer();
+        }
+        else{
+            $("#modal-player").modal('hide');
+            Monopoly.createPlayer(nbrPlayer);
+        }
+    });
+
+};
+
+```
 
 
 
