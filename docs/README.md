@@ -129,3 +129,14 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
 ```
 # JavaScript
 
+## Objet Monopoly
+
+Un objet monopoly a été créer, toute les fonctions liéer au déroulement du jeu du monopoly seront des propriétés de l'objet Monopoly :
+
+```markdown
+var Monopoly = new Object();
+```
+## Les fonctions
+
+
+
