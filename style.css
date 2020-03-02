@@ -1,11 +1,15 @@
 
 #game{
 text-align: center;
-width: 928px;
-height: 924px;
 margin: auto;
 background-color: rgb(218, 233, 212);
-   
+}
+
+body{
+    background-color: rgb(218, 233, 212);
+    margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 /* Style d'une div */
@@ -49,7 +53,7 @@ background-color: rgb(218, 233, 212);
     height: 20%; 
     border: none;
     border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 1px solid black;
     
 
 }
@@ -112,6 +116,7 @@ background-color: rgb(218, 233, 212);
     height: 20%; 
     border: none;
     border-bottom: 1px solid black;
+    border-right: 1px solid black;
     top: 0px;
     left: 0px;
 }
@@ -227,3 +232,4 @@ background-color: rgb(218, 233, 212);
 #game [data-group='group8'] .title{
     background-color: blue;
 }
+
