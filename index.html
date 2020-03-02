@@ -230,21 +230,24 @@
 
     </div>
 
-    <div id="modal-player" class="modal" tabindex="-1" role="dialog">
+    <div id="modal-player" class="modal fade in" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Nombre de Joueur : </h5>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nombre de Joueur : </h5>
+                </div>
+                <div class="modal-body">
+                    <form id="form-nbrPlayer" class="form-group " action="">
+                        <label for="nbrPlayer">Nombre Joueur (2 à 5)</label><input id="nbrPlayer" class="form-control"
+                            type="number" name="">
+                        <button style="margin-top: 5px" id="button-nbrPlayer" type="button"
+                            class="btn btn-success">Valider</button>
+                    </form>
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="form-nbrPlayer"  class="form-group " action="">
-                    <label for="nbrPlayer">Nombre Joueur (2 à 5)</label><input id="nbrPlayer" class="form-control" type="number" name="" >
-                        <button style="margin-top: 5px" id="button-nbrPlayer" type="button" class="btn btn-success">Valider</button>
-                </form>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
 
 

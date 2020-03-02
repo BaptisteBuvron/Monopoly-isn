@@ -1,6 +1,6 @@
 # Jeu du Monopoly
 - [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
-- [Le Github](https://github.com/BaptisteBuvron/Monopoly-isn)
+- [Le Github du projet](https://github.com/BaptisteBuvron/Monopoly-isn)
 
 # Sommaire
 1. [HTML](#html)
@@ -140,7 +140,7 @@ var Monopoly = new Object();
 
 ### Monopoly.getNbrPlayer
 
-Cette propriété de l'objet Monopoly est appelée au chargement de du page et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est appelée. Sinon la propriété `Monopoly CreatePlayer ` est appelée.
+Cette propriété de l'objet Monopoly est appelée au chargement de la page et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est rappelée. Sinon la propriété `Monopoly CreatePlayer` est appelée.
 
 ```javascript
 Monopoly.getNbrPlayer = function(){
