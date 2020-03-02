@@ -118,7 +118,7 @@ Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`
 
 Les cases à fonctions sont repéré avec leur classe, en fonction de cette classe une image de fond d'écran leur est attribuée.
 
-```markdown
+```html
 <div class="corner prison"></div>
 
 #game .prison{
@@ -133,7 +133,7 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
 
 Un objet Monopoly a été créer, toutes les fonctions lier au déroulement du jeu du Monopoly seront des propriétés de l’objet Monopoly :
 
-```markdown
+```javascript
 var Monopoly = new Object();
 ```
 ## Les fonctions
