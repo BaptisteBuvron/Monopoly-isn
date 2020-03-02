@@ -22,5 +22,9 @@ Monopoly.createPlayer = function(nbrPlayer){
     console.log(nbrPlayer);
 };
 
+Monopoly.dice = function(){
+   
+};
+
 Monopoly.getNbrPlayer();
 
