@@ -117,7 +117,9 @@ Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`
 ## Les cases à fonctions
 
 Les cases à fonctions sont repéré avec leur classe, en fonction de cette classe une image de fond d'écran leur est attribuée.
-
+```html
+<div class="corner prison"></div>
+```
 ```css
 <div class="corner prison"></div>
 
