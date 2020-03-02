@@ -20,7 +20,7 @@ Chaque `div` peut comporter les classes suivantes:
 
 ## Exemple : 
 
-```markdown
+```html
 <div class="corner top free-parking"></div>
         <div class="property top" data-group="group5">
             <div class="content"></div>
@@ -40,7 +40,7 @@ Chaque `div` peut comporter les classes suivantes:
 ## Numéro de case
 
 Chaque case possède un id permettant de savoir qu'elle est son numéro de case :
-```markdown
+```html
 <div id="cell2" class="property bottom" data-group="group1">
             <div class="content"></div>
             <div class="title"></div>
@@ -53,7 +53,7 @@ Chaque case du jeu est stylisé en fonction de sa classe. Ainsi par exemple :
 
 Pour les éléments de classe `right` et `left` enfant d'un élément possédant l'id `game` : 
 
-```markdown
+```css
 
 /* Style d'une div étant soit à gauche soit à droite */
 #game .right, #game .left{
@@ -70,7 +70,7 @@ Pour que c'est div réagissent en fonction de leur parent et non de la balise `b
 Un élément positionné avec position: `absolute` va être positionné par rapport à son parent le plus proche positionné (avec une valeur de position différente de static).
 
 Les parents ont une position `relative` (autre que static)
-```markdown
+```css
 #game .top, #game .left, #game .right, #game .bottom, #game .corner{
     font-size: 0px;
     position: relative;
@@ -78,7 +78,7 @@ Les parents ont une position `relative` (autre que static)
 ```
 
 Les enfants ont une position `absolute`.
-```markdown
+```css
 /* Style des div content propriété a gauche */
 #game .property.left .content{
     left: 0px;
@@ -102,7 +102,7 @@ Chaque propriété possède un groupe, ce groupe est répéré avec `data-group=
 
 Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`
 
-```markdown
+```css
 #game [data-group='group1'] .title{
     background-color: brown;
 }
