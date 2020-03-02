@@ -53,7 +53,7 @@ body{
     height: 20%; 
     border: none;
     border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 1px solid black;
     
 
 }
@@ -116,6 +116,7 @@ body{
     height: 20%; 
     border: none;
     border-bottom: 1px solid black;
+    border-right: 1px solid black;
     top: 0px;
     left: 0px;
 }
