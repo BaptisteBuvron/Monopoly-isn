@@ -142,7 +142,7 @@ var Monopoly = new Object();
 
 Cette propriété de l'objet Monopoly est appelée au chargement de du page et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est appelée. Sinon la propriété `Monopoly CreatePlayer ` est appelée.
 
-```markdown
+```javascript
 Monopoly.getNbrPlayer = function(){
     $( document ).ready(function() {
         $("#modal-player").modal('show');
