@@ -121,8 +121,6 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
 <div class="corner prison"></div>
 ```
 ```css
-<div class="corner prison"></div>
-
 #game .prison{
     background-image: url('pictures/jail.jpg');
     background-size: contain;
