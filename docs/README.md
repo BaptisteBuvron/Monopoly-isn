@@ -1,3 +1,7 @@
+# Jeu du Monopoly
+- [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
+- [Le Github](https://github.com/BaptisteBuvron/Monopoly-isn)
+
 # Sommaire
 1. [HTML](#html)
 2. [CSS](#css)
@@ -31,6 +35,17 @@ Chaque `div` peut comporter les classes suivantes:
             <div class="content"></div>
             <div class="title"></div>
 </div>
+```
+
+## Numéro de case
+
+Chaque case possède un id permettant de savoir qu'elle est son numéro de case :
+```markdown
+<div id="cell2" class="property bottom" data-group="group1">
+            <div class="content"></div>
+            <div class="title"></div>
+</div>
+<div id="cell1" class="corner start"></div>
 ```
 # CSS
 
