@@ -163,5 +163,3 @@ Monopoly.getNbrPlayer = function(){
 
 ```
 
-
-

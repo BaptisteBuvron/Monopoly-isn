@@ -1,5 +1,19 @@
+/*
+* Title : Monopoly Game
+* Author : Baptiste Buvron,
+* Created the : 01/03/2020
+
+*/
+
+/**
+ * @description Objet du Monopoly
+ * @type {object}  
+ */
 var Monopoly = new Object();
 
+/**
+ * @property Propriété qui récupère le nombre de joueur
+ */
 Monopoly.getNbrPlayer = function () {
     $(document).ready(function () {
         $("#modal-player").modal('show');
@@ -7,6 +21,11 @@ Monopoly.getNbrPlayer = function () {
     });
     $("#button-nbrPlayer").click(getNbrPlayer);
 
+
+    /**
+     * @description Fonction qui récupère le nombre de joeur
+     * @type {Function}
+     */
     function getNbrPlayer() {
         var nbrPlayer = parseInt($("#nbrPlayer").val());
         if (nbrPlayer > 5 || nbrPlayer < 2) {
@@ -18,7 +37,9 @@ Monopoly.getNbrPlayer = function () {
     }
 
 };
-
+/**
+ * @param {number} nbrPlayer number of player
+ */
 Monopoly.createPlayer = function (nbrPlayer) {
     console.log(nbrPlayer);
 };
