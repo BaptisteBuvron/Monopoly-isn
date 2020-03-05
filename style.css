@@ -238,3 +238,17 @@ body {
 #game [data-group='group8'] .title {
     background-color: blue;
 }
+
+
+
+span.player{
+    display: inline-block;
+    position: absolute;
+    top : 0px;
+    height: 30px;
+    width: 30px;
+    background-image: url('pictures/cheval.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
