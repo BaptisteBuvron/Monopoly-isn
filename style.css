@@ -1,9 +1,3 @@
-#game {
-    text-align: center;
-    margin: auto;
-    background-color: rgb(218, 233, 212);
-}
-
 body {
     background-color: rgb(218, 233, 212);
     margin: 0;
@@ -11,130 +5,45 @@ body {
     height: 100%;
 }
 
+#game {
+    text-align: center;
+    margin: auto;
+    background-color: rgb(218, 233, 212);
+    font-size: 0px;
+}
+
+
+
 /* Style d'une div */
-#game div {
+#game .cell {
     width: 65px;
     height: 140px;
     display: inline-block;
     border: 1px solid black;
+    margin: 2px;
+    text-align: start;
+    vertical-align: top;
 
 
 }
 
-/* Style d'une div correspondant  a un coin */
-#game .corner {
-    width: 140px;
+#game .cell.void {
+    height: 65px;
+    border-color: rgb(218, 233, 212);
 }
 
-/* Style d'une div étant soit à gauche soit à droite */
-#game .right,
-#game .left {
+
+
+#game .cell.right,
+#game .cell.left {
     width: 140px;
     height: 65px;
 }
 
-/* Style d'une div vide */
-#game .void {
-    height: 65px;
-    border: 1px solid rgb(218, 233, 212);
+#game .cell.corner {
+    width: 140px;
 }
 
-
-/* Style des div des extrémités */
-#game .top,
-#game .left,
-#game .right,
-#game .bottom,
-#game .corner {
-    font-size: 0px;
-    position: relative;
-}
-
-
-
-
-/* Style des div title propriété en haut */
-#game .property.top .title {
-    /* Les éléments possèdant la classe title enfant d'un parent possédant les classe property et top */
-    height: 20%;
-    border: none;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-
-
-}
-
-/* Style des div content propriété en haut */
-#game .property.top .content {
-    height: 80%;
-    border: none;
-}
-
-
-/* Style des div content propriété a gauche */
-#game .property.left .content {
-    left: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
-}
-
-/* Style des div title propriété a gauche */
-#game .property.left .title {
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    border: none;
-    border-left: 1px solid black;
-    right: 0px;
-}
-
-
-
-
-/* Style des div content propriété a droite */
-#game .property.right .content {
-    right: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
-}
-
-
-/* Style des div title propriété en a droite */
-#game .property.right .title {
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    border: none;
-    border-right: 1px solid black;
-    left: 0px;
-
-}
-
-
-
-/* Style des div title propriété en bas */
-#game .property.bottom .title {
-    position: absolute;
-    height: 20%;
-    border: none;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    top: 0px;
-    left: 0px;
-}
-
-
-/* Style des div content propriété en bas */
-#game .property.bottom .content {
-    position: absolute;
-    height: 80%;
-    border: none;
-    bottom: 0px;
-}
 
 
 /*Background des cases à fonctions */
@@ -201,7 +110,57 @@ body {
     background-position: center;
 }
 
+#game .cell.top .title {
+    height: 20%;
+    border-top: 1px solid black ;
+    width: 100%;
+}
 
+#game .cell.top .content {
+    height: 80%;
+    width: 100%;
+}
+
+#game .cell.bottom .title {
+    height: 20%;
+    border-bottom: 1px solid black ;
+    width: 100%;
+}
+
+#game .cell.bottom .content {
+    height: 80%;
+    width: 100%;
+}
+
+#game .cell.left .title, #game .cell.left .content, #game .cell.right .title, #game .cell.right .content{
+    display: inline-block;
+}
+
+#game .cell.left .title {
+    height: 100%;
+    border-left: 1px solid black ;
+    width: 20%;
+}
+
+#game .cell.left .content {
+    height: 100%;
+    width: 80%;
+}
+
+#game .cell.right .title {
+    height: 100%;
+    border-right: 1px solid black ;
+    width: 20%;
+}
+
+#game .cell.right .content {
+    height: 100%;
+    width: 80%;
+}
+
+#game .cell .content{
+    vertical-align: top;
+}
 
 
 
@@ -239,14 +198,11 @@ body {
     background-color: blue;
 }
 
-
-
-span.player{
+div.player{
     display: inline-block;
-    position: absolute;
-    top : 0px;
-    height: 30px;
-    width: 30px;
+    margin: 2px;
+    height: 20px;
+    width: 20px;
     background-image: url('pictures/cheval.png');
     background-size: contain;
     background-repeat: no-repeat;
