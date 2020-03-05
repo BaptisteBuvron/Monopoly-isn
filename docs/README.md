@@ -14,26 +14,22 @@ Le plateau de jeu est créer entièrement en html et css :
 Chaque case est représenté par une balise `div`.
 
 Chaque `div` peut comporter les classes suivantes:
-- `top, left, right, bottom, void` en fonction de leur position
+- `top, left, right, bottom, void, cell` en fonction de leur position
 - `property, taxe, community-chest, prison, start, free-parking, electric, water` en fonction de leur fonction dans le jeu. 
 
 
 ## Exemple : 
 
 ```html
-<div class="corner top free-parking"></div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
-        </div>
-        <div class="top"></div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
-        </div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
+<div id="cell21" class="corner cell top free-parking"></div>
+<div id="cell22" class="property cell top" data-group="group5">
+    <div class="content"></div>
+    <div class="title"></div>
+</div>
+<div id="cell23" class="top cell"></div>
+<div id="cell24" class="property cell top" data-group="group5">
+    <div class="content"></div>
+    <div class="title"></div>
 </div>
 ```
 
@@ -66,36 +62,20 @@ Pour les éléments de classe `right` et `left` enfant d'un élément possédant
 ## Les propriétés
 
 Chaque propriétés possèdent une div `content` et `title`.
-Pour que c'est div réagissent en fonction de leur parent et non de la balise `body`, on utilise une propriété des `position`. 
-Un élément positionné avec position: `absolute` va être positionné par rapport à son parent le plus proche positionné (avec une valeur de position différente de static).
 
-Les parents ont une position `relative` (autre que static)
-```css
-#game .top, #game .left, #game .right, #game .bottom, #game .corner{
-    font-size: 0px;
-    position: relative;
-}
-```
 
-Les enfants ont une position `absolute`.
 ```css
-/* Style des div content propriété a gauche */
-#game .property.left .content{
-    left: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
+/* Style des div title propriété en haut */
+#game .cell.top .title {
+    height: 20%;
+    border-top: 1px solid black;
+    width: 100%;
 }
 
-/* Style des div title propriété a gauche */
-#game .property.left .title{
-    position: absolute;
-    width: 20%; 
-    height: 100%;
-    border: none;
-    border-left: 1px solid black;
-    right: 0px;
+/* Style des div content propriété en haut */
+#game .cell.top .content {
+    height: 80%;
+    width: 100%;
 }
 ```
 Chaque propriété possède un groupe, ce groupe est répéré avec `data-group="group1"`

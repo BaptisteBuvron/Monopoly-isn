@@ -14,7 +14,7 @@ body {
 
 
 
-/* Style d'une div */
+/* Style d'une cellule */
 #game .cell {
     width: 65px;
     height: 140px;
@@ -27,19 +27,21 @@ body {
 
 }
 
+/* Style d'une cellule vide*/
 #game .cell.void {
     height: 65px;
     border-color: rgb(218, 233, 212);
 }
 
 
-
+/* Style d'une cellule à droite ou a gauche*/
 #game .cell.right,
 #game .cell.left {
     width: 140px;
     height: 65px;
 }
 
+/* Style d'une cellule à un coin */
 #game .cell.corner {
     width: 140px;
 }
@@ -110,35 +112,43 @@ body {
     background-position: center;
 }
 
+/* Style des div title propriété en haut */
 #game .cell.top .title {
     height: 20%;
-    border-top: 1px solid black ;
+    border-top: 1px solid black;
     width: 100%;
 }
 
+/* Style des div content propriété en haut */
 #game .cell.top .content {
     height: 80%;
     width: 100%;
 }
 
+/* Style des div title propriété en bas */
 #game .cell.bottom .title {
     height: 20%;
-    border-bottom: 1px solid black ;
+    border-bottom: 1px solid black;
     width: 100%;
 }
 
+/* Style des div content propriété en bas */
 #game .cell.bottom .content {
     height: 80%;
     width: 100%;
 }
 
-#game .cell.left .title, #game .cell.left .content, #game .cell.right .title, #game .cell.right .content{
+/* Défénir les cases titles et content à droite et à gauche */
+#game .cell.left .title,
+#game .cell.left .content,
+#game .cell.right .title,
+#game .cell.right .content {
     display: inline-block;
 }
 
 #game .cell.left .title {
     height: 100%;
-    border-left: 1px solid black ;
+    border-left: 1px solid black;
     width: 20%;
 }
 
@@ -149,7 +159,7 @@ body {
 
 #game .cell.right .title {
     height: 100%;
-    border-right: 1px solid black ;
+    border-right: 1px solid black;
     width: 20%;
 }
 
@@ -158,7 +168,7 @@ body {
     width: 80%;
 }
 
-#game .cell .content{
+#game .cell .content {
     vertical-align: top;
 }
 
@@ -198,7 +208,7 @@ body {
     background-color: blue;
 }
 
-div.player{
+div.player {
     display: inline-block;
     margin: 2px;
     height: 20px;
@@ -207,4 +217,12 @@ div.player{
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+img{
+    position: absolute;
+    z-index: 1;
+    top: 30%;
+    left: 40%;
+    width: 20%;
 }
