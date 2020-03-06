@@ -27,7 +27,8 @@ Monopoly.getNbrPlayer = function () {
      * @type {Function}
      */
     function getNbrPlayer() {
-        var nbrPlayer = parseInt($("#nbrPlayer").val());
+        var nbrPlayer = 0;
+        nbrPlayer = parseInt($("#nbrPlayer").val());
         if (nbrPlayer > 5 || nbrPlayer < 2) {
             Monopoly.getNbrPlayer();
         } else {
@@ -41,7 +42,11 @@ Monopoly.getNbrPlayer = function () {
  * @param {number} nbrPlayer number of player
  */
 Monopoly.createPlayer = function (nbrPlayer) {
-    console.log(nbrPlayer);
+    for (let index = 0; index < nbrPlayer; index++) {
+        $('<div class="player"></div>').appendTo('#game .start .content');
+        
+    }
+    
 };
 
 Monopoly.dice = function () {

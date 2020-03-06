@@ -5,6 +5,7 @@ body {
     height: 100%;
 }
 
+/* Style du plateau de jeu */
 #game {
     text-align: center;
     margin: auto;
@@ -146,28 +147,33 @@ body {
     display: inline-block;
 }
 
+/* Style des cases title a gauche */
 #game .cell.left .title {
     height: 100%;
     border-left: 1px solid black;
     width: 20%;
 }
 
+/* Style des cases content a gauche */
 #game .cell.left .content {
     height: 100%;
     width: 80%;
 }
 
+/* Style des cases title a droite */
 #game .cell.right .title {
     height: 100%;
     border-right: 1px solid black;
     width: 20%;
 }
 
+/* Style des cases content a doirte */
 #game .cell.right .content {
     height: 100%;
     width: 80%;
 }
 
+/* Style des cases content*/
 #game .cell .content {
     vertical-align: top;
 }
@@ -208,6 +214,7 @@ body {
     background-color: blue;
 }
 
+/* Style d'un joueur */
 div.player {
     display: inline-block;
     margin: 2px;
