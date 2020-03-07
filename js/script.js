@@ -60,7 +60,7 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
 Monopoly.dice = function () {
 
-    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 41);
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 10);
 
 };
 
@@ -107,6 +107,8 @@ Monopoly.movePlayer = function (player, number) {
         number--;
         if (number == 0) {
             clearInterval(movePlayerInterval);
+            cellPlayer = Monopoly.getClosestCell(player);
+            Monopoly.action(player,cellPlayer);
         }
     }
 
@@ -124,7 +126,23 @@ Monopoly.addMoneyPlayer = function (player, amount) {
 /*In Readme */
 Monopoly.getMoneyPlayer = function (player) {
     return parseInt(player.attr("data-money"));
-}
+};
+
+Monopoly.action = function(player, cellPlayer){
+    
+    if (cellPlayer.hasClass("property")) {
+        
+        if (cellPlayer.hasClass("available")) {
+            
+        }
+        else{
+            var owner = cellPlayer.attr("data-owner");
+        }
+    }
+
+
+
+};
 
 /* Init the game */
 Monopoly.start();

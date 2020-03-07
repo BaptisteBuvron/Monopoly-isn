@@ -233,3 +233,153 @@ img{
     left: 40%;
     width: 20%;
 }
+
+
+#game .cell.property.france .content{
+    background-image: url('pictures/pais/france.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.usa .content{
+    background-image: url('pictures/pais/usa.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.canada .content{
+    background-image: url('pictures/pais/canada.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.mexique .content{
+    background-image: url('pictures/pais/mexique.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#game .cell.property.germany .content{
+    background-image: url('pictures/pais/germany.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.british .content{
+    background-image: url('pictures/pais/british.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.moon .content{
+    background-image: url('pictures/pais/moon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.mars .content{
+    background-image: url('pictures/pais/mars.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.china .content{
+    background-image: url('pictures/pais/china.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.india .content{
+    background-image: url('pictures/pais/india.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.japan .content{
+    background-image: url('pictures/pais/japan.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.brazil .content{
+    background-image: url('pictures/pais/brazil.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.argentina .content{
+    background-image: url('pictures/pais/argentina.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.venezuela .content{
+    background-image: url('pictures/pais/venezuela.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.nigeria .content{
+    background-image: url('pictures/pais/nigeria.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.south-africa .content{
+    background-image: url('pictures/pais/south-africa.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.egypt .content{
+    background-image: url('pictures/pais/egypt.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.australia .content{
+    background-image: url('pictures/pais/australia.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.new-zeeland .content{
+    background-image: url('pictures/pais/new-zeeland.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.north-korea .content{
+    background-image: url('pictures/pais/north-korea.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.papua-new-guinea .content{
+    background-image: url('pictures/pais/papua-new-guinea.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
