@@ -383,3 +383,10 @@ img{
     background-position: center;
 }
 
+#game .cell.airport .content{
+    background-image: url('pictures/airport.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
