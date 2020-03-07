@@ -115,6 +115,8 @@ Le DOM (Document Object Model) est une interface de notre page WEB. Il va permet
 
 ![Image Dom](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/DOM-model.svg/1024px-DOM-model.svg.png)
 
+ -- <cite>Wikipedia</cite>
+
 ## Objet Monopoly
 
 Un objet Monopoly a été créer, toutes les fonctions lier au déroulement du jeu du Monopoly seront des propriétés de l’objet Monopoly :
@@ -223,7 +225,7 @@ Les paramètres :
 
 ```javascript
 Monopoly.getIdCell = function(playerCell){
-    return parseInt($(playerCell).attr('id').replace("cell",""));
+    return parseInt(playerCell.attr('id').replace("cell",""));
 }
 ```
 
@@ -231,6 +233,84 @@ Monopoly.getIdCell = function(playerCell){
 <div id="cell36"></div>
 ```
 
+### Monopoly.getNextCell
+
+Cette propriété de l'objet Monopoly permet de retourner la cellule suivante.
+De plus elle appelle la propriété `Monopoly.addMoneyPlayer` quand un tour a été effectué.
+
+Les paramètres :
+- L'id de la cellule précédente (int)
+
+```javascript
+Monopoly.getNextCell = function(idCell){
+    if (idCell ==40) {
+        idCell =0;
+        Monopoly.addMoneyPlayer(Monopoly.getCurrentPlayer(),200);
+    }
+    var nextIdCell = idCell+1;
+    return $("#game .cell#cell"+nextIdCell);
+
+
+}
+```
+
+### Monopoly.movePlaer
+
+Cette propriété de l'objet Monopoly permet de faire avancer un joueur de number case.
+
+Les paramètres :
+- L'élement du DOM correspondant au joueur a déplacer
+- Le nombre de case a avancé (int)
+
+```javascript
+Monopoly.movePlayer = function(player,number){
+    Monopoly.allowToDice = false;
+
+    var movePlayerInterval = setInterval(movePLayer,500);
+
+    function movePLayer(){
+        
+        var cellPlayer = Monopoly.getClosestCell(player);
+        var idCell = Monopoly.getIdCell(cellPlayer);
+        var nextCell = Monopoly.getNextCell(idCell);
+        
+        nextCell.find('.content').append(player);
+        number --;
+        if (number == 0) {
+            clearInterval(movePlayerInterval);
+        }
+    }
+
+};
+```
+
+### Monopoly.addMoneyPlayer
+
+Cette propriété de l'objet Monopoly permet d'ajouter de l'argent dans le compte d'un joueur.
+
+Les paramètres : 
+- L'élement du DOM correspondant a un joueur
+- Le montant a ajouter sur le compte (int)
+
+```javascript
+Monopoly.addMoneyPlayer = function(player,amount){
+    var money = Monopoly.getMoneyPlayer(player);
+    var newMoney = money + amount;
+    player.attr("data-money",newMoney);
+};
+```
+### Monopoly.getMoneyPlayer
+
+Cette propriété de l'objet Monopoly permet de retourner le montant d'un compte d'un joueur.
+
+Les paramètres : 
+- L'élement du DOM correspondant a un joueur
+
+```javascript
+Monopoly.getMoneyPlayer = function(player){
+    return parseInt(player.attr("data-money"));
+}
+```
 
 
 
