@@ -1,9 +1,3 @@
-#game {
-    text-align: center;
-    margin: auto;
-    background-color: rgb(218, 233, 212);
-}
-
 body {
     background-color: rgb(218, 233, 212);
     margin: 0;
@@ -11,130 +5,48 @@ body {
     height: 100%;
 }
 
-/* Style d'une div */
-#game div {
+/* Style du plateau de jeu */
+#game {
+    text-align: center;
+    margin: auto;
+    background-color: rgb(218, 233, 212);
+    font-size: 0px;
+}
+
+
+
+/* Style d'une cellule */
+#game .cell {
     width: 65px;
     height: 140px;
     display: inline-block;
     border: 1px solid black;
+    margin: 2px;
+    text-align: start;
+    vertical-align: top;
 
 
 }
 
-/* Style d'une div correspondant  a un coin */
-#game .corner {
-    width: 140px;
+/* Style d'une cellule vide*/
+#game .cell.void {
+    height: 65px;
+    border-color: rgb(218, 233, 212);
 }
 
-/* Style d'une div étant soit à gauche soit à droite */
-#game .right,
-#game .left {
+
+/* Style d'une cellule à droite ou a gauche*/
+#game .cell.right,
+#game .cell.left {
     width: 140px;
     height: 65px;
 }
 
-/* Style d'une div vide */
-#game .void {
-    height: 65px;
-    border: 1px solid rgb(218, 233, 212);
+/* Style d'une cellule à un coin */
+#game .cell.corner {
+    width: 140px;
 }
 
-
-/* Style des div des extrémités */
-#game .top,
-#game .left,
-#game .right,
-#game .bottom,
-#game .corner {
-    font-size: 0px;
-    position: relative;
-}
-
-
-
-
-/* Style des div title propriété en haut */
-#game .property.top .title {
-    /* Les éléments possèdant la classe title enfant d'un parent possédant les classe property et top */
-    height: 20%;
-    border: none;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-
-
-}
-
-/* Style des div content propriété en haut */
-#game .property.top .content {
-    height: 80%;
-    border: none;
-}
-
-
-/* Style des div content propriété a gauche */
-#game .property.left .content {
-    left: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
-}
-
-/* Style des div title propriété a gauche */
-#game .property.left .title {
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    border: none;
-    border-left: 1px solid black;
-    right: 0px;
-}
-
-
-
-
-/* Style des div content propriété a droite */
-#game .property.right .content {
-    right: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
-}
-
-
-/* Style des div title propriété en a droite */
-#game .property.right .title {
-    position: absolute;
-    width: 20%;
-    height: 100%;
-    border: none;
-    border-right: 1px solid black;
-    left: 0px;
-
-}
-
-
-
-/* Style des div title propriété en bas */
-#game .property.bottom .title {
-    position: absolute;
-    height: 20%;
-    border: none;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    top: 0px;
-    left: 0px;
-}
-
-
-/* Style des div content propriété en bas */
-#game .property.bottom .content {
-    position: absolute;
-    height: 80%;
-    border: none;
-    bottom: 0px;
-}
 
 
 /*Background des cases à fonctions */
@@ -201,7 +113,70 @@ body {
     background-position: center;
 }
 
+/* Style des div title propriété en haut */
+#game .cell.top .title {
+    height: 20%;
+    border-top: 1px solid black;
+    width: 100%;
+}
 
+/* Style des div content propriété en haut */
+#game .cell.top .content {
+    height: 80%;
+    width: 100%;
+}
+
+/* Style des div title propriété en bas */
+#game .cell.bottom .title {
+    height: 20%;
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+/* Style des div content propriété en bas */
+#game .cell.bottom .content {
+    height: 80%;
+    width: 100%;
+}
+
+/* Défénir les cases titles et content à droite et à gauche */
+#game .cell.left .title,
+#game .cell.left .content,
+#game .cell.right .title,
+#game .cell.right .content {
+    display: inline-block;
+}
+
+/* Style des cases title a gauche */
+#game .cell.left .title {
+    height: 100%;
+    border-left: 1px solid black;
+    width: 20%;
+}
+
+/* Style des cases content a gauche */
+#game .cell.left .content {
+    height: 100%;
+    width: 80%;
+}
+
+/* Style des cases title a droite */
+#game .cell.right .title {
+    height: 100%;
+    border-right: 1px solid black;
+    width: 20%;
+}
+
+/* Style des cases content a doirte */
+#game .cell.right .content {
+    height: 100%;
+    width: 80%;
+}
+
+/* Style des cases content*/
+#game .cell .content {
+    vertical-align: top;
+}
 
 
 
@@ -237,4 +212,184 @@ body {
 
 #game [data-group='group8'] .title {
     background-color: blue;
+}
+
+/* Style d'un joueur */
+div.player {
+    display: inline-block;
+    margin: 2px;
+    height: 20px;
+    width: 20px;
+    background-image: url('pictures/cheval.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+img{
+    position: absolute;
+    z-index: 1;
+    top: 30%;
+    left: 40%;
+    width: 20%;
+}
+
+
+#game .cell.property.france .content{
+    background-image: url('pictures/pais/france.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.usa .content{
+    background-image: url('pictures/pais/usa.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.canada .content{
+    background-image: url('pictures/pais/canada.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.mexique .content{
+    background-image: url('pictures/pais/mexique.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#game .cell.property.germany .content{
+    background-image: url('pictures/pais/germany.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.british .content{
+    background-image: url('pictures/pais/british.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.moon .content{
+    background-image: url('pictures/pais/moon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.mars .content{
+    background-image: url('pictures/pais/mars.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.china .content{
+    background-image: url('pictures/pais/china.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.india .content{
+    background-image: url('pictures/pais/india.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.japan .content{
+    background-image: url('pictures/pais/japan.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.brazil .content{
+    background-image: url('pictures/pais/brazil.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.argentina .content{
+    background-image: url('pictures/pais/argentina.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.venezuela .content{
+    background-image: url('pictures/pais/venezuela.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.nigeria .content{
+    background-image: url('pictures/pais/nigeria.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.south-africa .content{
+    background-image: url('pictures/pais/south-africa.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.egypt .content{
+    background-image: url('pictures/pais/egypt.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.australia .content{
+    background-image: url('pictures/pais/australia.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.new-zeeland .content{
+    background-image: url('pictures/pais/new-zeeland.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.north-korea .content{
+    background-image: url('pictures/pais/north-korea.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.property.papua-new-guinea .content{
+    background-image: url('pictures/pais/papua-new-guinea.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.airport .content{
+    background-image: url('pictures/airport.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell:not(.void):hover{
+    border: 2px solid black;
 }

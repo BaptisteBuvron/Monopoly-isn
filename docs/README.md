@@ -14,26 +14,22 @@ Le plateau de jeu est créer entièrement en html et css :
 Chaque case est représenté par une balise `div`.
 
 Chaque `div` peut comporter les classes suivantes:
-- `top, left, right, bottom, void` en fonction de leur position
+- `top, left, right, bottom, void, cell` en fonction de leur position
 - `property, taxe, community-chest, prison, start, free-parking, electric, water` en fonction de leur fonction dans le jeu. 
 
 
 ## Exemple : 
 
 ```html
-<div class="corner top free-parking"></div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
-        </div>
-        <div class="top"></div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
-        </div>
-        <div class="property top" data-group="group5">
-            <div class="content"></div>
-            <div class="title"></div>
+<div id="cell21" class="corner cell top free-parking"></div>
+<div id="cell22" class="property cell top" data-group="group5">
+    <div class="content"></div>
+    <div class="title"></div>
+</div>
+<div id="cell23" class="top cell"></div>
+<div id="cell24" class="property cell top" data-group="group5">
+    <div class="content"></div>
+    <div class="title"></div>
 </div>
 ```
 
@@ -66,36 +62,20 @@ Pour les éléments de classe `right` et `left` enfant d'un élément possédant
 ## Les propriétés
 
 Chaque propriétés possèdent une div `content` et `title`.
-Pour que c'est div réagissent en fonction de leur parent et non de la balise `body`, on utilise une propriété des `position`. 
-Un élément positionné avec position: `absolute` va être positionné par rapport à son parent le plus proche positionné (avec une valeur de position différente de static).
 
-Les parents ont une position `relative` (autre que static)
-```css
-#game .top, #game .left, #game .right, #game .bottom, #game .corner{
-    font-size: 0px;
-    position: relative;
-}
-```
 
-Les enfants ont une position `absolute`.
 ```css
-/* Style des div content propriété a gauche */
-#game .property.left .content{
-    left: 0px;
-    position: absolute;
-    width: 80%;
-    height: 100%;
-    border: none;
+/* Style des div title propriété en haut */
+#game .cell.top .title {
+    height: 20%;
+    border-top: 1px solid black;
+    width: 100%;
 }
 
-/* Style des div title propriété a gauche */
-#game .property.left .title{
-    position: absolute;
-    width: 20%; 
-    height: 100%;
-    border: none;
-    border-left: 1px solid black;
-    right: 0px;
+/* Style des div content propriété en haut */
+#game .cell.top .content {
+    height: 80%;
+    width: 100%;
 }
 ```
 Chaque propriété possède un groupe, ce groupe est répéré avec `data-group="group1"`
@@ -129,18 +109,37 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
 ```
 # JavaScript
 
+## Le DOM
+
+Le DOM (Document Object Model) est une interface de notre page WEB. Il va permettre aux javascript de pouvoir lire et manipuler le contenu de la page, sa structure et son style.
+
+![Image Dom](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/DOM-model.svg/1024px-DOM-model.svg.png)
+
+ -- <cite>Wikipedia</cite>
+
 ## Objet Monopoly
 
 Un objet Monopoly a été créer, toutes les fonctions lier au déroulement du jeu du Monopoly seront des propriétés de l’objet Monopoly :
+
 
 ```javascript
 var Monopoly = new Object();
 ```
 ## Les fonctions
 
+### Monopoly.start
+
+Cette propriété de l'objet Monopoly est appelée au chargement de la page et appelle toute les propriétés nécessaire au démarrage de la partie.
+
+```javascript
+Monopoly.start = function(){
+    Monopoly.getNbrPlayer();
+};
+```
+
 ### Monopoly.getNbrPlayer
 
-Cette propriété de l'objet Monopoly est appelée au chargement de la page et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est rappelée. Sinon la propriété `Monopoly CreatePlayer` est appelée.
+Cette propriété de l'objet Monopoly est appelée par `Monopoly.start` et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est rappelée. Sinon la propriété `Monopoly CreatePlayer` est appelée.
 
 ```javascript
 Monopoly.getNbrPlayer = function () {
@@ -150,19 +149,161 @@ Monopoly.getNbrPlayer = function () {
     });
     $("#button-nbrPlayer").click(getNbrPlayer);
 
+
     function getNbrPlayer() {
-        var nbrPlayer = parseInt($("#nbrPlayer").val());
-        if (nbrPlayer > 5 || nbrPlayer < 2) {
-            Monopoly.getNbrPlayer();
-        } else {
+        var nbrPlayer = 0;
+        nbrPlayer = parseInt($("#nbrPlayer").val());
+        if (nbrPlayer <= 5 && nbrPlayer >= 2) {
             $("#modal-player").modal('hide');
             Monopoly.createPlayer(nbrPlayer);
         }
     }
 
 };
-
 ```
+
+### Monopoly.createPlayer
+
+Cette propriété de l'objet Monopoly est appelé par `Monopoly.getNbrPlayer` et permet de créer le nombre de joueur demandé : 
+
+```javascript
+Monopoly.createPlayer = function (nbrPlayer) {
+    
+    for (let i = 1; i <= nbrPlayer; i++) {
+        if (i ==1) {
+            $('<div id="player'+String(i)+'" class="player current-turn" data-money='+String(Monopoly.moneyAtStart)+'></div>').appendTo('#game .start .content');
+        }else{
+            $('<div id="player'+String(i)+'" class="player" data-money='+String(Monopoly.moneyAtStart)+'></div>').appendTo('#game .start .content');
+        }
+        
+    }
+    
+};
+```
+
+
+### Monopoly.getCurrentPlayer
+
+Cette propriété de l'objet Monopoly permet de retourner du `DOM` le joueur qui possède la classe curent-turn.
+
+Aucun paramètre n'est nécessaire.
+
+```javascript
+Monopoly.getCurrentPlayer = function(){
+    return $(".player.current-turn");
+};
+```
+
+### Monopoly.getClosestCell
+
+Cette propriété de l'objet Monopoly permet de retourner du `DOM` la cellule la plus proche d'un joueur et qui possède la classe `cell`.
+
+Les paramètres :
+- L'élément du DOM d'un joueur.
+
+```javascript
+Monopoly.getClosestCell= function(player){
+    return player.closest(".cell");
+};
+```
+
+### Monopoly.getIdCell
+
+Cette propriété de l'objet Monopoly permet de retourner l'id d'une cellule.
+Cette propriété utilise la methode replace qui remplace dans l'id de la cellule cell par une chaine de caractère vide afin de récuperer seulement l'id de la cellule.
+
+Les paramètres :
+- L'élément du DOM d'un cellule.
+
+```javascript
+Monopoly.getIdCell = function(playerCell){
+    return parseInt(playerCell.attr('id').replace("cell",""));
+}
+```
+
+```html
+<div id="cell36"></div>
+```
+
+### Monopoly.getNextCell
+
+Cette propriété de l'objet Monopoly permet de retourner la cellule suivante.
+De plus elle appelle la propriété `Monopoly.addMoneyPlayer` quand un tour a été effectué.
+
+Les paramètres :
+- L'id de la cellule précédente (int)
+
+```javascript
+Monopoly.getNextCell = function(idCell){
+    if (idCell ==40) {
+        idCell =0;
+        Monopoly.addMoneyPlayer(Monopoly.getCurrentPlayer(),200);
+    }
+    var nextIdCell = idCell+1;
+    return $("#game .cell#cell"+nextIdCell);
+
+
+}
+```
+
+### Monopoly.movePlaer
+
+Cette propriété de l'objet Monopoly permet de faire avancer un joueur de number case.
+
+Les paramètres :
+- L'élement du DOM correspondant au joueur a déplacer
+- Le nombre de case a avancé (int)
+
+```javascript
+Monopoly.movePlayer = function(player,number){
+    Monopoly.allowToDice = false;
+
+    var movePlayerInterval = setInterval(movePLayer,500);
+
+    function movePLayer(){
+        
+        var cellPlayer = Monopoly.getClosestCell(player);
+        var idCell = Monopoly.getIdCell(cellPlayer);
+        var nextCell = Monopoly.getNextCell(idCell);
+        
+        nextCell.find('.content').append(player);
+        number --;
+        if (number == 0) {
+            clearInterval(movePlayerInterval);
+        }
+    }
+
+};
+```
+
+### Monopoly.addMoneyPlayer
+
+Cette propriété de l'objet Monopoly permet d'ajouter de l'argent dans le compte d'un joueur.
+
+Les paramètres : 
+- L'élement du DOM correspondant a un joueur
+- Le montant a ajouter sur le compte (int)
+
+```javascript
+Monopoly.addMoneyPlayer = function(player,amount){
+    var money = Monopoly.getMoneyPlayer(player);
+    var newMoney = money + amount;
+    player.attr("data-money",newMoney);
+};
+```
+### Monopoly.getMoneyPlayer
+
+Cette propriété de l'objet Monopoly permet de retourner le montant d'un compte d'un joueur.
+
+Les paramètres : 
+- L'élement du DOM correspondant a un joueur
+
+```javascript
+Monopoly.getMoneyPlayer = function(player){
+    return parseInt(player.attr("data-money"));
+}
+```
+
 
 
 
