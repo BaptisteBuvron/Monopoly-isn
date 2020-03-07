@@ -5,15 +5,18 @@
 
 */
 
-/**
- * @description Objet du Monopoly
- * @type {object}  
- */
+
 var Monopoly = new Object();
 
-/**
- * @property Propriété qui récupère le nombre de joueur
- */
+Monopoly.moneyAtStart = 200;
+Monopoly.allowToDice = false;
+
+Monopoly.start = function(){
+    Monopoly.getNbrPlayer();
+};
+
+Monopoly.nbrPlayer = 0;
+
 Monopoly.getNbrPlayer = function () {
     $(document).ready(function () {
         $("#modal-player").modal('show');
@@ -22,35 +25,104 @@ Monopoly.getNbrPlayer = function () {
     $("#button-nbrPlayer").click(getNbrPlayer);
 
 
-    /**
-     * @description Fonction qui récupère le nombre de joeur
-     * @type {Function}
-     */
+    
     function getNbrPlayer() {
         var nbrPlayer = 0;
         nbrPlayer = parseInt($("#nbrPlayer").val());
-        if (nbrPlayer > 5 || nbrPlayer < 2) {
-            Monopoly.getNbrPlayer();
-        } else {
+        if (nbrPlayer <= 5 && nbrPlayer >= 2) {
             $("#modal-player").modal('hide');
+            Monopoly.nbrPlayer = nbrPlayer;
             Monopoly.createPlayer(nbrPlayer);
         }
     }
 
 };
-/**
- * @param {number} nbrPlayer number of player
- */
+
+
+
+/* In Readme */
 Monopoly.createPlayer = function (nbrPlayer) {
-    for (let index = 0; index < nbrPlayer; index++) {
-        $('<div class="player"></div>').appendTo('#game .start .content');
+    
+    for (let i = 1; i <= nbrPlayer; i++) {
+        if (i ==1) {
+            $('<div id="player'+String(i)+'" class="player current-turn" data-money='+String(Monopoly.moneyAtStart)+'></div>').appendTo('#game .start .content');
+        }else{
+            $('<div id="player'+String(i)+'" class="player" data-money='+String(Monopoly.moneyAtStart)+'></div>').appendTo('#game .start .content');
+        }
         
     }
+    Monopoly.allowToDice = true;
+    Monopoly.dice();
     
 };
 
+
+
 Monopoly.dice = function () {
+
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(),41);
 
 };
 
-Monopoly.getNbrPlayer();
+/* In Readme */
+Monopoly.getCurrentPlayer = function(){
+    return $(".player.current-turn");
+};
+
+/* In readme */ 
+Monopoly.getClosestCell= function(player){
+    return player.closest(".cell");
+};
+
+/* In readme */
+Monopoly.getIdCell = function(playerCell){
+    return parseInt($(playerCell).attr('id').replace("cell",""));
+}
+
+
+Monopoly.getNextCell = function(idCell){
+    if (idCell ==40) {
+        idCell =0;
+        Monopoly.addMoneyPlayer(Monopoly.getCurrentPlayer(),200);
+    }
+    var nextIdCell = idCell+1;
+    return $("#game .cell#cell"+nextIdCell);
+
+
+}
+
+
+Monopoly.movePlayer = function(player,number){
+    Monopoly.allowToDice = false;
+
+    var movePlayerInterval = setInterval(movePLayer,500);
+
+    function movePLayer(){
+        
+        var cellPlayer = Monopoly.getClosestCell(player);
+        var idCell = Monopoly.getIdCell(cellPlayer);
+        var nextCell = Monopoly.getNextCell(idCell);
+        
+        nextCell.find('.content').append(player);
+        number --;
+        if (number == 0) {
+            clearInterval(movePlayerInterval);
+        }
+    }
+
+   
+
+};
+
+Monopoly.addMoneyPlayer = function(player,amount){
+    var money = Monopoly.getMoneyPlayer(player);
+    var newMoney = money + amount;
+    player.attr("data-money",newMoney);
+};
+
+Monopoly.getMoneyPlayer = function(player){
+    return parseInt(player.attr("data-money"));
+}
+
+/* Init the game */
+Monopoly.start();
