@@ -390,3 +390,6 @@ img{
     background-position: center;
 }
 
+#game .cell:not(.void):hover{
+    border: 2px solid black;
+}

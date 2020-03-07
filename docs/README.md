@@ -181,19 +181,11 @@ Monopoly.createPlayer = function (nbrPlayer) {
 };
 ```
 
-### Monopoly.getCurrentPlayer
-
-Cette propriété de l'objet Monopoly permet de récuperer du `DOM` le joueur qui possède la classe curent-turn
-
-```javascript
-Monopoly.getCurrentPlayer = function(){
-    return $(".player.current-turn");
-};
-```
 
 ### Monopoly.getCurrentPlayer
 
 Cette propriété de l'objet Monopoly permet de retourner du `DOM` le joueur qui possède la classe curent-turn.
+
 Aucun paramètre n'est nécessaire.
 
 ```javascript
