@@ -33,19 +33,18 @@ function propertiesCell(id, name, group, owner, buy, sell, rent, level) {
 
 }
 
-function ChanceCell(id, name) {
+
+/* For Chance, community and corner cell */
+function otherCell() {
     this.id = id;
     this.name = name;
 }
 
-function communityChestCell() {
-    this.id = id;
-    this.name = name;
-}
+
 
 Monopoly.listCell = new Map();
 
-Monopoly.listCell.set(4, new propertiesCell(4, 'Corée Du Nord', "Autre", "Disponible", "150", "70", "50", 0));
+Monopoly.listCell.set(4, new propertiesCell(4, "Corée Du Nord", "Autre", "Disponible", "150", "70", "50", 0));
 Monopoly.listCell.set(6,{"name":"Aéroport"} );
 Monopoly.listCell.set(9,{"name":"Afrique du Sud"});
 Monopoly.listCell.set(7,{"name":"Egypte"});
