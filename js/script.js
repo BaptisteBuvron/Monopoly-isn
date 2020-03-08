@@ -20,38 +20,61 @@ Monopoly.nbrPlayer = 0;
 /* In readme*/
 Monopoly.bankPlayer = new Map();
 
+/* */
+function propertiesCell(id, name, group, owner, buy, sell, rent, level) {
+    this.id = id;
+    this.name = name;
+    this.group = group;
+    this.owner = owner;
+    this.buy = buy;
+    this.sell = sell;
+    this.rent = rent;
+    this.level = level;
+
+}
+
+function ChanceCell(id, name) {
+    this.id = id;
+    this.name = name;
+}
+
+function communityChestCell() {
+    this.id = id;
+    this.name = name;
+}
+
+Monopoly.listCell = new Map();
+
+Monopoly.listCell.set(4, new propertiesCell(4, 'Corée Du Nord', "Autre", "Disponible", "150", "70", "50", 0));
+Monopoly.listCell.set(6,{"name":"Aéroport"} );
+Monopoly.listCell.set(9,{"name":"Afrique du Sud"});
+Monopoly.listCell.set(7,{"name":"Egypte"});
+Monopoly.listCell.set(10,{"name":"Nigeria"});
+Monopoly.listCell.set(12,{"name":"Papouasie-Nouvelle-Guinée"});
+Monopoly.listCell.set(13,{"name":"Compagnie d'électricité"});
+Monopoly.listCell.set(14,{"name":"Nouvelle-Zélande"});
+Monopoly.listCell.set(15,{"name":"Australie"});
+Monopoly.listCell.set(16,{"name":"Aéroport"});
+Monopoly.listCell.set(17,{"name":"Venezuela"});
+Monopoly.listCell.set(19,{"name":"Argentine"});
+Monopoly.listCell.set(20,{"name":"Brésil"});
+Monopoly.listCell.set(22,{"name":"Inde"});
+Monopoly.listCell.set(24,{"name":"Japon"});
+Monopoly.listCell.set(25,{"name":"Chine"});
+Monopoly.listCell.set(26,{"name":"Aéroport"});
+Monopoly.listCell.set(27,{"name":"Mexique"});
+Monopoly.listCell.set(28,{"name":"Canada"});
+Monopoly.listCell.set(29,{"name":"Compagnie d'eau"});
+Monopoly.listCell.set(30,{"name":"Etats-Unis"});
+Monopoly.listCell.set(32,{"name":"Allemagne"});
+Monopoly.listCell.set(33,{"name":"Grande-Bretagne"});
+Monopoly.listCell.set(35,{"name":"France"});
+Monopoly.listCell.set(36,{"name":"Aéroport"});
+Monopoly.listCell.set(38,{"name":"La Lune"});
+Monopoly.listCell.set(40,{"name":"La planète Mars"});
 
 
-Monopoly.listPropertiesCell = new Map();
-Monopoly.listPropertiesCell.set(4,{"name":"test","price":50});
-Monopoly.listPropertiesCell.set(6,{"name":"Aéroport"} );
-Monopoly.listPropertiesCell.set(9,{"name":"Afrique du Sud"});
-Monopoly.listPropertiesCell.set(7,{"name":"Egypte"});
-Monopoly.listPropertiesCell.set(10,{"name":"Nigeria"});
-Monopoly.listPropertiesCell.set(12,{"name":"Papouasie-Nouvelle-Guinée"});
-Monopoly.listPropertiesCell.set(13,{"name":"Compagnie d'électricité"});
-Monopoly.listPropertiesCell.set(14,{"name":"Nouvelle-Zélande"});
-Monopoly.listPropertiesCell.set(15,{"name":"Australie"});
-Monopoly.listPropertiesCell.set(16,{"name":"Aéroport"});
-Monopoly.listPropertiesCell.set(17,{"name":"Venezuela"});
-Monopoly.listPropertiesCell.set(19,{"name":"Argentine"});
-Monopoly.listPropertiesCell.set(20,{"name":"Brésil"});
-Monopoly.listPropertiesCell.set(22,{"name":"Inde"});
-Monopoly.listPropertiesCell.set(24,{"name":"Japon"});
-Monopoly.listPropertiesCell.set(25,{"name":"Chine"});
-Monopoly.listPropertiesCell.set(26,{"name":"Aéroport"});
-Monopoly.listPropertiesCell.set(27,{"name":"Mexique"});
-Monopoly.listPropertiesCell.set(28,{"name":"Canada"});
-Monopoly.listPropertiesCell.set(29,{"name":"Compagnie d'eau"});
-Monopoly.listPropertiesCell.set(30,{"name":"Etats-Unis"});
-Monopoly.listPropertiesCell.set(32,{"name":"Allemagne"});
-Monopoly.listPropertiesCell.set(33,{"name":"Grande-Bretagne"});
-Monopoly.listPropertiesCell.set(35,{"name":"France"});
-Monopoly.listPropertiesCell.set(36,{"name":"Aéroport"});
-Monopoly.listPropertiesCell.set(38,{"name":"La Lune"});
-Monopoly.listPropertiesCell.set(40,{"name":"La planète Mars"});
 
-console.log(Monopoly.listPropertiesCell);
 
 
 /* In Readme */
@@ -181,7 +204,7 @@ Monopoly.action = function (player, cellPlayer) {
     if (cellPlayer.hasClass("property")) {
 
         if (cellPlayer.hasClass("available")) {
-            
+
 
         } else {
             var owner = cellPlayer.attr("data-owner");
