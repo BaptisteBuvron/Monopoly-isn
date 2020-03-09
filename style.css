@@ -1,4 +1,4 @@
-body {
+﻿body {
     background-color: rgb(218, 233, 212);
     margin: 0;
     width: 100%;
@@ -178,6 +178,20 @@ body {
     vertical-align: top;
 }
 
+#game .void.dice{
+    background-color: black;
+    cursor: pointer;
+}
+
+
+/* Style de la case dice_1*/
+#game .void.cell#dice_1 {
+
+}
+
+/* Style de la case dice_2*/
+#game .void.cell#dice_2 {
+}
 
 
 
