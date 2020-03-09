@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <img src="pictures/terre.png" alt="">
+    <img id="background" src="pictures/terre.png" alt="">
     <div id="game">
 
         <div id="cell21" class="corner cell top free-parking">
@@ -305,8 +305,13 @@
                     <h5 class="modal-title"></h5>
                 </div>
                 <div class="modal-body">
-                    <p class="buy"></p>
-                    <p class="rent"></p>
+                    <img src="" alt="">
+                    <p id="money" class="d-inline-block float-right"></p>
+                    <p id="buy"></p>
+                    <p id="sell"></p>
+                    <p id="rent"></p>
+                    <br>
+                    <p id="error"></p>
                     <button style="margin-top: 5px" id="button-buyProperty" type="button"class="btn btn-success">Acheter</button>
                     <button style="margin-top: 5px" id="button-quit" type="button"class="btn btn-danger float-right">Quitter</button>
                 </div>

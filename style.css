@@ -240,7 +240,7 @@ div.player {
     background-position: center;
 }
 
-img{
+img#background{
     position: absolute;
     z-index: 1;
     top: 30%;
@@ -398,7 +398,7 @@ img{
 }
 
 #game .cell.airport .content{
-    background-image: url('pictures/airport.png');
+    background-image: url('pictures/pais/airport.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -406,4 +406,15 @@ img{
 
 #game .cell:not(.void):hover{
     border: 2px solid black;
+}
+
+
+/* Style Modal */
+
+#modal-buyProperty img{
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    left: 40%;
+    width: 20%;
 }

@@ -8,7 +8,7 @@
 
 var Monopoly = new Object();
 
-Monopoly.moneyAtStart = 200;
+Monopoly.moneyAtStart = 1500;
 Monopoly.allowToDice = false;
 
 Monopoly.start = function () {
@@ -21,9 +21,10 @@ Monopoly.nbrPlayer = 0;
 Monopoly.bankPlayer = new Map();
 
 /* */
-function propertiesCell(id, name, group, owner, buy, sell, rent, level) {
+function propertiesCell(id, name, picture, group, owner, buy, sell, rent, level) {
     this.id = id;
     this.name = name;
+    this.picture = picture;
     this.group = group;
     this.owner = owner;
     this.buy = buy;
@@ -43,12 +44,12 @@ function otherCell() {
 
 
 Monopoly.listCell = new Map();
-Monopoly.listCell.set(2, new propertiesCell(2, "Pays inconnu", "Autre", null, 60, 30, 25, 1));
-Monopoly.listCell.set(4, new propertiesCell(4, "Corée Du Nord", "Autre", null, 60, 30, 25, 1));
-Monopoly.listCell.set(6, new propertiesCell(6, "Aéroport", "Aéroport", null, 200, 100, 25, 1));
-Monopoly.listCell.set(7, new propertiesCell(7, "Egypte", "Afrique", null, 100, 50, 30, 1));
-Monopoly.listCell.set(9, new propertiesCell(9, "Afrique du Sud", "Afrique", null, 100, 50, 30, 1));
-Monopoly.listCell.set(10, new propertiesCell(10, "Nigeria", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(2, new propertiesCell(2, "Pays inconnu", "north-korea.png", "Autre", null, 60, 30, 25, 1));
+Monopoly.listCell.set(4, new propertiesCell(4, "Corée Du Nord", "north-korea.png", "Autre", null, 60, 30, 25, 1));
+Monopoly.listCell.set(6, new propertiesCell(6, "Aéroport", "airport.png", "Aéroport", null, 200, 100, 25, 1));
+Monopoly.listCell.set(7, new propertiesCell(7, "Egypte", "egypt.png", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(9, new propertiesCell(9, "Afrique du Sud", "south-africa.png", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(10, new propertiesCell(10, "Nigeria", "nigeria.png", "Afrique", null, 100, 50, 30, 1));
 
 /*
 Monopoly.listCell.set(12,{"name":"Papouasie-Nouvelle-Guinée"});
@@ -118,7 +119,7 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
     }
     Monopoly.allowToDice = true;
-    Monopoly.dice();
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 8);
 
 };
 
@@ -126,10 +127,10 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
 Monopoly.dice = function () {
 
-    var dice_1=Math.floor(Math.random()*6)+1; /* retourne un nombre compris entre 1 et 6 */
-    var dice_2=Math.floor(Math.random()*6)+1; /* retourne un nombre compris entre 1 et 6 */
+    var dice_1 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
+    var dice_2 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
     Monopoly.allowToDice = false; /* interdit au joueur de relancer les dés*/
-    
+
     var total = dice_1 + dice_2;
     Monopoly.movePlayer(Monopoly.getCurrentPlayer(), total);
 
@@ -193,28 +194,35 @@ Monopoly.movePlayer = function (player, number) {
 };
 
 /* In readme */
-Monopoly.updateMoneyPlayer = function (playerId, amount) {
-    var money = Monopoly.getMoneyPlayer(playerId);
+Monopoly.updateMoneyPlayer = function (idPlayer, amount) {
+    var money = Monopoly.getMoneyPlayer(idPlayer);
     var newMoney = money + amount;
-    Monopoly.bankPlayer.set("player" + String(playerId), newMoney);
+    Monopoly.bankPlayer.set("player" + String(idPlayer), newMoney);
 
 };
 
 /*In readme */
-Monopoly.getMoneyPlayer = function (playerId) {
-    return parseInt(Monopoly.bankPlayer.get("player" + String(playerId)));
+Monopoly.getMoneyPlayer = function (idPlayer) {
+    return parseInt(Monopoly.bankPlayer.get("player" + String(idPlayer)));
 };
 
 Monopoly.action = function (player, playerCell) {
 
+    var idPlayer = Monopoly.getIdPlayer(player);
+    var idCell = Monopoly.getIdCell(playerCell)
     if (playerCell.hasClass("property")) {
 
         if (playerCell.hasClass("available")) {
 
-           Monopoly.buyProperty(Monopoly.getIdCell(playerCell));
+            Monopoly.buyProperty(idCell);
 
         } else {
-            var owner = playerCell.attr("data-owner");
+            var idOwner = playerCell.attr("data-owner").replace("player", "");
+            if (idOwner == idPlayer) {
+                /* upgrade case */
+            } else {
+                Monopoly.payRent(idOwner, idPlayer, idCell)
+            }
         }
     }
 
@@ -222,51 +230,84 @@ Monopoly.action = function (player, playerCell) {
 
 };
 
-Monopoly.calcRent =function(idCell){
+Monopoly.calcRent = function (idCell) {
     var rent = Monopoly.listCell.get(idCell)["rent"];
     var level = Monopoly.listCell.get(idCell)["level"];
-    rent = level*(rent*2);
+    rent = level * (rent * 2);
     return rent;
 
 
 
 };
 
-Monopoly.buyProperty = function(idCell){
+Monopoly.buyProperty = function (idCell) {
+
+    var idPlayer = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
+    $("#modal-buyProperty img").attr('src', "pictures/pais/" + Monopoly.listCell.get(idCell)['picture']);
+    $("#modal-buyProperty .modal-title").html("Acheter la propriété : " + Monopoly.listCell.get(idCell)["name"]);
+    $("#modal-buyProperty #buy").html("Prix d'achat : " + Monopoly.listCell.get(idCell)["buy"] + " €");
+    $("#modal-buyProperty #sell").html("Prix de vente: " + Monopoly.listCell.get(idCell)["sell"] + " €");
+    $("#modal-buyProperty #money").html("Votre solde : " + Monopoly.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-buyProperty #rent").html("Prix du loyer : " + Monopoly.listCell.get(idCell)["rent"] + " €");
     $("#modal-buyProperty").modal('show');
-    $("#modal-buyProperty .modal-title").html("Acheter la propriété : "+Monopoly.listCell.get(idCell)["name"]);
-    $("#modal-buyProperty .buy").html("Prix d'achat : "+Monopoly.listCell.get(idCell)["buy"]+" €");
-    $("#modal-buyProperty .rent").html("Prix du loyer : "+Monopoly.listCell.get(idCell)["rent"]+" €");
 
     $("#modal-buyProperty #button-buyProperty").click(buyProperty);
+    $("#modal-buyProperty #button-quit").click(function () {
+        $("#modal-buyProperty").modal('hide');
+        Monopoly.changeTurnPlayer();
+    });
 
-    function buyProperty(){
-        var rent = Monopoly.calcRent(idCell);
-        var playerId = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
-        
-        if(Monopoly.verifbank(playerId,rent)){
-            Monopoly.updateMoneyPlayer(playerId,rent);
-            Monopoly.listCell.get(idCell)["owner"] = "player"+playerId;
-            
+    function buyProperty() {
+        var price = Monopoly.listCell.get(idCell)['buy'];
+        var idPlayer = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
+        var cellPlayer = Monopoly.getClosestCell(Monopoly.getCurrentPlayer())
+        if (Monopoly.verifbank(idPlayer, price)) {
+            Monopoly.updateMoneyPlayer(idPlayer, -price);
+            Monopoly.listCell.get(idCell)["owner"] = "player" + idPlayer;
+
+            $(cellPlayer).removeClass("available ");
+            $(cellPlayer).attr("data-owner", "player" + String(idPlayer));
+            $("#modal-buyProperty").modal('hide');
+
+
+        } else {
+            $("#modal-buyProperty #error").html("Vous n'avez pas assez d'argent dans votre compte en banque !!!");
+            setTimeout(timeoutHide, 4000);
+
+        }
+
+        function timeoutHide() {
+            $("#modal-buyProperty").modal('hide');
         }
 
     }
 
 
-    var playerId = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
-    
 };
 
-Monopoly.verifbank= function(playerId, rent){
-    var money = Monopoly.getMoneyPlayer(playerId);
-    if (money-rent >= 0) {    
-        return true;
+Monopoly.payRent = function (idOwner, idPlayer, idCell) {
+    var rent = Monopoly.calcRent(idCell);
+    if (Monopoly.verifbank(idPlayer), rent) {
+        Monopoly.updateMoneyPlayer(idOwner, rent);
+        Monopoly.updateMoneyPlayer(idPlayer, -rent);
+    } else {
+        /* Vente propriété sinon game-over */
     }
-    else{
+
+};
+
+Monopoly.verifbank = function (idPlayer, amount) {
+    var money = Monopoly.getMoneyPlayer(idPlayer);
+    if (money - amount >= 0) {
+        return true;
+    } else {
         return false;
     }
 }
 
+Monopoly.changeTurnPlayer = function () {
+
+}
+
 /* Init the game */
 Monopoly.start();
-
