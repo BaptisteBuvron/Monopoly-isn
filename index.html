@@ -72,7 +72,11 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div class="void cell"></div>
+        <div class="void cell">
+            <form name="form1" action="">
+                <input type=button name=Bouton value="Die Roll" onclick="demorand()" />
+            </form>
+        </div>
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
@@ -90,9 +94,9 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="dice_1" class="cell dice void"></div>
         <div class="void cell"></div>
-        <div id="dice_2" class="cell dice void"></div>
+        <div class="void cell"></div>
+        <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
@@ -277,7 +281,7 @@
     </div>
 
 
-    <div id="modal-player" class="modal fade in" tabindex="-1" role="dialog" data-keyboard="false"
+    <div id="modal-player" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
         data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -291,6 +295,23 @@
                         <button style="margin-top: 5px" id="button-nbrPlayer" type="button"
                             class="btn btn-success">Valider</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-buyProperty" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p class="buy"></p>
+                    <p class="rent"></p>
+                    <button style="margin-top: 5px" id="button-buyProperty" type="button"class="btn btn-success">Acheter</button>
+                    <button style="margin-top: 5px" id="button-quit" type="button"class="btn btn-danger float-right">Quitter</button>
                 </div>
             </div>
         </div>
