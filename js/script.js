@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Title : Monopoly Game
 * Author : Baptiste Buvron, Yann Le Moal
 * Created the : 01/03/2020
@@ -126,7 +126,12 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
 Monopoly.dice = function () {
 
-    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 6);
+    var dice_1=Math.floor(Math.random()*6)+1; /* retourne un nombre compris entre 1 et 6 */
+    var dice_2=Math.floor(Math.random()*6)+1; /* retourne un nombre compris entre 1 et 6 */
+    Monopoly.allowToDice = false; /* interdit au joueur de relancer les dés*/
+    
+    var total = dice_1 + dice_2;
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), total);
 
 };
 
