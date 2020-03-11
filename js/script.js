@@ -20,9 +20,9 @@ Monopoly.nbrPlayer = 0;
 /* In readme*/
 Monopoly.bankPlayer = new Map();
 
-/* */
-function propertiesCell(id, name, picture, group, owner, buy, sell, rent, level) {
-    this.id = id;
+/* In readme*/
+function propertiesCell(type, name, picture, group, owner, buy, sell, rent, level) {
+    this.type = type;
     this.name = name;
     this.picture = picture;
     this.group = group;
@@ -35,21 +35,17 @@ function propertiesCell(id, name, picture, group, owner, buy, sell, rent, level)
 }
 
 
-/* For Chance, community and corner cell */
-function otherCell() {
-    this.id = id;
-    this.name = name;
-}
 
 
-
+/* In readme*/
 Monopoly.listCell = new Map();
-Monopoly.listCell.set(2, new propertiesCell(2, "Pays inconnu", "north-korea.png", "Autre", null, 60, 30, 25, 1));
-Monopoly.listCell.set(4, new propertiesCell(4, "Corée Du Nord", "north-korea.png", "Autre", null, 60, 30, 25, 1));
-Monopoly.listCell.set(6, new propertiesCell(6, "Aéroport", "airport.png", "Aéroport", null, 200, 100, 25, 1));
-Monopoly.listCell.set(7, new propertiesCell(7, "Egypte", "egypt.png", "Afrique", null, 100, 50, 30, 1));
-Monopoly.listCell.set(9, new propertiesCell(9, "Afrique du Sud", "south-africa.png", "Afrique", null, 100, 50, 30, 1));
-Monopoly.listCell.set(10, new propertiesCell(10, "Nigeria", "nigeria.png", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(2, new propertiesCell("property", "Turkmenistan", "turkmenistan.png", "Autre", null, 60, 30, 25, 1));
+Monopoly.listCell.set(4, new propertiesCell("property", "Corée Du Nord", "north-korea.png", "Autre", null, 60, 30, 25, 1));
+Monopoly.listCell.set(5, new propertiesCell("tax", "Impots sur le revenu", null, "tax", null, null, null, 200, null));
+Monopoly.listCell.set(6, new propertiesCell("property", "Aéroport", "airport.png", "Aéroport", null, 200, 100, 25, 1));
+Monopoly.listCell.set(7, new propertiesCell("property", "Egypte", "egypt.png", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(9, new propertiesCell("property", "Afrique du Sud", "south-africa.png", "Afrique", null, 100, 50, 30, 1));
+Monopoly.listCell.set(10, new propertiesCell("property", "Nigeria", "nigeria.png", "Afrique", null, 100, 50, 30, 1));
 
 /*
 Monopoly.listCell.set(12,{"name":"Papouasie-Nouvelle-Guinée"});
@@ -77,7 +73,18 @@ Monopoly.listCell.set(40,{"name":"La planète Mars"});
 
 */
 
-
+/* In Readme */
+function addChance(name,presentation,action,number){
+    this.name = name;
+    this.presentation = presentation;
+    this.action = action;
+    this.number = number;
+};
+/* In Readme */
+Monopoly.listChance = [];
+Monopoly.listChance.push(new addChance("Facture","Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque","pay",-50));
+Monopoly.listChance.push(new addChance("Voiture","Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases","move",5));
+Monopoly.listChance.push(new addChance("Loto","Vous avez gagné au loto ! <br>- Vous gagnez 50€","pay",50));
 
 /* In Readme */
 Monopoly.getNbrPlayer = function () {
@@ -119,7 +126,7 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
     }
     Monopoly.allowToDice = true;
-    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 8);
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 5);
 
 };
 
@@ -225,18 +232,23 @@ Monopoly.action = function (player, playerCell) {
             }
         }
     }
+    else if(playerCell.hasClass("chance")){
+        Monopoly.chance();
+    }
+    else if(playerCell.hasClass("tax")){
+        Monopoly.tax(idCell);
+    }
 
 
 
 };
 
+/* In readme */
 Monopoly.calcRent = function (idCell) {
     var rent = Monopoly.listCell.get(idCell)["rent"];
     var level = Monopoly.listCell.get(idCell)["level"];
     rent = level * (rent * 2);
     return rent;
-
-
 
 };
 
@@ -261,13 +273,14 @@ Monopoly.buyProperty = function (idCell) {
         var price = Monopoly.listCell.get(idCell)['buy'];
         var idPlayer = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
         var cellPlayer = Monopoly.getClosestCell(Monopoly.getCurrentPlayer())
-        if (Monopoly.verifbank(idPlayer, price)) {
+        if (Monopoly.verifBank(idPlayer, price)) {
             Monopoly.updateMoneyPlayer(idPlayer, -price);
             Monopoly.listCell.get(idCell)["owner"] = "player" + idPlayer;
 
             $(cellPlayer).removeClass("available ");
             $(cellPlayer).attr("data-owner", "player" + String(idPlayer));
             $("#modal-buyProperty").modal('hide');
+            Monopoly.changeTurnPlayer();
 
 
         } else {
@@ -278,6 +291,7 @@ Monopoly.buyProperty = function (idCell) {
 
         function timeoutHide() {
             $("#modal-buyProperty").modal('hide');
+            Monopoly.changeTurnPlayer();
         }
 
     }
@@ -285,18 +299,20 @@ Monopoly.buyProperty = function (idCell) {
 
 };
 
+/* In readme*/
 Monopoly.payRent = function (idOwner, idPlayer, idCell) {
     var rent = Monopoly.calcRent(idCell);
-    if (Monopoly.verifbank(idPlayer), rent) {
+    if (Monopoly.verifBank(idPlayer), rent) {
         Monopoly.updateMoneyPlayer(idOwner, rent);
         Monopoly.updateMoneyPlayer(idPlayer, -rent);
     } else {
-        /* Vente propriété sinon game-over */
+        Monopoly.sellProperty(rent);
     }
 
 };
 
-Monopoly.verifbank = function (idPlayer, amount) {
+/*In readme */
+Monopoly.verifBank = function (idPlayer, amount) {
     var money = Monopoly.getMoneyPlayer(idPlayer);
     if (money - amount >= 0) {
         return true;
@@ -306,8 +322,91 @@ Monopoly.verifbank = function (idPlayer, amount) {
 }
 
 Monopoly.changeTurnPlayer = function () {
+    console.log(Monopoly.bankPlayer);
+    
 
 }
+
+Monopoly.chance = function(){
+    var len = Monopoly.listChance.length;    
+    var random = Math.floor(Math.random()*len); /*Nombre entre [0, 1[ * len(non compris) */
+    var chance = Monopoly.listChance[random];
+    var player = Monopoly.getCurrentPlayer();
+    var idPlayer = Monopoly.getIdPlayer(player);
+
+    $("#modal-chance .modal-title").html("Chance : ");
+    $("#modal-chance #name").html("Type : "+chance["name"]);
+    $("#modal-chance #presentation").html(chance["presentation"]);
+    $("#modal-chance #money").html("Votre solde : " + Monopoly.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-chance #button-validate").html("OK");
+    $("#modal-chance").modal('show');
+    $("#modal-chance #button-validate").click(chanceAction);
+
+    function chanceAction(){
+        switch (chance["action"]) {
+            case "pay":
+                if(chance["number"]>=0){
+                    Monopoly.updateMoneyPlayer(idPlayer,chance["number"]);
+                }
+                else if(Monopoly.verifBank(idPlayer,chance["number"])){
+                    Monopoly.updateMoneyPlayer(idPlayer,chance["number"]);
+                    $("#modal-chance #money").html("Votre solde : " + Monopoly.getMoneyPlayer(idPlayer) + " €");
+                }
+                else{
+                    $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
+                    Monopoly.sellProperty(chance["number"]);
+                }
+                Monopoly.changeTurnPlayer();
+                $("#modal-chance").modal('hide');
+
+       
+                break;
+        
+            case "move":
+                $("#modal-chance").modal('hide');
+                Monopoly.movePlayer(player,chance["number"]);
+                break;
+        }
+    }
+    
+
+
+}
+
+Monopoly.sellProperty = function(amount){
+
+}
+
+Monopoly.tax = function(idCell){
+    var tax = Monopoly.listCell.get(idCell);
+    var idPlayer = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
+    $("#modal-chance .modal-title").html("Taxe : ");
+    $("#modal-chance #name").html("Type : "+tax["name"]);
+    $("#modal-chance #action").html("Vous devez payer : "+tax["rent"]+" €");
+    $("#modal-chance #money").html("Votre solde : " + Monopoly.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-chance #button-validate").html("Payer");
+    $("#modal-chance").modal('show');
+
+    $("#modal-chance #button-validate").click(taxAction);
+
+    function taxAction(){
+        if(Monopoly.verifBank(idPlayer,tax["rent"])){
+            Monopoly.updateMoneyPlayer(idPlayer,-tax["rent"]);
+            $("#modal-chance #money").html("Votre solde : " + Monopoly.getMoneyPlayer(idPlayer) + " €");
+        }
+        else{
+            $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
+            Monopoly.sellProperty(tax["rent"]);
+        }
+        Monopoly.changeTurnPlayer();
+        $("#modal-chance").modal('hide');
+
+       
+             
+        }
+    }
+
+
 
 /* Init the game */
 Monopoly.start();

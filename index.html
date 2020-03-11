@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Monopoly</title>
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -23,7 +23,7 @@
             <div class="content"></div>
             <div class="title"></div>
         </div>
-        <div id="cell23" class="top cell">
+        <div id="cell23" class="top cell chance">
             <div class="content">
             </div>
         </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="title"></div>
         </div>
-        <div id="cell26" class="top cell airport">
+        <div id="cell26" class="top cell airport property available">
             <div class="content">
                 
             </div>
@@ -140,7 +140,7 @@
         </div>
 
         <br>
-        <div id="cell16" class="left cell airport">
+        <div id="cell16" class="left cell airport property available">
             <div class="content"></div>
         </div>
         <div class="void cell"></div>
@@ -152,7 +152,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell36" class="right cell airport">
+        <div id="cell36" class="right cell airport property available">
             <div class="content"></div>
         </div>
 
@@ -170,7 +170,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell37" class="right cell">
+        <div id="cell37" class="right cell chance">
             <div class="content"></div>
         </div>
 
@@ -207,7 +207,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell39" class="right tax cell">
+        <div id="cell39" class="right tax2 tax cell">
             <div class="content"></div>
         </div>
 
@@ -244,27 +244,27 @@
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell8" class="cell bottom">
+        <div id="cell8" class="cell bottom chance">
             <div class="content"></div>
         </div>
         <div id="cell7" class="property available bottom cell egypt" data-name="egypt" data-group="group2">
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell6" class="cell bottom airport">
+        <div id="cell6" class="cell bottom airport property available">
             <div class="content"></div>
         </div>
-        <div id="cell5" class="cell bottom">
+        <div id="cell5" class="cell bottom tax1 tax">
             <div class="content"></div>
         </div>
         <div id="cell4" class="property available bottom cell north-korea" data-name="north-korea" data-group="group1">
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell3" class="cell bottom">
+        <div id="cell3" class="cell bottom community-chest">
             <div class="content"></div>
         </div>
-        <div id="cell2" class="property available bottom cell" data-group="group1">
+        <div id="cell2" class="property available bottom cell turkmenistan" data-group="group1">
             <div class="title"></div>
             <div class="content"></div>
         </div>
@@ -314,6 +314,26 @@
                     <p id="error"></p>
                     <button style="margin-top: 5px" id="button-buyProperty" type="button"class="btn btn-success">Acheter</button>
                     <button style="margin-top: 5px" id="button-quit" type="button"class="btn btn-danger float-right">Quitter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-chance" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="money" class="d-inline-block float-right"></p>
+                    <p id="name"></p>
+                    <p id="presentation"></p>
+                    <p id="action"></p>
+                    <br>
+                    <p id="error"></p>
+                    <button style="margin-top: 5px" id="button-validate" type="button"class="btn btn-success"></button>
                 </div>
             </div>
         </div>
