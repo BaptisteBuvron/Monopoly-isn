@@ -51,7 +51,7 @@
 
 /*Background des cases à fonctions */
 
-#game .prison {
+#game .jail {
     background-image: url('pictures/jail.jpg');
     background-size: contain;
     background-repeat: no-repeat;
@@ -263,8 +263,8 @@
 div.player {
     display: inline-block;
     margin: 2px;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
     background-image: url('pictures/cheval.png');
     background-size: contain;
     background-repeat: no-repeat;
