@@ -6,10 +6,13 @@
 */
 
 
+/* CHANGE TURN PLAYER !!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 var Monopoly = new Object();
 
 Monopoly.moneyAtStart = 1500;
 Monopoly.allowToDice = false;
+Monopoly.counterDice =0;
 
 Monopoly.start = function () {
     Monopoly.getNbrPlayer();
@@ -126,7 +129,7 @@ Monopoly.createPlayer = function (nbrPlayer) {
 
     }
     Monopoly.allowToDice = true;
-    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 5);
+    Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 3);
 
 };
 
@@ -238,6 +241,10 @@ Monopoly.action = function (player, playerCell) {
     else if(playerCell.hasClass("tax")){
         Monopoly.tax(idCell);
     }
+    else if(playerCell.hasClass("go-to-jail")){
+        Monopoly.sendJail(player);
+    }
+    
 
 
 
@@ -322,8 +329,51 @@ Monopoly.verifBank = function (idPlayer, amount) {
 }
 
 Monopoly.changeTurnPlayer = function () {
-    console.log(Monopoly.bankPlayer);
+    var player = Monopoly.getCurrentPlayer();
+    var idPlayer = Monopoly.getIdPlayer(Monopoly.getCurrentPlayer());
+    var idNextPlayer;
+    if(Monopoly.counterDice >0){
+        if(Monopoly.counterDice ==3){
+            Monopoly.sendJail(player);
+            Monopoly.counterDice =0;
+            Monopoly.changeTurnPlayer();
+        }
+    }else{
+        $(player).removeClass("current-turn");
+        if(idPlayer == Monopoly.nbrPlayer){
+            idNextPlayer = 1;
+        }
+        else{
+            idNextPlayer = idPlayer+1;
+        }
+        var nextPlayer = $("#player"+String(idNextPlayer));
+        nextPlayer.addClass("current-turn");
+        
+        if(nextPlayer.hasClass("jailed")){
+            var timeJail = $(nextPlayer).attr("data-jail");
+            timeJail = timeJail - 1;
+            if(timeJail ==0){
+                $(nextPlayer).removeClass("jailed");
+                $(nextPlayer).removeAttr("data-jail");
+
+            }
+            else{
+                $(nextPlayer).attr("data-jail",timeJail);
+                Monopoly.changeTurnPlayer();
+            }
+        }
+        Monopoly.allowToDice = true;
+        Monopoly.movePlayer(Monopoly.getCurrentPlayer(), 3);
+    }
     
+
+}
+
+Monopoly.sendJail = function(player){
+    $("#game .jail ").find('.content').append(player);
+    $(player).attr("data-jail",3);
+    $(player).addClass("jailed");
+    Monopoly.changeTurnPlayer();
 
 }
 
@@ -356,8 +406,9 @@ Monopoly.chance = function(){
                     $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
                     Monopoly.sellProperty(chance["number"]);
                 }
-                Monopoly.changeTurnPlayer();
+
                 $("#modal-chance").modal('hide');
+                Monopoly.changeTurnPlayer();
 
        
                 break;
@@ -398,8 +449,8 @@ Monopoly.tax = function(idCell){
             $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
             Monopoly.sellProperty(tax["rent"]);
         }
-        Monopoly.changeTurnPlayer();
         $("#modal-chance").modal('hide');
+        Monopoly.changeTurnPlayer();
 
        
              
