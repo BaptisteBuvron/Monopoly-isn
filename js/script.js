@@ -11,6 +11,8 @@
 var Monopoly = new Object();
 
 Monopoly.moneyAtStart = 1500;
+/* in Readme*/
+
 Monopoly.allowToDice = false;
 Monopoly.counterDice = 0;
 
@@ -74,7 +76,6 @@ Monopoly.listCell.set(36, new propertiesCell("property", "Aéroport de Dubai", "
 Monopoly.listCell.set(38, new propertiesCell("property", "La lune", "moon.png", "Espace", null, 350, 175, 35, 200, 0));
 Monopoly.listCell.set(39, new propertiesCell("tax", "Impots de luxe", null, "tax", null, null, null, 100, null));
 Monopoly.listCell.set(40, new propertiesCell("property", "Mars", "mars.png", "Espace", null, 400, 200, 50, 200, 0));
-
 
 
 
@@ -393,6 +394,7 @@ Monopoly.verifBank = function (idPlayer, amount) {
         return false;
     }
 }
+
 
 Monopoly.changeTurnPlayer = function () {
     var player = Monopoly.getCurrentPlayer();
