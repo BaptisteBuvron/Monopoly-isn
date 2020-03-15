@@ -166,7 +166,7 @@ Monopoly.allowToDice = false;
 
 ### Monopoly.dice
 
-Cette propriété de l'objet Monopoly permet au joueur de lancer les dés de maniére aléatoire et indépendante.
+Cette propriété de l'objet Monopoly permet au joueur de lancer les dés de maniére aléatoire et indépendante. La propriété `Monopoly.movePlayer` est ensuite appelé pour faire avancer le joueur d'un nombre de case.
 
 ```javascript
 Monopoly.dice = function () {
