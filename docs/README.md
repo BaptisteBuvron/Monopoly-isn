@@ -6,6 +6,7 @@
 1. [HTML](#html)
 2. [CSS](#css)
 3. [JavaScript](#javascript)
+4. [Sources](#sources)
 
 # HTML
 
@@ -501,4 +502,10 @@ Monopoly.verifBank = function (idPlayer, amount) {
     }
 }
 ```
+
+# Sources
+
+# Les images
+
+Les images du plateau de monopoly proviennent du site ![commons Wikipedia](https://commons.wikimedia.org), il s'agit d'une  bibliothèque de média libre de droit.
 
