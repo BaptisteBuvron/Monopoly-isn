@@ -304,6 +304,20 @@ Monopoly.getMoneyPlayer = function(player){
 }
 ```
 
+### Monopoly.dice
 
+Cette propriété de l'objet Monopoly permet au joueur de lancer les dés de maniére aléatoire et indépendante.
+
+```javascript
+Monopoly.dice = function () {
+    if (Monopoly.allowToDice) {
+        var dice_1 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
+        var dice_2 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
+        Monopoly.allowToDice = false; /* interdit au joueur de relancer les dés*/
+
+        var total = dice_1 + dice_2;
+        Monopoly.movePlayer(Monopoly.getCurrentPlayer(), total);
+    }
+```
 
 
