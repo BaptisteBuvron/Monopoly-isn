@@ -113,6 +113,11 @@ Les cases à fonctions sont repéré avec leur classe, en fonction de cette clas
     background-repeat: no-repeat;    
 }
 ```
+
+## Le plateau de jeu
+
+![Image plateau](plateau.png)
+
 # JavaScript
 
 ## Le DOM
