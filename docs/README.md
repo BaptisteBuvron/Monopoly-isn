@@ -84,9 +84,9 @@ Chaque propriétés possèdent une div `content` et `title`. Afin de pouvoir ajo
     width: 100%;
 }
 ```
-Chaque propriété possède un groupe, ce groupe est répéré avec l'attribut `data-group="group1"`
+Chaque propriété possède un groupe, ce groupe est répéré avec l'attribut `data-group="group1"`.
 
-Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`
+Ainsi la couleur de fond d'écran est définit en fonction de ce `data-group`.
 
 ```css
 #game [data-group='group1'] .title{
@@ -137,7 +137,7 @@ Ainsi par exemple :
 document.getElementById("id");
 ```
 Devient : 
-```
+```javscript
 $("#id");
 ```
 
