@@ -1,4 +1,4 @@
-body {
+﻿body {
     background-color: rgb(218, 233, 212);
     margin: 0;
     width: 100%;
@@ -51,7 +51,7 @@ body {
 
 /*Background des cases à fonctions */
 
-#game .prison {
+#game .jail {
     background-image: url('pictures/jail.jpg');
     background-size: contain;
     background-repeat: no-repeat;
@@ -86,21 +86,52 @@ body {
 }
 
 #game .right.community-chest {
-    background-image: url('pictures/community-chest.jpg');
+    background-image: url('pictures/community-chest-right.jpg');
     background-size: contain;
     background-repeat: no-repeat;
-    transform: rotate(180deg);
 }
 
 
 #game .left.community-chest {
-    background-image: url('pictures/community-chest.jpg');
+    background-image: url('pictures/community-chest-left.jpg');
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-#game .right.tax {
-    background-image: url('pictures/tax.jpg');
+#game .bottom.community-chest {
+    background-image: url('pictures/community-chest-bottom.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .top.chance {
+    background-image: url('pictures/chance-top.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+#game .right.chance {
+    background-image: url('pictures/chance-right.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .bottom.chance {
+    background-image: url('pictures/chance-bottom.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#game .bottom.tax1 {
+    background-image: url('pictures/tax1.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .right.tax2 {
+    background-image: url('pictures/tax2.jpg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -178,6 +209,20 @@ body {
     vertical-align: top;
 }
 
+#game .void.dice{
+    background-color: black;
+    cursor: pointer;
+}
+
+
+/* Style de la case dice_1*/
+#game .void.cell#dice_1 {
+
+}
+
+/* Style de la case dice_2*/
+#game .void.cell#dice_2 {
+}
 
 
 
@@ -218,15 +263,15 @@ body {
 div.player {
     display: inline-block;
     margin: 2px;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
     background-image: url('pictures/cheval.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-img{
+img#background{
     position: absolute;
     z-index: 1;
     top: 30%;
@@ -384,7 +429,14 @@ img{
 }
 
 #game .cell.airport .content{
-    background-image: url('pictures/airport.png');
+    background-image: url('pictures/pais/airport.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#game .cell.turkmenistan .content{
+    background-image: url('pictures/pais/turkmenistan.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -392,4 +444,15 @@ img{
 
 #game .cell:not(.void):hover{
     border: 2px solid black;
+}
+
+
+/* Style Modal */
+
+.modal img{
+    position: absolute;
+    z-index: 1;
+    top: 25%;
+    left: 40%;
+    width: 20%;
 }

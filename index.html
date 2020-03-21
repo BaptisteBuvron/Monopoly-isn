@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Monopoly</title>
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/bootstrap.js"></script>
     <link rel="stylesheet" href="css/bootstrap.css">
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <img src="pictures/terre.png" alt="">
+    <img id="background" src="pictures/terre.png" alt="">
     <div id="game">
 
         <div id="cell21" class="corner cell top free-parking">
@@ -23,7 +23,7 @@
             <div class="content"></div>
             <div class="title"></div>
         </div>
-        <div id="cell23" class="top cell">
+        <div id="cell23" class="top cell chance">
             <div class="content">
             </div>
         </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="title"></div>
         </div>
-        <div id="cell26" class="top cell airport">
+        <div id="cell26" class="top cell airport property available">
             <div class="content">
                 
             </div>
@@ -50,7 +50,7 @@
             <div class="content"></div>
             <div class="title"></div>
         </div>
-        <div id="cell29" class="top cell property available water" data-group="company">
+        <div id="cell29" class="top cell property available energy water" data-group="company">
             <div class="content"></div>
         </div>
         <div id="cell30" class="property available cell top usa" data-name="usa" data-group="group6">
@@ -89,11 +89,12 @@
         </div>
         <div class="void cell"></div>
         <div class="void cell"></div>
+		<div class="void cell"></div>
+        <div id="dice_1" class="void cell dice"></div>
         <div class="void cell"></div>
+        <div id="dice_2" class="void cell dice"></div>
         <div class="void cell"></div>
-        <div class="void cell"></div>
-        <div class="void cell"></div>
-        <div class="void cell"></div>
+        
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div id="cell33" class="property available right cell british" data-name="british" data-group="group7">
@@ -139,7 +140,7 @@
         </div>
 
         <br>
-        <div id="cell16" class="left cell airport">
+        <div id="cell16" class="left cell airport property available">
             <div class="content"></div>
         </div>
         <div class="void cell"></div>
@@ -151,7 +152,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell36" class="right cell airport">
+        <div id="cell36" class="right cell airport property available">
             <div class="content"></div>
         </div>
 
@@ -169,7 +170,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell37" class="right cell">
+        <div id="cell37" class="right cell chance">
             <div class="content"></div>
         </div>
 
@@ -194,7 +195,7 @@
         </div>
 
         <br>
-        <div id="cell13" class="left property available electric cell" data-group="company">
+        <div id="cell13" class="left property available energy electric cell" data-group="company">
             <div class="content"></div>
         </div>
         <div class="void cell"></div>
@@ -206,7 +207,7 @@
         <div class="void cell"></div>
         <div class="void cell"></div>
         <div class="void cell"></div>
-        <div id="cell39" class="right tax cell">
+        <div id="cell39" class="right tax2 tax cell">
             <div class="content"></div>
         </div>
 
@@ -232,7 +233,7 @@
 
         <br>
 
-        <div id="cell11" class="corner prison cell">
+        <div id="cell11" class="corner jail cell">
             <div class="content"></div>
         </div>
         <div id="cell10" class="property available bottom cell nigeria" data-name="nigeria" data-group="group2">
@@ -243,27 +244,27 @@
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell8" class="cell bottom">
+        <div id="cell8" class="cell bottom chance">
             <div class="content"></div>
         </div>
         <div id="cell7" class="property available bottom cell egypt" data-name="egypt" data-group="group2">
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell6" class="cell bottom airport">
+        <div id="cell6" class="cell bottom airport property available">
             <div class="content"></div>
         </div>
-        <div id="cell5" class="cell bottom">
+        <div id="cell5" class="cell bottom tax1 tax">
             <div class="content"></div>
         </div>
         <div id="cell4" class="property available bottom cell north-korea" data-name="north-korea" data-group="group1">
             <div class="title"></div>
             <div class="content"></div>
         </div>
-        <div id="cell3" class="cell bottom">
+        <div id="cell3" class="cell bottom community-chest">
             <div class="content"></div>
         </div>
-        <div id="cell2" class="property available bottom cell" data-group="group1">
+        <div id="cell2" class="property available bottom cell turkmenistan" data-group="group1">
             <div class="title"></div>
             <div class="content"></div>
         </div>
@@ -277,7 +278,7 @@
     </div>
 
 
-    <div id="modal-player" class="modal fade in" tabindex="-1" role="dialog" data-keyboard="false"
+    <div id="modal-player" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
         data-backdrop="static">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -291,6 +292,68 @@
                         <button style="margin-top: 5px" id="button-nbrPlayer" type="button"
                             class="btn btn-success">Valider</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-buyProperty" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <img src="" alt="">
+                    <p id="money" class="d-inline-block float-right"></p>
+                    <p id="buy"></p>
+                    <p id="sell"></p>
+                    <p id="rent"></p>
+                    <br>
+                    <p id="error"></p>
+                    <button style="margin-top: 5px" id="button-buyProperty" type="button"class="btn btn-success">Acheter</button>
+                    <button style="margin-top: 5px" id="button-quit" type="button"class="btn btn-danger float-right">Quitter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-chance" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="money" class="d-inline-block float-right"></p>
+                    <p id="name"></p>
+                    <p id="presentation"></p>
+                    <p id="action"></p>
+                    <br>
+                    <p id="error"></p>
+                    <button style="margin-top: 5px" id="button-validate" type="button"class="btn btn-success"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-tryLeaveJail" class="modal" tabindex="-1" role="dialog" data-keyboard="false"
+        data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                </div>
+                <div class="modal-body">
+                    <p id="money" class="d-inline-block float-right"></p>
+                    <p> Voulez vous lancer les dés ou bien payer 50 € ?</p>
+                    <p id="info"></p>
+                    <br>
+                    <button style="margin-top: 5px" id="button-buyJail" type="button"class="btn btn-success">Payer 50 €</button>
+                    <button style="margin-top: 5px" id="button-Dice" type="button"class="btn btn-primary">Lancer les dés</button>
+                    <button style="margin-top: 5px" id="button-quit" type="button"class="btn btn-danger">quitter</button>
                 </div>
             </div>
         </div>
