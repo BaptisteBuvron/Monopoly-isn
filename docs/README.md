@@ -130,7 +130,7 @@ Le DOM (Document Object Model) est une interface de notre page WEB. Il va permet
 
 ## Jquery 
 
-Pour sélectionner les éléments du DOM nous utiliserons la bibliothèque JavaScript qui a été créer pour facilité l'écriture de scripts côté client dans le code HTML des pages web. Le but de la bibliothèque étant le parcours et la modification du DOM.
+Pour sélectionner les éléments du DOM nous utiliserons la bibliothèque JavaScript Jquery qui a été créer pour facilité l'écriture de scripts côté client dans le code HTML des pages web. Le but de la bibliothèque étant le parcours et la modification du DOM.
 
 Ainsi par exemple : 
 ```javascript
