@@ -210,18 +210,18 @@
 }
 
 #game .void.dice{
-    background-color: black;
     cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-
-/* Style de la case dice_1*/
-#game .void.cell#dice_1 {
-
+#game #dice_1{
+    background-image: url("pictures/dice/dice_6.gif");
 }
 
-/* Style de la case dice_2*/
-#game .void.cell#dice_2 {
+#game #dice_2{
+    background-image: url("pictures/dice/dice_6.gif");
 }
 
 
