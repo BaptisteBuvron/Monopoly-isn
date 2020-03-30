@@ -1,4 +1,4 @@
-# Jeu du Monopoly
+# Jeu le tour du monde en 40 cases.
 - [Le jeu](https://baptistebuvron.github.io/Monopoly-isn/index.html)
 - [Le Github du projet](https://github.com/BaptisteBuvron/Monopoly-isn)
 
@@ -145,57 +145,57 @@ Devient :
 $("#id");
 ```
 
-## Objet Monopoly
+## Objet Game
 
-Un objet Monopoly a été créer, toutes les fonctions lier au déroulement du jeu du Monopoly seront des propriétés de l’objet Monopoly :
+Un objet Game a été créer, toutes les fonctions lier au déroulement du jeu du Game seront des propriétés de l’objet Game :
 
 
 ```javascript
-var Monopoly = new Object();
+var Game = new Object();
 ```
 ## Les propriétés
 
-### Monopoly.start
+### Game.start
 
 *Réalisé par Yann*
 
-Cette propriété de l'objet Monopoly est appelée au chargement de la page et appelle les propriétés nécessaire au démarrage de la partie.
+Cette propriété de l'objet Game est appelée au chargement de la page et appelle les propriétés nécessaire au démarrage de la partie.
 
 ```javascript
-Monopoly.start = function(){
-    Monopoly.getNbrPlayer();
+Game.start = function(){
+    Game.getNbrPlayer();
 };
 ```
 
-### Monopoly.allowToDice
+### Game.allowToDice
 
 *Réalisé par Yann*
 
-Cette propriété de l'objet Monopoly est un booléen qui permet de déterminer quand les joueurs ont le droit de lancer les dés.
+Cette propriété de l'objet Game est un booléen qui permet de déterminer quand les joueurs ont le droit de lancer les dés.
 
 ```javascript
-Monopoly.allowToDice = false;
+Game.allowToDice = false;
 ```
 
-### Monopoly.dice
+### Game.dice
 
 *Réalisé par Yann*
 
-Cette propriété de l'objet Monopoly permet au joueur de lancer les dés de maniére aléatoire et indépendante. La propriété `Monopoly.movePlayer` est ensuite appelé pour faire avancer le joueur d'un nombre de case.
+Cette propriété de l'objet Game permet au joueur de lancer les dés de maniére aléatoire et indépendante. La propriété `Game.movePlayer` est ensuite appelé pour faire avancer le joueur d'un nombre de case.
 
 ```javascript
-Monopoly.dice = function () {
-    if (Monopoly.allowToDice) {
+Game.dice = function () {
+    if (Game.allowToDice) {
         var dice_1 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
         var dice_2 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
-        Monopoly.allowToDice = false; /* interdit au joueur de relancer les dés*/
+        Game.allowToDice = false; /* interdit au joueur de relancer les dés*/
 
         var total = dice_1 + dice_2;
-        Monopoly.movePlayer(Monopoly.getCurrentPlayer(), total);
+        Game.movePlayer(Game.getCurrentPlayer(), total);
     }
 ```
 
-### Monopoly.bankPLayer
+### Game.bankPLayer
 
 *Réalisé par Baptiste*
 
@@ -204,10 +204,10 @@ Clé du dictionnaire = id du joueur,
 Valeur du dictionnaire = Montant du compte (int)
 
 ```javascript
-Monopoly.bankPlayer = new Map();
+Game.bankPlayer = new Map();
 ```
 
-### Monopoly.listCell
+### Game.listCell
 
 *Réalisé par Baptiste*
 
@@ -216,7 +216,7 @@ Clé du dictionnaire = id de la cellule,
 Valeur = Objet contenant les propriétés de la cellule (objet)
 
 ```javascript
-Monopoly.listCell = new Map();
+Game.listCell = new Map();
 ```
 
 Modèle de l'objet contenant les propriétés des cellules.
@@ -238,20 +238,20 @@ function propertiesCell(type, name, picture, group, owner, buy, sell, rent, upgr
 
 ```
 
-Ajout d'une cellule dans le dictionnaire `Monopoly.listCell` avec l'id de la cellule et l'objet contenant les propriétés de la cellule.
+Ajout d'une cellule dans le dictionnaire `Game.listCell` avec l'id de la cellule et l'objet contenant les propriétés de la cellule.
 
 ```javascript
-Monopoly.listCell.set(2, new propertiesCell("property", "Turkmenistan", "turkmenistan.png", "Autre", null, 60, 30, 25, 1));
+Game.listCell.set(2, new propertiesCell("property", "Turkmenistan", "turkmenistan.png", "Autre", null, 60, 30, 25, 1));
 ```
 
-### Monopoly.listChance
+### Game.listChance
 
 *Réalisé par Baptiste*
 
 Initialisation d'une liste qui contiendra le contenu des cases chance sous forme d'objet.
 
 ```javascript
-Monopoly.listChance = [];
+Game.listChance = [];
 ```
 Modèle de l'objet contenant les propriétés de la case chance.
 
@@ -263,23 +263,23 @@ function addChance(name,presentation,action,number){
     this.number = number;
 };
 ```
-Ajout dans la liste `Monopoly.listChance` l'objet contenant les propriétés d'une carte chance.
+Ajout dans la liste `Game.listChance` l'objet contenant les propriétés d'une carte chance.
 
 ```javascript
-Monopoly.listChance.push(new addChance("Facture","Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque","pay",-50));
+Game.listChance.push(new addChance("Facture","Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque","pay",-50));
 ```
 
 
-### Monopoly.getNbrPlayer
+### Game.getNbrPlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly est appelée par `Monopoly.start` et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est rappelée. Sinon la propriété `Monopoly CreatePlayer` est appelée.
+Cette propriété de l'objet Game est appelée par `Game.start` et demande à l'utilisateur le nombre de joueurs.Tant que le nombre indiqué n'est pas entre 2 et 5 la propriété est rappelée. Sinon la propriété `Game CreatePlayer` est appelée.
 
 Aucun paramètre n'est nécessaire.
 
 ```javascript
-Monopoly.getNbrPlayer = function () {
+Game.getNbrPlayer = function () {
     $(document).ready(function () {
         $("#modal-player").modal('show');
 
@@ -292,25 +292,25 @@ Monopoly.getNbrPlayer = function () {
         nbrPlayer = parseInt($("#nbrPlayer").val());
         if (nbrPlayer <= 5 && nbrPlayer >= 2) {
             $("#modal-player").modal('hide');
-            Monopoly.createPlayer(nbrPlayer);
+            Game.createPlayer(nbrPlayer);
         }
     }
 
 };
 ```
 
-### Monopoly.createPlayer
+### Game.createPlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly est appelé par `Monopoly.getNbrPlayer` et permet de créer le nombre de joueur demandé.
+Cette propriété de l'objet Game est appelé par `Game.getNbrPlayer` et permet de créer le nombre de joueur demandé.
 Il initialise également le compte en banque des joueurs.
 
 Paramètre :
 - Le nombre de joueur a créer (int).
 
 ```javascript
-Monopoly.createPlayer = function (nbrPlayer) {
+Game.createPlayer = function (nbrPlayer) {
 
     for (let i = 1; i <= nbrPlayer; i++) {
         if (i == 1) {
@@ -318,58 +318,58 @@ Monopoly.createPlayer = function (nbrPlayer) {
         } else {
             $('<div id="player' + String(i) + '" class="player"></div>').appendTo('#game .start .content');
         }
-        Monopoly.bankPlayer.set("player" + String(i), Monopoly.moneyAtStart);
+        Game.bankPlayer.set("player" + String(i), Game.moneyAtStart);
 
 
     }
-    Monopoly.allowToDice = true;
-    Monopoly.dice();
+    Game.allowToDice = true;
+    Game.dice();
 
 };
 ```
 
 
-### Monopoly.getCurrentPlayer
+### Game.getCurrentPlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner du `DOM` le joueur qui possède la classe curent-turn.
+Cette propriété de l'objet Game permet de retourner du `DOM` le joueur qui possède la classe curent-turn.
 
 Aucun paramètre n'est nécessaire.
 
 ```javascript
-Monopoly.getCurrentPlayer = function(){
+Game.getCurrentPlayer = function(){
     return $(".player.current-turn");
 };
 ```
 
-### Monopoly.getClosestCell
+### Game.getClosestCell
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner du `DOM` la cellule la plus proche d'un joueur et qui possède la classe `cell`.
+Cette propriété de l'objet Game permet de retourner du `DOM` la cellule la plus proche d'un joueur et qui possède la classe `cell`.
 
 Les paramètres :
 - L'élément du DOM d'un joueur.
 
 ```javascript
-Monopoly.getClosestCell= function(player){
+Game.getClosestCell= function(player){
     return player.closest(".cell");
 };
 ```
 
-### Monopoly.getIdCell
+### Game.getIdCell
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner l'id d'une cellule (int).
+Cette propriété de l'objet Game permet de retourner l'id d'une cellule (int).
 Cette propriété utilise la methode replace qui remplace dans l'id de la cellule cell par une chaine de caractère vide afin de récuperer seulement l'id de la cellule.
 
 Les paramètres :
 - L'élément du DOM d'un cellule.
 
 ```javascript
-Monopoly.getIdCell = function(playerCell){
+Game.getIdCell = function(playerCell){
     return parseInt(playerCell.attr('id').replace("cell",""));
 }
 ```
@@ -378,36 +378,36 @@ Monopoly.getIdCell = function(playerCell){
 <div id="cell36"></div>
 ```
 
-### Monopoly.getIdplayer
+### Game.getIdplayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner l'id d'un joueur (int).
+Cette propriété de l'objet Game permet de retourner l'id d'un joueur (int).
 
 Les paramètres :
 - L'élément du DOM d'un joueur.
 
 ```javascript
-Monopoly.getIdPlayer = function (player) {
+Game.getIdPlayer = function (player) {
     return parseInt(player.attr("id").replace("player", ""));
 }
 ```
 
-### Monopoly.getNextCell
+### Game.getNextCell
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner la cellule suivante.
-De plus elle appelle la propriété `Monopoly.addMoneyPlayer` quand un tour a été effectué.
+Cette propriété de l'objet Game permet de retourner la cellule suivante.
+De plus elle appelle la propriété `Game.addMoneyPlayer` quand un tour a été effectué.
 
 Les paramètres :
 - L'id de la cellule précédente (int).
 
 ```javascript
-Monopoly.getNextCell = function (idCell) {
+Game.getNextCell = function (idCell) {
     if (idCell == 40) {
         idCell = 0;
-        Monopoly.updateMoneyPlayer(Monopoly.getIdPlayer(Monopoly.getCurrentPlayer()), 200);
+        Game.updateMoneyPlayer(Game.getIdPlayer(Game.getCurrentPlayer()), 200);
     }
     var nextIdCell = idCell + 1;
     return $("#game .cell#cell" + nextIdCell);
@@ -416,86 +416,86 @@ Monopoly.getNextCell = function (idCell) {
 }
 ```
 
-### Monopoly.movePlayer
+### Game.movePlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de faire avancer un joueur de `number` case.
+Cette propriété de l'objet Game permet de faire avancer un joueur de `number` case.
 
 Les paramètres :
 - L'élement du DOM correspondant au joueur a déplacer,
 - Le nombre de case a avancé (int).
 
 ```javascript
-Monopoly.movePlayer = function (player, number) {
-    Monopoly.allowToDice = false;
+Game.movePlayer = function (player, number) {
+    Game.allowToDice = false;
 
     var movePlayerInterval = setInterval(movePLayer, 500);
 
     function movePLayer() {
 
-        var cellPlayer = Monopoly.getClosestCell(player);
-        var idCell = Monopoly.getIdCell(cellPlayer);
-        var nextCell = Monopoly.getNextCell(idCell);
+        var cellPlayer = Game.getClosestCell(player);
+        var idCell = Game.getIdCell(cellPlayer);
+        var nextCell = Game.getNextCell(idCell);
 
         nextCell.find('.content').append(player);
         number--;
         if (number == 0) {
             clearInterval(movePlayerInterval);
-            cellPlayer = Monopoly.getClosestCell(player);
-            Monopoly.action(player, cellPlayer);
+            cellPlayer = Game.getClosestCell(player);
+            Game.action(player, cellPlayer);
         }
     }
 
 };
 ```
 
-### Monopoly.updateMoneyPlayer
+### Game.updateMoneyPlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de modifier le montant d'un compte d'un joueur.
+Cette propriété de l'objet Game permet de modifier le montant d'un compte d'un joueur.
 
 Les paramètres : 
 - L'id d'un joueur (int),
 - Le montant a enlever ou ajouter sur le compte (int).
 
 ```javascript
-Monopoly.addMoneyPlayer = function (playerId, amount) {
-    var money = Monopoly.getMoneyPlayer(playerId);
+Game.addMoneyPlayer = function (playerId, amount) {
+    var money = Game.getMoneyPlayer(playerId);
     var newMoney = money + amount;
-    Monopoly.bankPlayer.set("player" + String(playerId), newMoney);
+    Game.bankPlayer.set("player" + String(playerId), newMoney);
 
 };
 ```
-### Monopoly.getMoneyPlayer
+### Game.getMoneyPlayer
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner le montant d'un compte d'un joueur.
+Cette propriété de l'objet Game permet de retourner le montant d'un compte d'un joueur.
 
 Les paramètres : 
 - L'id du joueur (int).
 
 ```javascript
-Monopoly.getMoneyPlayer = function (playerId) {
-    return parseInt(Monopoly.bankPlayer.get("player" + String(playerId)));
+Game.getMoneyPlayer = function (playerId) {
+    return parseInt(Game.bankPlayer.get("player" + String(playerId)));
 };
 ```
 
-### Monopoly.calcRent
+### Game.calcRent
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de retourner le montant du loyer d'une propriété en fonction de son level.
+Cette propriété de l'objet Game permet de retourner le montant du loyer d'une propriété en fonction de son level.
 
 Les paramètres : 
 - L'id de la cellule (int).
 
 ```javascript
-Monopoly.calcRent = function (idCell) {
-    var rent = Monopoly.listCell.get(idCell)["rent"];
-    var level = Monopoly.listCell.get(idCell)["level"];
+Game.calcRent = function (idCell) {
+    var rent = Game.listCell.get(idCell)["rent"];
+    var level = Game.listCell.get(idCell)["level"];
     switch (level) {
         case 0:
             rent = rent;
@@ -520,11 +520,11 @@ Monopoly.calcRent = function (idCell) {
 };
 ```
 
-### Monopoly.payRent
+### Game.payRent
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de faire payer le montant du loyer d'une propriété.
+Cette propriété de l'objet Game permet de faire payer le montant du loyer d'une propriété.
 
 Les paramètres : 
 - L'id du propriétaire de la propriété(int),
@@ -532,22 +532,22 @@ Les paramètres :
 - L'id de la cellule de la propriété(int).
 
 ```javascript
-Monopoly.payRent = function (idOwner, idPlayer, idCell) {
-    var rent = Monopoly.calcRent(idCell);
-    if (Monopoly.verifbank(idPlayer), rent) {
-        Monopoly.updateMoneyPlayer(idOwner, rent);
-        Monopoly.updateMoneyPlayer(idPlayer, -rent);
+Game.payRent = function (idOwner, idPlayer, idCell) {
+    var rent = Game.calcRent(idCell);
+    if (Game.verifbank(idPlayer), rent) {
+        Game.updateMoneyPlayer(idOwner, rent);
+        Game.updateMoneyPlayer(idPlayer, -rent);
     } else {
-        Monopoly.sellProperty(rent);
+        Game.sellProperty(rent);
     }
 };
 ```
 
-### Monopoly.verifBank
+### Game.verifBank
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Monopoly permet de vérifier si un joueur dispose suffisament d'argent pour payer un loyer par exemple.
+Cette propriété de l'objet Game permet de vérifier si un joueur dispose suffisament d'argent pour payer un loyer par exemple.
 True est retourné si le compte contient suffisament d'argent sinon False est retourné.
 
 Les paramètres : 
@@ -555,8 +555,8 @@ Les paramètres :
 - Le montant à payer(int).
 
 ```javascript
-Monopoly.verifBank = function (idPlayer, amount) {
-    var money = Monopoly.getMoneyPlayer(idPlayer);
+Game.verifBank = function (idPlayer, amount) {
+    var money = Game.getMoneyPlayer(idPlayer);
     if (money - amount >= 0) {
         return true;
     } else {
@@ -569,5 +569,5 @@ Monopoly.verifBank = function (idPlayer, amount) {
 
 # Les images
 
-Les images du plateau de monopoly proviennent du site [commons Wikipedia](https://commons.wikimedia.org), il s'agit d'une  bibliothèque de média libre de droit.
+Les images du plateau de Game proviennent du site [commons Wikipedia](https://commons.wikimedia.org), il s'agit d'une  bibliothèque de média libre de droit.
 

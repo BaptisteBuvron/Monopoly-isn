@@ -456,3 +456,13 @@ img#background{
     left: 40%;
     width: 20%;
 }
+
+/* Style  */ 
+
+div#rank{
+    position: absolute;
+    top: 100px;
+    right: 0px;
+    margin-right: 50px;
+
+}
