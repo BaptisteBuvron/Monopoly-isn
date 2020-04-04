@@ -25,7 +25,7 @@ Game.start = function () {
 Game.nbrPlayer = 0;
 
 /* In readme*/
-Game.bankPlayer = new Map();
+Game.bankPlayer = new Object();
 
 /* In readme*/
 function propertiesCell(type, name, picture, group, owner, buy, sell, rent, upgradePrice, level) {
@@ -87,7 +87,7 @@ Game["Amérique du Sud"] = [17, 19, 20];
 Game["Asie"] = [22, 24, 25];
 Game["Amérique du Nord"] = [27, 28, 30];
 Game["Europe"] = [32, 33, 35];
-Game["Aéroport"] = [5, 16, 26, 36];
+Game["Aéroport"] = [6, 16, 26, 36];
 Game["energie"] = [13, 29];
 
 
@@ -172,7 +172,7 @@ Game.createPlayer = function (nbrPlayer) {
         } else {
             $('<div id="player' + String(i) + '" class="player"></div>').appendTo('#game .start .content');
         }
-        Game.bankPlayer.set("player" + String(i), Game.moneyAtStart);
+        Game.bankPlayer["player"+ String(i)] = Game.moneyAtStart;
 
 
     }
@@ -272,13 +272,13 @@ Game.movePlayer = function (player, number) {
 Game.updateMoneyPlayer = function (idPlayer, amount) {
     var money = Game.getMoneyPlayer(idPlayer);
     var newMoney = money + amount;
-    Game.bankPlayer.set("player" + String(idPlayer), newMoney);
+    Game.bankPlayer["player" + String(idPlayer)] =  newMoney;
 
 };
 
 /*In readme */
 Game.getMoneyPlayer = function (idPlayer) {
-    return parseInt(Game.bankPlayer.get("player" + String(idPlayer)));
+    return parseInt(Game.bankPlayer["player" + String(idPlayer)]);
 };
 
 Game.action = function (player, playerCell) {
@@ -349,9 +349,12 @@ Game.calcRent = function (idCell) {
     if (currentCell.hasClass("airport")) {
         level = 0;
         for (let i = 0; i < Game["Aéroport"].length; i++) {
-            if ($("#cell" + String(i)).attr("data-owner").replace("player", "") == idOwner) {
+            if ($("#game .cell#cell" + String(Game["Aéroport"][i])).attr("data-owner").replace("player", "") == idOwner) {
                 level += 1;
             }
+        
+            
+            
         }
         switch (level) {
             case 1:
@@ -371,7 +374,7 @@ Game.calcRent = function (idCell) {
     } else if (currentCell.hasClass("energy")) {
         level = 0;
         for (let i = 0; i < Game["energie"].length; i++) {
-            if ($("#cell" + i).attr("data-owner").replace("player", "") == idOwner) {
+            if ($("#cell" + Game["energie"][i]).attr("data-owner").replace("player", "") == idOwner) {
                 level += 1;
             }
         }
@@ -382,12 +385,6 @@ Game.calcRent = function (idCell) {
             case 2:
                 rent = 10 * Game.valueDice;
                 break;
-            case 3:
-                rent = 100;
-                break;
-            case 4:
-                rent = 200;
-                break;
         }
     }
 
@@ -396,7 +393,7 @@ Game.calcRent = function (idCell) {
 };
 
 Game.buyProperty = function (idCell) {
-
+    var rent = Game.calcRent(idCell);
     var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
     var click = false; /*Variable pour empecher un double appelle de la fonction buy */
     $("#modal-buyProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
@@ -404,7 +401,7 @@ Game.buyProperty = function (idCell) {
     $("#modal-buyProperty #buy").html("Prix d'achat : " + Game.listCell.get(idCell)["buy"] + " €");
     $("#modal-buyProperty #sell").html("Prix de vente: " + Game.listCell.get(idCell)["sell"] + " €");
     $("#modal-buyProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
-    $("#modal-buyProperty #rent").html("Prix du loyer : " + Game.listCell.get(idCell)["rent"] + " €");
+    $("#modal-buyProperty #rent").html("Prix du loyer : " + rent + " €");
     $("#modal-buyProperty").modal('show');
 
     $("#modal-buyProperty #button-buyProperty").click(function () {
@@ -459,6 +456,7 @@ Game.payRent = function (idOwner, idPlayer, idCell) {
     $("#modal-payRent .modal-title").html("Acheter la propriété : " + Game.listCell.get(idCell)["name"]);
     $("#modal-payRent #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
     $("#modal-payRent #rent").html("Prix du loyer : " + rent + " €");
+    $("#modal-payRent #info").html("");
     $("#modal-payRent").modal('show');
 
 
