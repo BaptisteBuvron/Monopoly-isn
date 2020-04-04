@@ -451,8 +451,17 @@ img#background{
 
 .modal img{
     position: absolute;
-    z-index: 1;
-    top: 25%;
+    top: 35px;
     left: 40%;
     width: 20%;
+}
+
+/* Style  */ 
+
+div#rank{
+    position: absolute;
+    top: 100px;
+    right: 0px;
+    margin-right: 50px;
+
 }
