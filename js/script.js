@@ -79,7 +79,7 @@ Game.listCell.set(38, new propertiesCell("property", "La lune", "moon.png", "Esp
 Game.listCell.set(39, new propertiesCell("tax", "Impots de luxe", null, "tax", null, null, null, 100, null));
 Game.listCell.set(40, new propertiesCell("property", "Mars", "mars.png", "Espace", null, 400, 200, 50, 200, 0));
 
-
+/* In readme*/
 Game["Autre"] = [2, 4];
 Game["Afrique"] = [7, 9, 10];
 Game["Océanie"] = [12, 14, 15];
@@ -181,7 +181,7 @@ Game.createPlayer = function (nbrPlayer) {
 };
 
 
-
+/* In readme */
 Game.dice = function () {
     if (Game.allowToDice) {
         var dice_1 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
@@ -281,6 +281,7 @@ Game.getMoneyPlayer = function (idPlayer) {
     return parseInt(Game.bankPlayer["player" + String(idPlayer)]);
 };
 
+/*In readme */
 Game.action = function (player, playerCell) {
     var idPlayer = Game.getIdPlayer(player);
     var idCell = Game.getIdCell(playerCell)
@@ -392,6 +393,7 @@ Game.calcRent = function (idCell) {
 
 };
 
+/* In readme */
 Game.buyProperty = function (idCell) {
     var rent = Game.calcRent(idCell);
     var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
@@ -499,7 +501,7 @@ Game.verifBank = function (idPlayer, amount) {
     }
 }
 
-
+/*In readme */
 Game.changeTurnPlayer = function () {
     var player = Game.getCurrentPlayer();
     var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
@@ -547,6 +549,7 @@ Game.changeTurnPlayer = function () {
 
 }
 
+/*In readme */
 Game.sendJail = function (player) {
     $("#game .jail ").find('.content').append(player);
     $(player).attr("data-jail", 3);
@@ -556,6 +559,7 @@ Game.sendJail = function (player) {
 
 }
 
+/* In readme */
 Game.chance = function (type) {
     if (type == "chance") {
         var len = Game.listChance.length;

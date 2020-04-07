@@ -39,7 +39,7 @@ Chaque `div` peut comporter les classes suivantes:
 ## Les propriétés
 
 Chaque propriétés possèdent la classe `available` si elle ne possède pas de propriétaire.
-Sinon elle possède l'atribut `data-owner=player...` permettant de connaitre le propriétaire de la propriétés.
+Elle possède l'atribut `data-owner=player...` permettant de connaitre le propriétaire de la propriétés.
 
 ## Numéro de case
 
@@ -157,7 +157,7 @@ var Game = new Object();
 
 ### Game.start
 
-*Réalisé par Yann*
+*Réalisé par Baptiste*
 
 Cette propriété de l'objet Game est appelée au chargement de la page et appelle les propriétés nécessaire au démarrage de la partie.
 
@@ -183,6 +183,8 @@ Game.allowToDice = false;
 
 Cette propriété de l'objet Game permet au joueur de lancer les dés de maniére aléatoire et indépendante. La propriété `Game.movePlayer` est ensuite appelé pour faire avancer le joueur d'un nombre de case.
 
+De plus l'image de la div `dice_1` et `dice_2` est changé en fonction du nombre affiché par la variable `dice_1` et `dice_2`
+
 ```javascript
 Game.dice = function () {
     if (Game.allowToDice) {
@@ -191,20 +193,39 @@ Game.dice = function () {
         Game.allowToDice = false; /* interdit au joueur de relancer les dés*/
 
         var total = dice_1 + dice_2;
+        total = parseInt(total); /* On verifie que total est un entier */
+        Game.valueDice = total;
+        if (dice_1 == dice_2) {
+            Game.counterDice += 1;
+            Game.doubleDice = true;
+        }
+
+        var url = "pictures/dice/dice_" + String(dice_1) + ".gif";
+        $('#game #dice_1').css({
+            "background-image": "url('" + url + "')"
+        });
+        url = "pictures/dice/dice_" + String(dice_2) + ".gif";
+        $('#game #dice_2').css({
+            "background-image": "url('" + url + "')"
+        });
+
         Game.movePlayer(Game.getCurrentPlayer(), total);
     }
+
+
+};
 ```
 
 ### Game.bankPLayer
 
 *Réalisé par Baptiste*
 
-Initialisation du dictionnaire qui contiendra le montant du compte de chaque joueur.
-Clé du dictionnaire = id du joueur,
-Valeur du dictionnaire = Montant du compte (int)
+Initialisation de l'objet qui contiendra le montant du compte de chaque joueur.
+Clé du de l'objet = "player"+ id du joueur,
+Valeur du de l'objet = Montant du compte (int)
 
 ```javascript
-Game.bankPlayer = new Map();
+Game.bankPlayer = new Object();
 ```
 
 ### Game.listCell
@@ -269,6 +290,21 @@ Ajout dans la liste `Game.listChance` l'objet contenant les propriétés d'une c
 Game.listChance.push(new addChance("Facture","Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque","pay",-50));
 ```
 
+### Game.Région
+
+Une propriété a été créer pour chaque région, la propriété contient dans une liste les id des propriétées situé dans cette région.
+
+```javascript
+Game["Autre"] = [2, 4];
+Game["Afrique"] = [7, 9, 10];
+Game["Océanie"] = [12, 14, 15];
+Game["Amérique du Sud"] = [17, 19, 20];
+Game["Asie"] = [22, 24, 25];
+Game["Amérique du Nord"] = [27, 28, 30];
+Game["Europe"] = [32, 33, 35];
+Game["Aéroport"] = [6, 16, 26, 36];
+Game["energie"] = [13, 29];
+```
 
 ### Game.getNbrPlayer
 
@@ -318,12 +354,11 @@ Game.createPlayer = function (nbrPlayer) {
         } else {
             $('<div id="player' + String(i) + '" class="player"></div>').appendTo('#game .start .content');
         }
-        Game.bankPlayer.set("player" + String(i), Game.moneyAtStart);
+        Game.bankPlayer["player"+ String(i)] = Game.moneyAtStart;
 
 
     }
     Game.allowToDice = true;
-    Game.dice();
 
 };
 ```
@@ -461,10 +496,10 @@ Les paramètres :
 - Le montant a enlever ou ajouter sur le compte (int).
 
 ```javascript
-Game.addMoneyPlayer = function (playerId, amount) {
-    var money = Game.getMoneyPlayer(playerId);
+Game.updateMoneyPlayer = function (idPlayer, amount) {
+    var money = Game.getMoneyPlayer(idPlayer);
     var newMoney = money + amount;
-    Game.bankPlayer.set("player" + String(playerId), newMoney);
+    Game.bankPlayer["player" + String(idPlayer)] =  newMoney;
 
 };
 ```
@@ -478,8 +513,56 @@ Les paramètres :
 - L'id du joueur (int).
 
 ```javascript
-Game.getMoneyPlayer = function (playerId) {
-    return parseInt(Game.bankPlayer.get("player" + String(playerId)));
+Game.getMoneyPlayer = function (idPlayer) {
+    return parseInt(Game.bankPlayer["player" + String(idPlayer)]);
+};
+```
+
+### Game.action
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game appelle différentes fonctions en fonction de la position d'un joueur après déplacement. 
+
+Les paramètres : 
+- L'élément du DOM d'un joueur.
+- L'élément du DOM de la case du joueur.
+
+```javascript
+Game.action = function (player, playerCell) {
+    var idPlayer = Game.getIdPlayer(player);
+    var idCell = Game.getIdCell(playerCell)
+    if (playerCell.hasClass("property")) {
+
+        if (playerCell.hasClass("available")) {
+
+            Game.buyProperty(idCell);
+
+        } else {
+            var idOwner = parseInt(playerCell.attr("data-owner").replace("player", ""));
+            if (idOwner == idPlayer) {
+                Game.changeTurnPlayer();
+            } else {
+                Game.payRent(idOwner, idPlayer, idCell);
+            }
+        }
+    } else if (playerCell.hasClass("chance")) {
+        Game.chance("chance");
+
+    } else if (playerCell.hasClass("tax")) {
+        Game.tax(idCell);
+    } else if (playerCell.hasClass("go-to-jail")) {
+        Game.sendJail(player);
+    } else if (playerCell.hasClass("corner")) {
+        Game.changeTurnPlayer();
+    } else if (playerCell.hasClass("community-chest")) {
+        Game.chance("community-chest");
+    } else {
+        Game.changeTurnPlayer();
+
+    }
+
+
 };
 ```
 
@@ -487,7 +570,7 @@ Game.getMoneyPlayer = function (playerId) {
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Game permet de retourner le montant du loyer d'une propriété en fonction de son level.
+Cette propriété de l'objet Game permet de retourner le montant du loyer d'une propriété en fonction de son level. Pour les aéroports ou propriétés d'énergie elle verifie si le propriétaire possède plusieurs aéroports ou propriétés d'énergies.
 
 Les paramètres : 
 - L'id de la cellule (int).
@@ -504,7 +587,7 @@ Game.calcRent = function (idCell) {
             rent = rent * 5;
             break;
         case 2:
-            rent = rent * 15
+            rent = rent * 15;
             break;
         case 3:
             rent = rent * 45;
@@ -516,15 +599,127 @@ Game.calcRent = function (idCell) {
             rent = rent * 125;
             break;
     }
+
+    var currentCell = Game.getClosestCell(Game.getCurrentPlayer());
+    var idOwner = parseInt(currentCell.attr("data-owner").replace("player", ""));
+    if (currentCell.hasClass("airport")) {
+        level = 0;
+        for (let i = 0; i < Game["Aéroport"].length; i++) {
+            if ($("#game .cell#cell" + String(Game["Aéroport"][i])).attr("data-owner").replace("player", "") == idOwner) {
+                level += 1;
+            }       
+            
+            
+        }
+        switch (level) {
+            case 1:
+                rent = 25;
+                break;
+            case 2:
+                rent = 50;
+                break;
+            case 3:
+                rent = 100;
+                break;
+            case 4:
+                rent = 200;
+                break;
+        }
+
+    } else if (currentCell.hasClass("energy")) {
+        level = 0;
+        for (let i = 0; i < Game["energie"].length; i++) {
+            if ($("#cell" + Game["energie"][i]).attr("data-owner").replace("player", "") == idOwner) {
+                level += 1;
+            }
+        }
+        switch (level) {
+            case 1:
+                rent = 4 * Game.valueDice;
+                break;
+            case 2:
+                rent = 10 * Game.valueDice;
+                break;
+        }
+    }
+
     return rent;
+
 };
 ```
+
+### Game.buyProperty
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game permet à l'aide d'une fenêtre d'acheter une propriété. Si le joueur ne possède pas assez d'argent un message d'erreur s'affiche et la fenêtre se ferme après 2 secondes.
+
+Les paramètres : 
+- L'id de la cellule de la propriété(int).
+
+```javascript
+Game.buyProperty = function (idCell) {
+    var rent = Game.calcRent(idCell);
+    var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
+    var click = false; /*Variable pour empecher un double appelle de la fonction buy */
+    $("#modal-buyProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
+    $("#modal-buyProperty .modal-title").html("Acheter la propriété : " + Game.listCell.get(idCell)["name"]);
+    $("#modal-buyProperty #buy").html("Prix d'achat : " + Game.listCell.get(idCell)["buy"] + " €");
+    $("#modal-buyProperty #sell").html("Prix de vente: " + Game.listCell.get(idCell)["sell"] + " €");
+    $("#modal-buyProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-buyProperty #rent").html("Prix du loyer : " + rent + " €");
+    $("#modal-buyProperty").modal('show');
+
+    $("#modal-buyProperty #button-buyProperty").click(function () {
+        if (click == false) {
+            click = true;
+            buyProperty();
+        }
+
+    });
+    $("#modal-buyProperty #button-quit").click(function () {
+        if (click == false) {
+            click = true;
+            $("#modal-buyProperty").modal('hide');
+            Game.changeTurnPlayer();
+        }
+    });
+
+    function buyProperty() {
+        var price = Game.listCell.get(idCell)['buy'];
+        var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
+        var cellPlayer = Game.getClosestCell(Game.getCurrentPlayer())
+        if (Game.verifBank(idPlayer, price)) {
+            Game.updateMoneyPlayer(idPlayer, -price);
+            Game.listCell.get(idCell)["owner"] = "player" + idPlayer;
+            $(cellPlayer).removeClass("available ");
+            $(cellPlayer).attr("data-owner", "player" + String(idPlayer));
+            $("#modal-buyProperty").modal("hide");
+            Game.changeTurnPlayer();
+
+        } else {
+            $("#modal-buyProperty #error").html("Vous n'avez pas assez d'argent dans votre compte en banque !");
+            setTimeout(hideModal, 2000);
+
+        }
+
+    }
+
+    function hideModal() {
+        $("#modal-buyProperty").modal("hide");
+        Game.changeTurnPlayer();
+    }
+
+
+};
+```
+
 
 ### Game.payRent
 
 *Réalisé par Baptiste*
 
-Cette propriété de l'objet Game permet de faire payer le montant du loyer d'une propriété.
+Cette propriété de l'objet Game permet de faire payer le montant du loyer d'une propriété. De plus une fenêtre est ouverte pour inviter le joueur à payer le loyer. Si le joueur ne possède pas assez d'argent il est invité a vendre des propriétés (fonctionnalité non présente).
 
 Les paramètres : 
 - L'id du propriétaire de la propriété(int),
@@ -534,12 +729,42 @@ Les paramètres :
 ```javascript
 Game.payRent = function (idOwner, idPlayer, idCell) {
     var rent = Game.calcRent(idCell);
-    if (Game.verifbank(idPlayer), rent) {
-        Game.updateMoneyPlayer(idOwner, rent);
-        Game.updateMoneyPlayer(idPlayer, -rent);
-    } else {
-        Game.sellProperty(rent);
+
+    var click = false; /*Variable pour empecher un double appelle de la fonction buy */
+    $("#modal-payRent img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
+    $("#modal-payRent .modal-title").html("Acheter la propriété : " + Game.listCell.get(idCell)["name"]);
+    $("#modal-payRent #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-payRent #rent").html("Prix du loyer : " + rent + " €");
+    $("#modal-payRent #info").html("");
+    $("#modal-payRent").modal('show');
+
+
+    $("#modal-payRent #button-payRent").click(function () {
+        if (click == false) {
+            click = true;
+            payRent();
+        }
+    });
+
+    function payRent() {
+        if (Game.verifBank(idPlayer), rent) {
+            Game.updateMoneyPlayer(idOwner, rent);
+            Game.updateMoneyPlayer(idPlayer, -rent);
+            $("#modal-payRent #info").html("Vous avez payer le loyer de " + rent + " €");
+            setTimeout(hideModal, 2000);
+        } else {
+            /*Game.sellProperty(rent);*/
+            $("#modal-payRent #info").html("Vous n'avez pas assez d'argent.");
+            setTimeout(hideModal, 2000);
+        }
     }
+
+    function hideModal() {
+        $("#modal-payRent").modal('hide');
+        Game.changeTurnPlayer();
+    }
+
+
 };
 ```
 
@@ -563,6 +788,264 @@ Game.verifBank = function (idPlayer, amount) {
         return false;
     }
 }
+```
+
+### Game.changeTurnPlayer
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game permet de passer au joueur suivant. La fonction traite différent cas : si le joueur a fait un double il peut rejouer, si il a fait un double trois fois de suite il est envoyé en prison. Si le joueur suivant est en prison on lui demande si il veut payer pour être libéré ou de lancer les dés et de tenter de faire un double, sinon il reste en prison. 
+
+```javascript
+Game.changeTurnPlayer = function () {
+    var player = Game.getCurrentPlayer();
+    var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
+    var idNextPlayer;
+    if (Game.doubleDice) {
+        if (Game.counterDice == 3) {
+            Game.sendJail(player);
+            Game.counterDice = 0;
+            Game.changeTurnPlayer();
+        } else if (Game.counterDice > 0) {
+            Game.allowToDice = true;
+
+        }
+        Game.doubleDice = false;
+    } else {
+        Game.counterDice = 0;
+        if (idPlayer == Game.nbrPlayer) {
+            idNextPlayer = 1;
+        } else {
+            idNextPlayer = idPlayer + 1;
+        }
+        $(player).removeClass("current-turn");
+        player = $("#player" + String(idNextPlayer));
+        player.addClass("current-turn");
+
+        if (player.hasClass("jailed")) {
+            player = Game.getCurrentPlayer();
+            var timeJail = $(player).attr("data-jail");
+            timeJail = timeJail - 1;
+            if (timeJail == 0) {
+                $(player).removeClass("jailed");
+                $(player).removeAttr("data-jail");
+                Game.changeTurnPlayer();
+            } else {
+                $(player).attr("data-jail", timeJail);
+                Game.tryLeaveJail();
+            }
+        } else {
+            Game.allowToDice = true;
+        }
+
+
+    }
+
+}
+```
+
+### Game.sendJail
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game permet d'envoyer un joueur en prison.
+
+Les paramètres : 
+- L'élément du DOM d'un joueur.
+
+```javascript
+Game.sendJail = function (player) {
+    $("#game .jail ").find('.content').append(player);
+    $(player).attr("data-jail", 3);
+    $(player).addClass("jailed");
+    Game.changeTurnPlayer();
+}
+```
+
+### Game.chance
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est appelé lorsque un joueur tombe sur une case chance ou community-chest. Elle tire au sort dans la la liste `Game.listChance` et réaliser l'action (avancer joueur, ajouter ou retirer de l'argent ...).
+Une fenêtre est ouverte pour afficher différente information au joueur.
+
+Les paramètres : 
+- Le type de case sur lequelle est tombé le joueur ("change" ou "community-chest") (str)
+
+```javascript
+Game.chance = function (type) {
+    if (type == "chance") {
+        var len = Game.listChance.length;
+        var object = Game.listChance;
+
+
+    } else if (type == "community-chest") {
+        var len = Game.listCommunityChest.length;
+        var object = Game.listCommunityChest;
+
+    }
+
+    var click = false;
+    var random = Math.floor(Math.random() * (len - 1)); /*Nombre entre [0, 1[ * len(non compris) */
+
+    var chance = object[random];
+    var player = Game.getCurrentPlayer();
+    var idPlayer = Game.getIdPlayer(player);
+
+    $("#modal-chance .modal-title").html("Chance : ");
+    $("#modal-chance #name").html("Type : " + chance["name"]);
+    $("#modal-chance #presentation").html(chance["presentation"]);
+    $("#modal-chance #action").html("");
+    $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-chance #button-validate").html("OK");
+    $("#modal-chance").modal('show');
+    $("#modal-chance #button-validate").click(function () {
+        if (click == false) {
+            click = true;
+            chanceAction();
+        }
+    });
+
+    function chanceAction() {
+        switch (chance["action"]) {
+            case "pay":
+                if (Game.verifBank(idPlayer, chance["number"])) {
+                    Game.updateMoneyPlayer(idPlayer, chance["number"]);
+                    $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+                } else {
+                    $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
+                    Game.sellProperty(chance["number"]);
+                }
+                Game.changeTurnPlayer();
+                $("#modal-chance").modal('hide');
+
+
+                break;
+
+            case "move":
+                $("#modal-chance").modal('hide');
+                Game.movePlayer(player, chance["number"]);
+                break;
+        }
+    }
+
+}
+```
+
+### Game.tax 
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est appelé lorsque un joueur tombe sur une case taxe. Elle récupère le montant de la taxte dans le dictionnaire `Game.listCell`. Une fenêtre est ouverte pour afficher différente information au joueur.
+
+Les paramètres : 
+- L'id du d'une case(int)
+
+```javascript
+Game.tax = function (idCell) {
+    var tax = Game.listCell.get(idCell);
+    var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
+    var click = false;
+    $("#modal-chance .modal-title").html("Taxe : ");
+    $("#modal-chance #name").html("Type : " + tax["name"]);
+    $("#modal-chance #presentation").html("");
+    $("#modal-chance #action").html("Vous devez payer : " + tax["rent"] + " €");
+    $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+    $("#modal-chance #button-validate").html("Payer");
+    $("#modal-chance").modal('show');
+
+    $("#modal-chance #button-validate").click(function () {
+        if (click == false) {
+            taxAction();
+            click = true;
+        }
+    });
+
+    function taxAction() {
+        if (Game.verifBank(idPlayer, tax["rent"])) {
+            Game.updateMoneyPlayer(idPlayer, -tax["rent"]);
+            $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+        } else {
+            $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vont être vendu.");
+            sleep(2000);
+            Game.sellProperty(tax["rent"]);
+        }
+        $("#modal-chance").modal('hide');
+        Game.changeTurnPlayer();
+
+    }
+}
+```
+
+### Game.tryLeaveJail
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est appelé lorsque un joueur essaye de quitter la prison. On lui demande si il veut payer pour être libéré ou de lancer les dés et de tenter de faire un double, sinon il reste en prison.  Une fenêtre est ouverte pour afficher différente information au joueur. 
+
+```javascript
+Game.tryLeaveJail = function () {
+    var player = Game.getCurrentPlayer();
+    var idPlayer = Game.getIdPlayer(player);
+    var click = false;
+    $("#modal-tryLeaveJail .modal-title").html("Prison : ");
+    $("#modal-tryLeaveJail").modal('show');
+    $("#modal-tryLeaveJail #button-buyJail").click(function () {
+        if (click == false) {
+            click = true;
+            buyJail();
+        }
+    });
+
+    $("#modal-tryLeaveJail #button-Dice").click(function () {
+        if (click == false) {
+            click = true;
+            diceJail();
+        }
+    });
+
+    $("#modal-tryLeaveJail #button-quit").click(function () {
+        if (click == false) {
+            click = true;
+            $("#modal-tryLeaveJail").modal('hide');
+            Game.changeTurnPlayer();
+        }
+    });
+
+    function buyJail() {
+        if (Game.verifBank(idPlayer, 50)) {
+            Game.updateMoneyPlayer(idPlayer, -50);
+            $(player).removeClass("jailed");
+            $(player).removeAttr("data-jail");
+            $("#modal-tryLeaveJail #info").html("Vous avez corrompu la prison. Vous sortez de prison ! ");
+            setTimeout(hideModal, 2000);
+
+        } else {
+            $("#modal-tryLeaveJail #info").html("Vous n'avez pas assez d'argent.");
+            click = true;
+        }
+    }
+
+    function diceJail() {
+        var dice_1 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
+        var dice_2 = Math.floor(Math.random() * 6) + 1; /* retourne un nombre compris entre 1 et 6 */
+        if (dice_1 == dice_2) {
+            $(player).removeClass("jailed");
+            $(player).removeAttr("data-jail");
+            $("#modal-tryLeaveJail #info").html("Vous avez fait un double : Vous sortez de prison !");
+            setTimeout(hideModal, 2000);
+        } else {
+            $("#modal-tryLeaveJail #info").html("Vous n'avez pas fait un double : Vous restez en prison !");
+            setTimeout(hideModal, 2000);
+
+        }
+    }
+
+    function hideModal() {
+        $("#modal-tryLeaveJail").modal("hide");
+        Game.changeTurnPlayer();
+    }
+};
 ```
 
 # Sources
