@@ -50,15 +50,15 @@ Game.listCell = new Map();
 Game.listCell.set(2, new propertiesCell("property", "Turkmenistan", "turkmenistan.png", "Autre", null, 60, 30, 2, 50, 0));
 Game.listCell.set(4, new propertiesCell("property", "Corée Du Nord", "north-korea.png", "Autre", null, 60, 30, 4, 50, 0));
 Game.listCell.set(5, new propertiesCell("tax", "Impots sur le revenu", null, "tax", null, null, null, 200, null));
-Game.listCell.set(6, new propertiesCell("property", "Aéroport Paris Charles de Gaulle", "airport.png", "Aéroport", null, 200, 100, 25, null, 0));
+Game.listCell.set(6, new propertiesCell("property", "Aéroport Paris Charles de Gaulle", "airport.png", "Aéroport", null, 200, 100, 25, null, null));
 Game.listCell.set(7, new propertiesCell("property", "Egypte", "egypt.png", "Afrique", null, 100, 50, 6, 50, 0));
 Game.listCell.set(9, new propertiesCell("property", "Afrique du Sud", "south-africa.png", "Afrique", null, 100, 50, 6, 50, 0));
 Game.listCell.set(10, new propertiesCell("property", "Nigeria", "nigeria.png", "Afrique", null, 120, 60, 8, 50, 0));
 Game.listCell.set(12, new propertiesCell("property", "Papouasie-Nouvelle-Guinée", "papua-new-guinea.png", "Océanie", null, 140, 70, 10, 100, 0));
-Game.listCell.set(13, new propertiesCell("property", "Compagnie de distribution d'électricité", "light.png", "energie", null, 150, 70, null, null, 0));
+Game.listCell.set(13, new propertiesCell("property", "Compagnie de distribution d'électricité", "light.png", "energie", null, 150, 70, null, null, null));
 Game.listCell.set(14, new propertiesCell("property", "Nouvelle-Zélande", "new-zeeland.png", "Océanie", null, 140, 70, 10, 100, 0));
 Game.listCell.set(15, new propertiesCell("property", "Australie", "australia.png", "Océanie", null, 160, 80, 12, 100, 0));
-Game.listCell.set(16, new propertiesCell("property", "Aéroport New-York", "airport.png", "Aéroport", null, 200, 100, 25, null, 0));
+Game.listCell.set(16, new propertiesCell("property", "Aéroport New-York", "airport.png", "Aéroport", null, 200, 100, 25, null, null));
 Game.listCell.set(17, new propertiesCell("property", "Vénézuela", "venezuela.png", "Amérique du Sud", null, 180, 90, 14, 100, 0));
 Game.listCell.set(19, new propertiesCell("property", "Argentine", "argentina.png", "Amérique du Sud", null, 180, 90, 14, 100, 0));
 Game.listCell.set(20, new propertiesCell("property", "Brésil", "brazil.png", "Amérique du Sud", null, 200, 100, 16, 100, 0));
@@ -66,15 +66,15 @@ Game.listCell.set(20, new propertiesCell("property", "Brésil", "brazil.png", "A
 Game.listCell.set(22, new propertiesCell("property", "Inde", "india.png", "Asie", null, 220, 110, 18, 150, 0));
 Game.listCell.set(24, new propertiesCell("property", "Japon", "japan.png", "Asie", null, 220, 110, 18, 150, 0));
 Game.listCell.set(25, new propertiesCell("property", "Chine", "china.png", "Asie", null, 240, 120, 20, 150, 0));
-Game.listCell.set(26, new propertiesCell("property", "Aéroport Los-Angeles", "airport.png", "Aéroport", null, 200, 100, 25, null, 0));
+Game.listCell.set(26, new propertiesCell("property", "Aéroport Los-Angeles", "airport.png", "Aéroport", null, 200, 100, 25, null, null));
 Game.listCell.set(27, new propertiesCell("property", "Mexique", "mexique.png", "Amérique du Nord", null, 260, 130, 22, 150, 0));
 Game.listCell.set(28, new propertiesCell("property", "Canada", "canada.png", "Amérique du Nord", null, 260, 130, 22, 150, 0));
-Game.listCell.set(29, new propertiesCell("property", "Compagnie de distribution d'eau", "water.png", "energie", null, 150, 70, null, null, 0));
+Game.listCell.set(29, new propertiesCell("property", "Compagnie de distribution d'eau", "water.png", "energie", null, 150, 70, null, null, null));
 Game.listCell.set(30, new propertiesCell("property", "Etats-Unis", "usa.png", "Amérique du Nord", null, 280, 140, 24, 150, 0));
 Game.listCell.set(32, new propertiesCell("property", "Allemagne", "germany.png", "Europe", null, 300, 150, 26, 200, 0));
 Game.listCell.set(33, new propertiesCell("property", "Royaume-Uni", "british.png", "Europe", null, 300, 150, 26, 200, 0));
 Game.listCell.set(35, new propertiesCell("property", "France", "france.png", "Europe", null, 320, 160, 28, 200, 0));
-Game.listCell.set(36, new propertiesCell("property", "Aéroport de Dubai", "airport.png", "Aéroport", null, 200, 100, 25, null, 0));
+Game.listCell.set(36, new propertiesCell("property", "Aéroport de Dubai", "airport.png", "Aéroport", null, 200, 100, 25, null, null));
 Game.listCell.set(38, new propertiesCell("property", "La lune", "moon.png", "Espace", null, 350, 175, 35, 200, 0));
 Game.listCell.set(39, new propertiesCell("tax", "Impots de luxe", null, "tax", null, null, null, 100, null));
 Game.listCell.set(40, new propertiesCell("property", "Mars", "mars.png", "Espace", null, 400, 200, 50, 200, 0));
@@ -545,6 +545,7 @@ Game.changeTurnPlayer = function () {
 
 
     }
+    Game.upgradeProperty();
 
 
 }
@@ -706,7 +707,7 @@ Game.tryLeaveJail = function () {
 
         } else {
             $("#modal-tryLeaveJail #info").html("Vous n'avez pas assez d'argent.");
-            click = true;
+            click = false;
         }
     }
 
@@ -731,11 +732,116 @@ Game.tryLeaveJail = function () {
     }
 };
 
+Game.upgradeProperty = function(){
+    if(Game.allowToDice){
+        var listProperty= new Array();
+        var player = Game.getCurrentPlayer();
+        var idPlayer = Game.getIdPlayer(player);
+        Game.listCell.forEach(function (value, key, map) {
+            if (value["owner"] == "player" + String(idPlayer)) {
+                listProperty.push(key);
+            }
+        });
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").css('border', '2px solid yellow');
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").click(function(){
+            var cell = $(this);
+            var idCell = Game.getIdCell(cell);
+            var level = Game.listCell.get(idCell)["level"];
+            if(level !=  null){
+                var click = false; /*Variable pour empecher un double appelle de la fonction buy */
+                // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
+                $("#modal-upgradeProperty .modal-title").html("Améliorer la propriété : " + Game.listCell.get(idCell)["name"]);
+                $("#modal-upgradeProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+                $("#modal-upgradeProperty #level").html("Level actuel : " + String(level));
+                $("#modal-upgradeProperty #upgrade").html("Améliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] +" €");
+                $("#modal-upgradeProperty #downgrade").html("Désaméliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] /2 +" €");
+                $("#modal-upgradeProperty #error").html("");
+                $("#modal-upgradeProperty").modal('show');
+
+                $("#modal-upgradeProperty #button-upgradeProperty").click(function () {
+                    if (click == false) {
+                        click = true;
+                        upgradeProperty();
+                    }
+
+                });
+
+                $("#modal-upgradeProperty #button-downgradeProperty").click(function () {
+                    if (click == false) {
+                        click = true;
+                        downgradeProperty();
+                    }
+
+                });
+
+
+                $("#modal-upgradeProperty #button-quit").click(function () {
+                    $("#modal-upgradeProperty").modal('hide');
+                });
+            
+            }
+            function upgradeProperty(){
+                if(level != 5){
+                    var upgradePrice = Game.listCell.get(idCell)["upgradePrice"];
+                    if(Game.verifBank(idPlayer, upgradePrice)){
+                        Game.updateMoneyPlayer(idPlayer, - upgradePrice);
+                        Game.listCell.get(idCell)["level"] +=1;
+                        $("#modal-upgradeProperty #error").html("Vous avez améliorer la propriété.");
+                        setTimeout(hideModal, 2000);
+                    }
+                    else{
+                        $("#modal-upgradeProperty #error").html("Vous n'avez pas assez d'argent pour améliorer la propriété.");
+                        click = false;
+
+                    }
+                }
+                else{
+                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être améliorer d'avantage.");
+                    click = false;
+                }
+            }
+
+            function downgradeProperty(){
+                if(level > 0){
+                    var downgradePrice = Game.listCell.get(idCell)["upgradePrice"] /2;
+                    
+                    Game.updateMoneyPlayer(idPlayer, downgradePrice);
+                    Game.listCell.get(idCell)["level"] -=1;
+                    $("#modal-upgradeProperty #error").html("Vous avez désaméliorer la propriété.");
+                    setTimeout(hideModal, 2000);
+                }
+                else{
+                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être désaméliorer d'avantage.");
+                }
+            }
+
+            function hideModal() {
+                /*Delete css and click fonction from upgradeProperty */
+                $("#game .cell[data-owner='player"+String(idPlayer)+"']").css('border', '1px solid black');
+                $("#game .cell[data-owner='player"+String(idPlayer)+"']").unbind();
+                $("#modal-upgradeProperty").modal("hide");
+            }
+            
+            
+        });
+    }
+   
+
+
+};
+
+
+
 /* Init the game */
 Game.start();
 
 $(".dice").click(function () {
-    if (Game.allowToDice) {
+    if (Game.allowToDice){
+        var player = Game.getCurrentPlayer();
+        var idPlayer = Game.getIdPlayer(player);
+        /*Delete css and click fonction from upgradeProperty */
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").css('border', '1px solid black');
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").unbind();
         Game.dice();
     }
 });
