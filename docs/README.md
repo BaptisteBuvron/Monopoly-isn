@@ -1048,6 +1048,111 @@ Game.tryLeaveJail = function () {
 };
 ```
 
+### Game.upgradeProperty
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est appelé avant qu'un joueur lance le dé. Elle lui donne la possibilité d'améliorer ou de désaméliorer un propriété qu'il possède.
+
+```javascript
+Game.upgradeProperty = function(){
+    if(Game.allowToDice){
+        var listProperty= new Array();
+        var player = Game.getCurrentPlayer(); 
+        var idPlayer = Game.getIdPlayer(player);
+        Game.listCell.forEach(function (value, key, map) {
+            if (value["owner"] == "player" + String(idPlayer)) {
+                listProperty.push(key);
+            }
+        });
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").css('border', '2px solid yellow');
+        $("#game .cell[data-owner='player"+String(idPlayer)+"']").click(function(){
+            var cell = $(this);
+            var idCell = Game.getIdCell(cell);
+            var level = Game.listCell.get(idCell)["level"];
+            if(level !=  null){
+                var click = false; /*Variable pour empecher un double appelle de la fonction buy */
+                // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
+                $("#modal-upgradeProperty .modal-title").html("Améliorer la propriété : " + Game.listCell.get(idCell)["name"]);
+                $("#modal-upgradeProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+                $("#modal-upgradeProperty #level").html("Level actuel : " + String(level));
+                $("#modal-upgradeProperty #upgrade").html("Améliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] +" €");
+                $("#modal-upgradeProperty #downgrade").html("Désaméliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] /2 +" €");
+                $("#modal-upgradeProperty #error").html("");
+                $("#modal-upgradeProperty").modal('show');
+
+                $("#modal-upgradeProperty #button-upgradeProperty").click(function () {
+                    if (click == false) {
+                        click = true;
+                        upgradeProperty();
+                    }
+
+                });
+
+                $("#modal-upgradeProperty #button-downgradeProperty").click(function () {
+                    if (click == false) {
+                        click = true;
+                        downgradeProperty();
+                    }
+
+                });
+
+
+                $("#modal-upgradeProperty #button-quit").click(function () {
+                    $("#modal-upgradeProperty").modal('hide');
+                });
+            
+            }
+            function upgradeProperty(){
+                if(level != 5){
+                    var upgradePrice = Game.listCell.get(idCell)["upgradePrice"];
+                    if(Game.verifBank(idPlayer, upgradePrice)){
+                        Game.updateMoneyPlayer(idPlayer, - upgradePrice);
+                        Game.listCell.get(idCell)["level"] +=1;
+                        $("#modal-upgradeProperty #error").html("Vous avez améliorer la propriété.");
+                        setTimeout(hideModal, 2000);
+                    }
+                    else{
+                        $("#modal-upgradeProperty #error").html("Vous n'avez pas assez d'argent pour améliorer la propriété.");
+                        click = false;
+
+                    }
+                }
+                else{
+                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être améliorer d'avantage.");
+                    click = false;
+                }
+            }
+
+            function downgradeProperty(){
+                if(level > 0){
+                    var downgradePrice = Game.listCell.get(idCell)["upgradePrice"] /2;
+                    
+                    Game.updateMoneyPlayer(idPlayer, downgradePrice);
+                    Game.listCell.get(idCell)["level"] -=1;
+                    $("#modal-upgradeProperty #error").html("Vous avez désaméliorer la propriété.");
+                    setTimeout(hideModal, 2000);
+                }
+                else{
+                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être désaméliorer d'avantage.");
+                }
+            }
+
+            function hideModal() {
+                /*Delete css and click fonction from upgradeProperty */
+                $("#game .cell[data-owner='player"+String(idPlayer)+"']").css('border', '1px solid black');
+                $("#game .cell[data-owner='player"+String(idPlayer)+"']").unbind();
+                $("#modal-upgradeProperty").modal("hide");
+            }
+            
+            
+        });
+    }
+   
+
+};
+```
+
 # Sources
 
 # Les images
