@@ -131,10 +131,10 @@ function addChance(name, presentation, action, number) {
 Game.listChance = [];
 Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", -50));
 Game.listChance.push(new addChance("Voiture", "Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases", "move", 5));
-Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "pay", 50));
+Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "earn", 50));
 
 Game.listCommunityChest = [];
-Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre vaveur.<br>- Revevez 200 €", "pay", 200));
+Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
 
 
 
@@ -627,6 +627,11 @@ Game.chance = function (type) {
             case "move":
                 $("#modal-chance").modal('hide');
                 Game.movePlayer(player, chance["number"]);
+                break;
+
+            case "earn":
+                Game.updateMoneyPlayer(idPlayer, chance["number"]);
+                $("#modal-chance").modal('hide');
                 break;
         }
     }
