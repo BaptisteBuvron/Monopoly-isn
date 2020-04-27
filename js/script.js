@@ -178,6 +178,7 @@ Game.createPlayer = function (nbrPlayer) {
 
     }
     Game.allowToDice = true;
+    Game.sortPlayer();
 
 };
 
@@ -274,6 +275,7 @@ Game.updateMoneyPlayer = function (idPlayer, amount) {
     var money = Game.getMoneyPlayer(idPlayer);
     var newMoney = money + amount;
     Game.bankPlayer["player" + String(idPlayer)] = newMoney;
+    Game.sortPlayer();
 
 };
 
@@ -553,7 +555,6 @@ Game.changeTurnPlayer = function () {
     }
     else{
         Game.upgradeProperty();
-        Game.sortPlayer();
     }
 
 
@@ -980,15 +981,31 @@ Game.gameOver = function(idPlayer){
 };
 
 Game.sortPlayer = function(){
+    /*Creation d'une liste à partir d'un objet*/
     var bankPlayerArray = Object.entries(Game.bankPlayer);
-    console.log(bankPlayerArray);
-    console.log(Game.bankPlayer);
-    /*Utilisation de fonction de comparaison */
+    /*Utilisation de fonction de comparaison :  Cette fonction prendra deux arguments : le premier élément à comparer et le deuxième élément à comparer.
+    Si pas de fonction de comparaison trie selon le tableau unicode. :
+    
+    Si fonctionComparaison(a, b) est inférieur à 0, on trie a avec un indice inférieur à b (a sera classé avant b)
+    Si fonctionComparaison(a, b) renvoie 0, on laisse a et b inchangés l'un par rapport à l'autre, mais triés par rapport à tous les autres éléments. Note : la norme ECMAScript ne garantit pas ce comportement, par conséquent tous les navigateurs (par exemple les versions de Mozilla antérieures à 2003) ne respectent pas ceci.
+    Si fonctionComparaison(a, b) est supérieur à 0, on trie b avec un indice inférieur à a.
+    fonctionComparaison(a, b) doit toujours renvoyer le même résultat à partir de la même paire d'arguments. Si la fonction renvoie des résultats incohérents, alors l’ordre dans lequel sont triés les éléments n’est pas défini.
+
+    */
     bankPlayerArray.sort(function (a, b) {
-        return a[1] - b[1];
+        return b[1] - a[1];
     });
-    console.log(bankPlayerArray);
+    /* Utilisation de Jquery : $('selecteur css')*/
+    var rankHtml= $('div#rank ul');
+    rankHtml.html(' ');
+    for (var i=0; i < bankPlayerArray.length; i++) {
+        var idPlayer = bankPlayerArray[i][0].replace('player','')
+        $('<li>'+String(parseInt(i+1))+') Joueur '+idPlayer+': '+bankPlayerArray[i][1]+'</li>').appendTo(rankHtml);
+
+    }
+
 };
+
 
 
 /* Init the game */
