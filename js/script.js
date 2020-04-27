@@ -548,7 +548,12 @@ Game.changeTurnPlayer = function () {
 
 
     }
-    Game.upgradeProperty();
+    if(player.hasClass("GameOver")){
+        Game.changeTurnPlayer();
+    }
+    else{
+        Game.upgradeProperty();
+    }
 
 
 }
@@ -738,10 +743,14 @@ Game.upgradeProperty = function () {
         var player = Game.getCurrentPlayer();
         var idPlayer = Game.getIdPlayer(player);
         // Game.listCell.forEach(function (value, key, map) {
-        //     if (value["owner"] == "player" + String(idPlayer)) {
-        //         listProperty.push(key);
-        //     }
-        // });
+        //       if (value["owner"] == "player" + String(idPlayer)) {
+        //          listProperty.push(key);
+        //      }
+        //  });
+        //  if(listProperty.length == 0 ){
+        //      Game.gameOver(idPlayer);
+        //      return;
+        //  }
         $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '2px solid yellow');
         $("#game .cell[data-owner='player" + String(idPlayer) + "']").click(function () {
             var cell = $(this);
@@ -844,8 +853,19 @@ Game.upgradeProperty = function () {
 
 
 Game.sellProperty = function (action, idCell) {
+    var listProperty= new Array();
     var player = Game.getCurrentPlayer();
     var idPlayer = Game.getIdPlayer(player);
+    Game.listCell.forEach(function (value, key, map) {
+        if (value["owner"] == "player" + String(idPlayer)) {
+           listProperty.push(key);
+       }
+   });
+   if(listProperty.length == 0  && game.getMoneyPlayer(idPlayer) < 0){
+       Game.gameOver(idPlayer);
+       Game.changeTurnPlayer();
+       return;
+   }
     if (idCell == null) {
         idCell = 2;
     }
@@ -952,6 +972,11 @@ Game.sellProperty = function (action, idCell) {
 
 }
 
+
+game.gameOver = function(idPlayer){
+    var player = Game.getCurrentPlayer();
+    player.addClass("GameOver");
+};
 
 
 /* Init the game */

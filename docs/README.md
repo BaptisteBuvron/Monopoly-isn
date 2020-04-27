@@ -1058,7 +1058,7 @@ Cette propriété de l'objet Game est appelé avant qu'un joueur lance le dé. E
 Game.upgradeProperty = function(){
     if(Game.allowToDice){
         var listProperty= new Array();
-        var player = Game.getCurrentPlayer();
+        var player = Game.getCurrentPlayer(); 
         var idPlayer = Game.getIdPlayer(player);
         Game.listCell.forEach(function (value, key, map) {
             if (value["owner"] == "player" + String(idPlayer)) {
