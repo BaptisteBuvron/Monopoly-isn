@@ -130,13 +130,14 @@ function addChance(name, presentation, action, number) {
 };
 /* In Readme */
 Game.listChance = [];
-// Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", -50));
-// Game.listChance.push(new addChance("Voiture", "Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases", "move", 5));
-// Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "earn", 50));
+Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", -50));
+Game.listChance.push(new addChance("Voiture", "Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases", "move", 5));
+Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "earn", 50));
 Game.listChance.push(new addChance("Réparation", "Vous faites des réparations sur toutes vos propriétés :  <br>-Versez 25€, pour chaque maison et 100€ pour chaque hotel que vous possédez ", "repare", null));
 
 Game.listCommunityChest = [];
 Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
+Game.listCommunityChest.push(new addChance("Placement", "Votre placement vous rapporte.<br>- Revevez 100 €", "earn", 100));
 
 
 
@@ -555,7 +556,7 @@ Game.changeTurnPlayer = function () {
 
     }
     if(player.hasClass("GameOver")){
-        if(Game.nbrPlayerAlive ==1){
+        if(Game.nbrPlayerAlive == 1){
             Game.win(player);
 
         }else{
@@ -657,6 +658,7 @@ Game.chance = function (type) {
                 Game.changeTurnPlayer();
                 break;
             case "repare":
+
                 var player = Game.getCurrentPlayer();
                 var idPlayer = Game.getIdPlayer(player);
                 var listProperty= new Array();
@@ -694,6 +696,12 @@ Game.chance = function (type) {
                       }
                   }
                 break;
+            case"go-to":
+
+
+                
+                break;
+
         }
     }
 
@@ -919,23 +927,23 @@ Game.upgradeProperty = function () {
 
 
 Game.sellProperty = function (action, idCell) {
-    var listProperty= new Array();
     var player = Game.getCurrentPlayer();
     var idPlayer = Game.getIdPlayer(player);
-    Game.listCell.forEach(function (value, key, map) {
-        if (value["owner"] == "player" + String(idPlayer)) {
-           listProperty.push(key);
-       }
-   });
-   if(listProperty.length == 0  && game.getMoneyPlayer(idPlayer) < 0){
-       Game.gameOver();
-       return;
-   }
     if (idCell == null) {
         idCell = 2;
     }
     switch (action) {
         case "sellRent":
+            var listProperty= new Array();
+            Game.listCell.forEach(function (value, key, map) {
+                if (value["owner"] == "player" + String(idPlayer)) {
+                   listProperty.push(key);
+               }
+            });
+            if(listProperty.length == 0  || game.getMoneyPlayer(idPlayer) <= 0){
+               Game.gameOver();
+               return;
+            }
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '1px solid black');
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").unbind();
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '2px solid red');
@@ -1044,6 +1052,7 @@ Game.gameOver = function(){
     var click = false;
     idPlayer = Game.getIdPlayer(player);
     player.addClass("GameOver");
+    player.remove();
     Game.nbrPlayerAlive --;
 
 
@@ -1092,7 +1101,25 @@ Game.sortPlayer = function(){
 };
 
 Game.win = function(player){
-/*Modal win*/
+    var player = Game.getCurrentPlayer();
+    var click = false;
+    idPlayer = Game.getIdPlayer(player);
+
+    $("#modal-win #player").html("Le joueur "+ String(idPlayer) + " a gagné la partie.");
+    $("#modal-win").modal('show');
+
+    $("#modal-win #button-replay").click(function () {
+        if (click == false) {
+            click = true;
+            hideModal();
+        }
+    });
+
+    function hideModal(){
+        $("#modal-gameOver").modal('hide');
+        document.location.reload(true);
+
+    }
 };
 
 
