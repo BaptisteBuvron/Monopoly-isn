@@ -153,6 +153,7 @@ Un objet Game a été créer, toutes les fonctions lier au déroulement du jeu d
 ```javascript
 var Game = new Object();
 ```
+
 ## Les propriétés
 
 ### Game.start
@@ -167,6 +168,16 @@ Game.start = function(){
 };
 ```
 
+### Game.moneyAtStart
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un entier qui permet de déterminer le montant initial des joueurs au départ du jeu.
+
+```javascript
+Game.moneyAtStart = 1500;
+```
+
 ### Game.allowToDice
 
 *Réalisé par Yann*
@@ -176,6 +187,57 @@ Cette propriété de l'objet Game est un booléen qui permet de déterminer quan
 ```javascript
 Game.allowToDice = false;
 ```
+
+### Game.valueDice
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un entier qui contiendra la valeur total des dés afin de le réutiliser lors des propriétés énergies pour calculer le loyer. 
+
+```javascript
+Game.valueDice = null;
+```
+
+### Game.counterDice
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un entier qui contiendra le nombre de lancer de dés d'affiler par un joueur. Dans la fonction `Game.changeTurnPlayer` si cette variable est égal à 3 : le joueur est envoyé en prison. 
+
+```javascript
+Game.counterDice = 0;
+```
+
+### Game.doubleDice
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un booléean qui sera égale à true si le joueur à fait un double avec les dés.
+
+```javascript
+Game.doubleDice = false;
+```
+
+### Game.rent
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un entier qui contiendra le dernier loyer calculer, il permet de stocker le loyer dans une varible globale.
+
+```javascript
+Game.rent = null;
+```
+
+### Game.nbrPlayerAlive
+
+*Réalisé par Baptiste*
+
+Cette propriété de l'objet Game est un entier qui contiendra le nombre de personne encore en jeu.
+
+```javascript
+Game.nbrPlayerAlive = null;
+```
+
 
 ### Game.dice
 
