@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 * Title : Tour du monde en 40 jours
 * Author : Baptiste Buvron, Yann Le Moal
 * Created the : 01/03/2020
@@ -136,6 +136,7 @@ Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vou
 Game.listChance.push(new addChance("Réparation", "Vous faites des réparations sur toutes vos propriétés :  <br>-Versez 25€, pour chaque maison et 100€ pour chaque hotel que vous possédez ", "repare", null));
 Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50.", "pay", -50));
 Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", -150));
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "move", 10)); /* Comment définir la case départ dans le move ? */
 
 Game.listCommunityChest = [];
 Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
@@ -145,7 +146,6 @@ Game.listCommunityChest.push(new addChance("Police","Payez une amende de 10€ o
 Game.listCommunityChest.push(new addChance("Héritage","Vous héritez 100 € ", "earn", 100));
 Game.listCommunityChest.push(new addChance("Soin","Payez la note du Médecin <br>- € 50.", "pay", -50));
 Game.listCommunityChest.push(new addChance("Urgence","Payez à l'Hôpital <br>- € 100.", "pay", -100));
-
 
 
 /* In Readme */
