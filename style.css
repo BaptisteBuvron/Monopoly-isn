@@ -260,16 +260,32 @@
 }
 
 /* Style d'un joueur */
+div#player1{
+    background-image: url('pictures/cheval_1.png');
+}
+div#player2{
+    background-image: url('pictures/cheval_2.png');
+}
+div#player3{
+    background-image: url('pictures/cheval_3.png');
+}
+div#player3{
+    background-image: url('pictures/cheval_3.png');
+}
+div#player3{
+    background-image: url('pictures/cheval_3.png');
+}
 div.player {
     display: inline-block;
     margin: 2px;
     height: 40px;
     width: 40px;
-    background-image: url('pictures/cheval.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
+
+
 
 img#background{
     position: absolute;

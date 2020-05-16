@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 * Title : Tour du monde en 40 jours
 * Author : Baptiste Buvron, Yann Le Moal
 * Created the : 01/03/2020
@@ -18,6 +18,7 @@ Game.valueDice = null;
 Game.counterDice = 0;
 Game.doubleDice = false;
 Game.rent = null;
+Game.nbrPlayerAlive = null;
 
 Game.start = function () {
     Game.getNbrPlayer();
@@ -131,11 +132,20 @@ function addChance(name, presentation, action, number) {
 Game.listChance = [];
 Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", -50));
 Game.listChance.push(new addChance("Voiture", "Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases", "move", 5));
-Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "pay", 50));
+Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "earn", 50));
+Game.listChance.push(new addChance("Réparation", "Vous faites des réparations sur toutes vos propriétés :  <br>-Versez 25€, pour chaque maison et 100€ pour chaque hotel que vous possédez ", "repare", null));
+Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50.", "pay", -50));
+Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", -150));
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "move", 10)); /* Comment définir la case départ dans le move ? */
 
 Game.listCommunityChest = [];
-Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre vaveur.<br>- Revevez 200 €", "pay", 200));
-
+Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
+Game.listCommunityChest.push(new addChance("Placement", "Votre placement vous rapporte.<br>- Revevez 100 €", "earn", 100));
+Game.listCommunityChest.push(new addChance("Concours","Vous avez gagné le deuxième Prix de Beauté.<br>- Revevez 150 €","earn",150));
+Game.listCommunityChest.push(new addChance("Police","Payez une amende de 10€ ou bien tirez une carte CHANCE.", "pay", 10));
+Game.listCommunityChest.push(new addChance("Héritage","Vous héritez 100 € ", "earn", 100));
+Game.listCommunityChest.push(new addChance("Soin","Payez la note du Médecin <br>- € 50.", "pay", -50));
+Game.listCommunityChest.push(new addChance("Urgence","Payez à l'Hôpital <br>- € 100.", "pay", -100));
 
 
 /* In Readme */
@@ -156,6 +166,7 @@ Game.getNbrPlayer = function () {
         if (nbrPlayer <= 5 && nbrPlayer >= 2) {
             $("#modal-player").modal('hide');
             Game.nbrPlayer = nbrPlayer;
+            Game.nbrPlayerAlive = nbrPlayer;
             Game.createPlayer(nbrPlayer);
         }
     }
@@ -179,6 +190,7 @@ Game.createPlayer = function (nbrPlayer) {
     }
     Game.allowToDice = true;
     Game.sortPlayer();
+    Game.modalChangeTurnPlayer();
 
 };
 
@@ -551,14 +563,29 @@ Game.changeTurnPlayer = function () {
 
     }
     if(player.hasClass("GameOver")){
-        Game.changeTurnPlayer();
+        if(Game.nbrPlayerAlive == 1){
+            Game.win(player);
+
+        }else{
+
+            Game.changeTurnPlayer();
+        }
     }
     else{
+        Game.modalChangeTurnPlayer();
         Game.upgradeProperty();
     }
 
 
 }
+
+Game.modalChangeTurnPlayer = function(){
+    var player = Game.getCurrentPlayer();
+    var idPlayer = Game.getIdPlayer(player)
+    $("#modal-changeTurnPlayer .modal-title").html("Joueur "+ String(idPlayer));
+    $("#modal-changeTurnPlayer .modal-body p").html("Le joueur "+ String(idPlayer) + "  doit jouer.");
+    $("#modal-changeTurnPlayer").modal('show');
+};
 
 /*In readme */
 Game.sendJail = function (player) {
@@ -568,7 +595,7 @@ Game.sendJail = function (player) {
     Game.changeTurnPlayer();
 
 
-}
+};
 
 /* In readme */
 Game.chance = function (type) {
@@ -594,6 +621,7 @@ Game.chance = function (type) {
     $("#modal-chance #name").html("Type : " + chance["name"]);
     $("#modal-chance #presentation").html(chance["presentation"]);
     $("#modal-chance #action").html("");
+    $("#modal-chance #error").html("");
     $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
     $("#modal-chance #button-validate").html("OK");
     $("#modal-chance").modal('show');
@@ -605,13 +633,15 @@ Game.chance = function (type) {
     });
 
     function chanceAction() {
+        var player = Game.getCurrentPlayer();
+        var idPlayer = Game.getIdPlayer(player);
         switch (chance["action"]) {
             case "pay":
                 if (Game.verifBank(idPlayer, Math.abs(chance["number"]))) {
                     Game.updateMoneyPlayer(idPlayer, chance["number"]);
                     $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
-                    Game.changeTurnPlayer();
                     $("#modal-chance").modal('hide');
+                    Game.changeTurnPlayer();
                 } else {
                     $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
                     $("#modal-chance").modal('hide');
@@ -628,6 +658,57 @@ Game.chance = function (type) {
                 $("#modal-chance").modal('hide');
                 Game.movePlayer(player, chance["number"]);
                 break;
+
+            case "earn":
+                Game.updateMoneyPlayer(idPlayer, chance["number"]);
+                $("#modal-chance").modal('hide');
+                Game.changeTurnPlayer();
+                break;
+            case "repare":
+
+                var player = Game.getCurrentPlayer();
+                var idPlayer = Game.getIdPlayer(player);
+                var listProperty= new Array();
+                Game.listCell.forEach(function (value, key, map) {
+                       if (value["owner"] == "player" + String(idPlayer)) {
+                          listProperty.push(key);
+                      }
+                  });
+                  if(listProperty.length == 0 ){
+                      $("#modal-chance").modal('hide');
+                      Game.changeTurnPlayer();
+                  }
+                  else{
+                      var money = 0;
+                      for (var i = 0; i < listProperty.length; i++) {
+                            var level = Game.listCell.get(listProperty[i])["level"];
+                        if (level != null && level ==5) {
+                            money += 100;
+                            
+                        }
+                        else if(level != null){
+                            money = money + level *25;
+                        }       
+                      }
+                      if(Game.verifBank(idPlayer,Math.abs(money))){
+                        Game.updateMoneyPlayer(idPlayer, -money);
+                        $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
+                        $("#modal-chance").modal('hide');
+                        Game.changeTurnPlayer();
+                      }else{
+                        $("#modal-chance #error").html("Vous n'avez pas assez d'argent dans votre compte en banque.<br>Des propriétés dont vous êtes le propriétaire vous être vendu.");
+                        $("#modal-chance").modal('hide');
+                        Game.rent = - money;
+                        Game.sellProperty("sellRent", null);
+                      }
+                  }
+                break;
+            case"go-to":
+
+
+                
+                break;
+
         }
     }
 
@@ -741,18 +822,8 @@ Game.tryLeaveJail = function () {
 
 Game.upgradeProperty = function () {
     if (Game.allowToDice) {
-        // var listProperty= new Array();
         var player = Game.getCurrentPlayer();
         var idPlayer = Game.getIdPlayer(player);
-        // Game.listCell.forEach(function (value, key, map) {
-        //       if (value["owner"] == "player" + String(idPlayer)) {
-        //          listProperty.push(key);
-        //      }
-        //  });
-        //  if(listProperty.length == 0 ){
-        //      Game.gameOver(idPlayer);
-        //      return;
-        //  }
         $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '2px solid yellow');
         $("#game .cell[data-owner='player" + String(idPlayer) + "']").click(function () {
             var cell = $(this);
@@ -806,35 +877,43 @@ Game.upgradeProperty = function () {
 
 
             function upgradeProperty() {
-                if (level != 5) {
-                    var upgradePrice = Game.listCell.get(idCell)["upgradePrice"];
-                    if (Game.verifBank(idPlayer, upgradePrice)) {
-                        Game.updateMoneyPlayer(idPlayer, -upgradePrice);
-                        Game.listCell.get(idCell)["level"] += 1;
-                        $("#modal-upgradeProperty #error").html("Vous avez améliorer la propriété.");
-                        setTimeout(hideModal, 2000);
+                var group = Game.listCell.get(idCell)["group"];
+                if(group != "Aéroport" || group != "energie"){
+                    if (level != 5) {
+                        var upgradePrice = Game.listCell.get(idCell)["upgradePrice"];
+                        if (Game.verifBank(idPlayer, upgradePrice)) {
+                            Game.updateMoneyPlayer(idPlayer, -upgradePrice);
+                            Game.listCell.get(idCell)["level"] += 1;
+                            $("#modal-upgradeProperty #error").html("Vous avez améliorer la propriété.");
+                            setTimeout(hideModal, 2000);
+                        } else {
+                            $("#modal-upgradeProperty #error").html("Vous n'avez pas assez d'argent pour améliorer la propriété.");
+                            click = false;
+    
+                        }
                     } else {
-                        $("#modal-upgradeProperty #error").html("Vous n'avez pas assez d'argent pour améliorer la propriété.");
+                        $("#modal-upgradeProperty #error").html("La propriété ne peux plus être améliorer d'avantage.");
                         click = false;
-
                     }
-                } else {
-                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être améliorer d'avantage.");
-                    click = false;
                 }
+                
             }
 
             function downgradeProperty() {
-                if (level > 0) {
-                    var downgradePrice = Game.listCell.get(idCell)["upgradePrice"] / 2;
-
-                    Game.updateMoneyPlayer(idPlayer, downgradePrice);
-                    Game.listCell.get(idCell)["level"] -= 1;
-                    $("#modal-upgradeProperty #error").html("Vous avez désaméliorer la propriété.");
-                    setTimeout(hideModal, 2000);
-                } else {
-                    $("#modal-upgradeProperty #error").html("La propriété ne peux plus être désaméliorer d'avantage.");
+                var group = Game.listCell.get(idCell)["group"];
+                if(group != "Aéroport" || group != "energie"){
+                    if (level > 0) {
+                        var downgradePrice = Game.listCell.get(idCell)["upgradePrice"] / 2;
+    
+                        Game.updateMoneyPlayer(idPlayer, downgradePrice);
+                        Game.listCell.get(idCell)["level"] -= 1;
+                        $("#modal-upgradeProperty #error").html("Vous avez désaméliorer la propriété.");
+                        setTimeout(hideModal, 2000);
+                    } else {
+                        $("#modal-upgradeProperty #error").html("La propriété ne peux plus être désaméliorer d'avantage.");
+                    }
                 }
+                
             }
 
             function hideModal() {
@@ -855,24 +934,23 @@ Game.upgradeProperty = function () {
 
 
 Game.sellProperty = function (action, idCell) {
-    var listProperty= new Array();
     var player = Game.getCurrentPlayer();
     var idPlayer = Game.getIdPlayer(player);
-    Game.listCell.forEach(function (value, key, map) {
-        if (value["owner"] == "player" + String(idPlayer)) {
-           listProperty.push(key);
-       }
-   });
-   if(listProperty.length == 0  && game.getMoneyPlayer(idPlayer) < 0){
-       Game.gameOver(idPlayer);
-       Game.changeTurnPlayer();
-       return;
-   }
     if (idCell == null) {
         idCell = 2;
     }
     switch (action) {
         case "sellRent":
+            var listProperty= new Array();
+            Game.listCell.forEach(function (value, key, map) {
+                if (value["owner"] == "player" + String(idPlayer)) {
+                   listProperty.push(key);
+               }
+            });
+            if(listProperty.length == 0  || game.getMoneyPlayer(idPlayer) <= 0){
+               Game.gameOver();
+               return;
+            }
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '1px solid black');
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").unbind();
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '2px solid red');
@@ -929,8 +1007,8 @@ Game.sellProperty = function (action, idCell) {
                 }
 
                 function hideModal() {
-                    if (Game.verifBank(idPlayer, Game.rent)) {
-                        Game.updateMoneyPlayer(idPlayer, -Game.rent);
+                    if (Game.verifBank(idPlayer, Math.abs(Game.rent))) {
+                        Game.updateMoneyPlayer(idPlayer, Game.rent);
                         var playerCell = Game.getClosestCell(player);
                         if (playerCell.attr("data-owner") != undefined) {
                             var idOwner = parseInt(playerCell.attr("data-owner").replace("player", ""));
@@ -967,6 +1045,7 @@ Game.sellProperty = function (action, idCell) {
             Game.listCell.get(idCell)["owner"] = null;
             Game.updateMoneyPlayer(idPlayer, money)
             break;
+            
     }
 
 
@@ -975,9 +1054,31 @@ Game.sellProperty = function (action, idCell) {
 }
 
 
-Game.gameOver = function(idPlayer){
+Game.gameOver = function(){
     var player = Game.getCurrentPlayer();
+    var click = false;
+    idPlayer = Game.getIdPlayer(player);
     player.addClass("GameOver");
+    player.remove();
+    Game.nbrPlayerAlive --;
+
+
+    $("#modal-gameOver #player").html("Le joueur "+ String(idPlayer) + " a perdu.");
+    $("#modal-gameOver").modal('show');
+
+    $("#modal-gameOver #button-quit").click(function () {
+        if (click == false) {
+            click = true;
+            hideModal();
+        }
+    });
+
+    function hideModal(){
+        $("#modal-gameOver").modal('hide');
+        game.changeTurnPlayer();
+
+    }
+
 };
 
 Game.sortPlayer = function(){
@@ -1004,6 +1105,28 @@ Game.sortPlayer = function(){
 
     }
 
+};
+
+Game.win = function(player){
+    var player = Game.getCurrentPlayer();
+    var click = false;
+    idPlayer = Game.getIdPlayer(player);
+
+    $("#modal-win #player").html("Le joueur "+ String(idPlayer) + " a gagné la partie.");
+    $("#modal-win").modal('show');
+
+    $("#modal-win #button-replay").click(function () {
+        if (click == false) {
+            click = true;
+            hideModal();
+        }
+    });
+
+    function hideModal(){
+        $("#modal-gameOver").modal('hide');
+        document.location.reload(true);
+
+    }
 };
 
 
