@@ -562,6 +562,11 @@ Game.changeTurnPlayer = function () {
 
 
     }
+    if(Game.nbrPlayerAlive == 1){
+        Game.win(player);
+        return;
+
+    }
     if(player.hasClass("GameOver")){
         if(Game.nbrPlayerAlive == 1){
             Game.win(player);
@@ -958,7 +963,7 @@ Game.sellProperty = function (action, idCell) {
                    listProperty.push(key);
                }
             });
-            if(listProperty.length == 0  || game.getMoneyPlayer(idPlayer) <= 0){
+            if(listProperty.length == 0  || Game.getMoneyPlayer(idPlayer) <= 0){
                Game.gameOver();
                return;
             }
@@ -1068,9 +1073,11 @@ Game.sellProperty = function (action, idCell) {
 Game.gameOver = function(){
     var player = Game.getCurrentPlayer();
     var click = false;
-    idPlayer = Game.getIdPlayer(player);
+    var idPlayer = Game.getIdPlayer(player);
+   
     player.addClass("GameOver");
-    player.remove();
+    player.css("display", "none");
+    Game.bankPlayer["player" + String(idPlayer)] = 0;
     Game.nbrPlayerAlive --;
 
 
@@ -1086,7 +1093,7 @@ Game.gameOver = function(){
 
     function hideModal(){
         $("#modal-gameOver").modal('hide');
-        game.changeTurnPlayer();
+        Game.changeTurnPlayer();
 
     }
 
@@ -1112,7 +1119,7 @@ Game.sortPlayer = function(){
     rankHtml.html(' ');
     for (var i=0; i < bankPlayerArray.length; i++) {
         var idPlayer = bankPlayerArray[i][0].replace('player','')
-        $('<li>'+String(parseInt(i+1))+') Joueur '+idPlayer+': '+bankPlayerArray[i][1]+'</li>').appendTo(rankHtml);
+        $('<li>'+String(parseInt(i+1))+') Joueur '+idPlayer+': '+bankPlayerArray[i][1]+' € </li>').appendTo(rankHtml);
 
     }
 
