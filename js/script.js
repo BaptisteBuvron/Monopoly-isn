@@ -136,7 +136,7 @@ Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vou
 Game.listChance.push(new addChance("Réparation", "Vous faites des réparations sur toutes vos propriétés :  <br>-Versez 25€, pour chaque maison et 100€ pour chaque hotel que vous possédez ", "repare", null));
 Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50.", "pay", -50));
 Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", -150));
-Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "move", 10)); /* Comment définir la case départ dans le move ? */
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "goTo", 1)); /* Comment définir la case départ dans le move ? */
 
 Game.listCommunityChest = [];
 Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
@@ -703,8 +703,19 @@ Game.chance = function (type) {
                       }
                   }
                 break;
-            case"go-to":
-
+            case"goTo":
+                
+                var idCell = Game.getIdCell(Game.getClosestCell(player));
+                var idDestination = chance["number"];
+                var total;
+                if(idDestination < idCell){
+                    total = (40 - idCell) + idDestination;
+                }else{
+                    total = idDestination - idCell;
+                }
+                $("#modal-chance").modal('hide');
+                Game.movePlayer(player, total);
+                
 
                 
                 break;
