@@ -130,13 +130,14 @@ function addChance(name, presentation, action, number) {
 };
 /* In Readme */
 Game.listChance = [];
-Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", -50));
+Game.listChance.push(new addChance("Facture", "Vous n'avez pas payer vos factures ! <br>- Vous devez 50€ à la banque", "pay", 50));
 Game.listChance.push(new addChance("Voiture", "Vous avez fait le stop, un particulier vous prend dans sa voiture : <br>- Avancer de 5 cases", "move", 5));
 Game.listChance.push(new addChance("Loto", "Vous avez gagné au loto ! <br>- Vous gagnez 50€", "earn", 50));
 Game.listChance.push(new addChance("Réparation", "Vous faites des réparations sur toutes vos propriétés :  <br>-Versez 25€, pour chaque maison et 100€ pour chaque hotel que vous possédez ", "repare", null));
-Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50.", "pay", -50));
-Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", -150));
-Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "goTo", 1)); /* Comment définir la case départ dans le move ? */
+Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50.", "pay", 50));
+Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", 150));
+Game.listChance.push(new addChance("Banque","La banque vous verse de l'argent.<br>Vous gagnez 50€.", "earn", 100));
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "goTo", 1)); 
 
 Game.listCommunityChest = [];
 Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
@@ -144,8 +145,8 @@ Game.listCommunityChest.push(new addChance("Placement", "Votre placement vous ra
 Game.listCommunityChest.push(new addChance("Concours","Vous avez gagné le deuxième Prix de Beauté.<br>- Revevez 150 €","earn",150));
 Game.listCommunityChest.push(new addChance("Police","Payez une amende de 10€ ou bien tirez une carte CHANCE.", "pay", 10));
 Game.listCommunityChest.push(new addChance("Héritage","Vous héritez 100 € ", "earn", 100));
-Game.listCommunityChest.push(new addChance("Soin","Payez la note du Médecin <br>- € 50.", "pay", -50));
-Game.listCommunityChest.push(new addChance("Urgence","Payez à l'Hôpital <br>- € 100.", "pay", -100));
+Game.listCommunityChest.push(new addChance("Soin","Payez la note du Médecin <br>- € 50.", "pay", 50));
+Game.listCommunityChest.push(new addChance("Urgence","Payez à l'Hôpital <br>- € 100.", "pay", 100));
 
 
 /* In Readme */
@@ -642,8 +643,8 @@ Game.chance = function (type) {
         var idPlayer = Game.getIdPlayer(player);
         switch (chance["action"]) {
             case "pay":
-                if (Game.verifBank(idPlayer, Math.abs(chance["number"]))) {
-                    Game.updateMoneyPlayer(idPlayer, chance["number"]);
+                if (Game.verifBank(idPlayer,chance["number"])) {
+                    Game.updateMoneyPlayer(idPlayer, - chance["number"]);
                     $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
                     $("#modal-chance").modal('hide');
                     Game.changeTurnPlayer();
@@ -696,7 +697,7 @@ Game.chance = function (type) {
                         }       
                       }
                       if(Game.verifBank(idPlayer,Math.abs(money))){
-                        Game.updateMoneyPlayer(idPlayer, -money);
+                        Game.updateMoneyPlayer(idPlayer, - money);
                         $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
                         $("#modal-chance").modal('hide');
                         Game.changeTurnPlayer();
@@ -755,7 +756,7 @@ Game.tax = function (idCell) {
 
     function taxAction() {
         if (Game.verifBank(idPlayer, tax["rent"])) {
-            Game.updateMoneyPlayer(idPlayer, -tax["rent"]);
+            Game.updateMoneyPlayer(idPlayer, - tax["rent"]);
             $("#modal-chance #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
             $("#modal-chance").modal('hide');
             Game.changeTurnPlayer();
@@ -846,13 +847,21 @@ Game.upgradeProperty = function () {
             var idCell = Game.getIdCell(cell);
             var level = Game.listCell.get(idCell)["level"];
 
+            var moneySell = 0;
+                if (level != null) {
+                    moneySell += level * (Game.listCell.get(idCell)["upgradePrice"] / 2);
+                    Game.listCell.get(idCell)["level"] = 0;
+                }
+                moneySell += Game.listCell.get(idCell)["sell"];
+
             var click = false; /*Variable pour empecher un double appelle de la fonction buy */
             // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
             $("#modal-upgradeProperty .modal-title").html("Améliorer la propriété : " + Game.listCell.get(idCell)["name"]);
             $("#modal-upgradeProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
             $("#modal-upgradeProperty #level").html("Level actuel : " + String(level));
-            $("#modal-upgradeProperty #upgrade").html("Améliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] + " €");
-            $("#modal-upgradeProperty #downgrade").html("Désaméliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] / 2 + " €");
+            $("#modal-upgradeProperty #upgrade").html(" : " + Game.listCell.get(idCell)["upgradePrice"] + " €");
+            $("#modal-upgradeProperty #downgrade").html(" : " + Game.listCell.get(idCell)["upgradePrice"] / 2 + " €");
+            $("#modal-upgradeProperty #sell").html(" : " + moneySell + " €");
             $("#modal-upgradeProperty #error").html("");
             $("#modal-upgradeProperty").modal('show');
 
@@ -969,7 +978,7 @@ Game.sellProperty = function (action, idCell) {
             }
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '1px solid black');
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").unbind();
-            $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '2px solid red');
+            $("#game .cell[data-owner='player" + String(idPlayer) + "']").css('border', '3px solid red');
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").click(function () {
                 var cell = $(this);
                 var idCell = Game.getIdCell(cell);
@@ -977,10 +986,21 @@ Game.sellProperty = function (action, idCell) {
 
                 var click = false; /*Variable pour empecher un double appelle de la fonction buy */
                 // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
+
+
+                var moneySell = 0;
+                if (level != null) {
+                    moneySell += level * (Game.listCell.get(idCell)["upgradePrice"] / 2);
+                    Game.listCell.get(idCell)["level"] = 0;
+                }
+                moneySell += Game.listCell.get(idCell)["sell"];
+
+
                 $("#modal-sellProperty .modal-title").html("Désaméliorer la propriété : " + Game.listCell.get(idCell)["name"]);
                 $("#modal-sellProperty #money").html("Votre solde : " + Game.getMoneyPlayer(idPlayer) + " €");
                 $("#modal-sellProperty #level").html("Level actuel : " + String(level));
-                $("#modal-sellProperty #downgrade").html("Désaméliorer la propriété : " + Game.listCell.get(idCell)["upgradePrice"] / 2 + " €");
+                $("#modal-sellProperty #downgrade").html(" : "+ (Game.listCell.get(idCell)["upgradePrice"]/2) + " €");
+                $("#modal-sellProperty #sell").html(" : "+ moneySell + " €");
                 $("#modal-sellProperty #error").html("");
                 $("#modal-sellProperty").modal('show');
 
@@ -1016,6 +1036,7 @@ Game.sellProperty = function (action, idCell) {
 
                         Game.updateMoneyPlayer(idPlayer, downgradePrice);
                         Game.listCell.get(idCell)["level"] -= 1;
+                        $("#modal-sellProperty #level").html("Level actuel : " + String(level));
                         $("#modal-sellProperty #error").html("Vous avez désaméliorer la propriété.");
                     } else {
                         $("#modal-sellProperty #error").html("La propriété ne peux plus être désaméliorer d'avantage.");
@@ -1024,7 +1045,7 @@ Game.sellProperty = function (action, idCell) {
 
                 function hideModal() {
                     if (Game.verifBank(idPlayer, Math.abs(Game.rent))) {
-                        Game.updateMoneyPlayer(idPlayer, Game.rent);
+                        Game.updateMoneyPlayer(idPlayer, - Game.rent);
                         var playerCell = Game.getClosestCell(player);
                         if (playerCell.attr("data-owner") != undefined) {
                             var idOwner = parseInt(playerCell.attr("data-owner").replace("player", ""));
@@ -1050,7 +1071,7 @@ Game.sellProperty = function (action, idCell) {
             var level = Game.listCell.get(idCell)["level"];
             var money = 0;
             if (level != null) {
-                money += level * Game.listCell.get(idCell)["upgradePrice"] / 2;
+                money += level * (Game.listCell.get(idCell)["upgradePrice"] / 2);
                 Game.listCell.get(idCell)["level"] = 0;
             }
             money += Game.listCell.get(idCell)["sell"];
