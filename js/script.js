@@ -525,7 +525,11 @@ Game.changeTurnPlayer = function () {
     var idPlayer = Game.getIdPlayer(Game.getCurrentPlayer());
     var idNextPlayer;
     if (Game.doubleDice) {
-        if (Game.counterDice == 3) {
+        if(player.hasClass("jailed")){
+            Game.doubleDice = false;
+            Game.changeTurnPlayer();
+        }
+        else if (Game.counterDice == 3) {
             Game.sendJail(player);
             Game.counterDice = 0;
             Game.changeTurnPlayer();
@@ -846,14 +850,14 @@ Game.upgradeProperty = function () {
             var cell = $(this);
             var idCell = Game.getIdCell(cell);
             var level = Game.listCell.get(idCell)["level"];
+            
 
             var moneySell = 0;
-                if (level != null) {
-                    moneySell += level * (Game.listCell.get(idCell)["upgradePrice"] / 2);
-                    Game.listCell.get(idCell)["level"] = 0;
-                }
-                moneySell += Game.listCell.get(idCell)["sell"];
-
+            if (level != null) {
+                moneySell += level * (Game.listCell.get(idCell)["upgradePrice"] / 2);
+            }
+            moneySell += Game.listCell.get(idCell)["sell"];
+            
             var click = false; /*Variable pour empecher un double appelle de la fonction buy */
             // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
             $("#modal-upgradeProperty .modal-title").html("Améliorer la propriété : " + Game.listCell.get(idCell)["name"]);
@@ -982,7 +986,9 @@ Game.sellProperty = function (action, idCell) {
             $("#game .cell[data-owner='player" + String(idPlayer) + "']").click(function () {
                 var cell = $(this);
                 var idCell = Game.getIdCell(cell);
+                
                 var level = Game.listCell.get(idCell)["level"];
+                
 
                 var click = false; /*Variable pour empecher un double appelle de la fonction buy */
                 // $("#modal-upgradeProperty img").attr('src', "pictures/pais/" + Game.listCell.get(idCell)['picture']);
