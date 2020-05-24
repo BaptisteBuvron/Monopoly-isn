@@ -138,12 +138,14 @@ Game.listChance.push(new addChance("Police","Amende pour ivresse :<br>- € 50."
 Game.listChance.push(new addChance("École","Payez pour frais de scolarité<br>- € 150.", "pay", 150));
 Game.listChance.push(new addChance("Banque","La banque vous verse de l'argent.<br>Vous gagnez 50€.", "earn", 100));
 Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Départ.", "goTo", 1)); 
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Mars.", "goTo", 40)); 
+Game.listChance.push(new addChance("Grand Voyage","Avancez jusqu'à la case Lune.", "goTo", 38)); 
 
 Game.listCommunityChest = [];
 Game.listCommunityChest.push(new addChance("Erreur banque", "Erreur de la banque en votre faveur.<br>- Revevez 200 €", "earn", 200));
 Game.listCommunityChest.push(new addChance("Placement", "Votre placement vous rapporte.<br>- Revevez 100 €", "earn", 100));
 Game.listCommunityChest.push(new addChance("Concours","Vous avez gagné le deuxième Prix de Beauté.<br>- Revevez 150 €","earn",150));
-Game.listCommunityChest.push(new addChance("Police","Payez une amende de 10€ ou bien tirez une carte CHANCE.", "pay", 10));
+Game.listCommunityChest.push(new addChance("Police","Payez une amende de 10€", "pay", 10));
 Game.listCommunityChest.push(new addChance("Héritage","Vous héritez 100 € ", "earn", 100));
 Game.listCommunityChest.push(new addChance("Soin","Payez la note du Médecin <br>- € 50.", "pay", 50));
 Game.listCommunityChest.push(new addChance("Urgence","Payez à l'Hôpital <br>- € 100.", "pay", 100));
@@ -162,14 +164,36 @@ Game.getNbrPlayer = function () {
 
 
     function getNbrPlayer() {
-        var nbrPlayer = 0;
+        var nbrPlayer;
         nbrPlayer = parseInt($("#nbrPlayer").val());
         if (nbrPlayer <= 5 && nbrPlayer >= 2) {
             $("#modal-player").modal('hide');
             Game.nbrPlayer = nbrPlayer;
             Game.nbrPlayerAlive = nbrPlayer;
-            Game.createPlayer(nbrPlayer);
+            Game.getNamePlayer(nbrPlayer);
+            
         }
+    }
+
+};
+
+Game.getNamePlayer = function(nbrPlayer){
+    for (let i = nbrPlayer; i >= 1; i--) {
+        $('#modal-player-name form#form-name-player').prepend('<label for="namePlayer'+ String(i)+'">Pseudo du joueur '+ String(i)+'</label><input id="namePlayer'+ String(i)+'" class="form-control" type="text" name="" value="Joueur '+ String(i)+'"></input>');
+        
+    }
+    $("#modal-player-name").modal('show');
+    $("#modal-player-name #button-name-player").click(getNamePlayer);
+
+    function getNamePlayer(){
+        Game.listNamePLayer = new Map();
+        for (let i = 1; i <= nbrPlayer; i++) {
+            Game.listNamePLayer.set(i,$('#namePlayer'+ String(i)+'').val());
+            
+        }
+        $("#modal-player-name").modal('hide');
+        Game.createPlayer(nbrPlayer);
+
     }
 
 };
@@ -592,8 +616,9 @@ Game.changeTurnPlayer = function () {
 Game.modalChangeTurnPlayer = function(){
     var player = Game.getCurrentPlayer();
     var idPlayer = Game.getIdPlayer(player)
-    $("#modal-changeTurnPlayer .modal-title").html("Joueur "+ String(idPlayer));
-    $("#modal-changeTurnPlayer .modal-body p").html("Le joueur "+ String(idPlayer) + "  doit jouer.");
+    var name = Game.listNamePLayer.get(idPlayer);
+    $("#modal-changeTurnPlayer .modal-title").html("Joueur "+ String(name));
+    $("#modal-changeTurnPlayer .modal-body p").html("Le joueur "+ String(name) + "  doit jouer.");
     $("#modal-changeTurnPlayer").modal('show');
 };
 
