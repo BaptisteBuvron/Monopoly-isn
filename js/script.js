@@ -1170,8 +1170,9 @@ Game.sortPlayer = function(){
     var rankHtml= $('div#rank ul');
     rankHtml.html(' ');
     for (var i=0; i < bankPlayerArray.length; i++) {
-        var idPlayer = bankPlayerArray[i][0].replace('player','')
-        $('<li>'+String(parseInt(i+1))+') Joueur '+idPlayer+': '+bankPlayerArray[i][1]+' € </li>').appendTo(rankHtml);
+        var idPlayer = bankPlayerArray[i][0].replace('player','');
+        var name = Game.listNamePLayer.get(idPlayer);
+        $('<li>'+String(parseInt(i+1))+') '+ name +': '+bankPlayerArray[i][1]+' € </li>').appendTo(rankHtml);
 
     }
 
