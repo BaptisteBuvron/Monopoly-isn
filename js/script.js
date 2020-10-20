@@ -1173,7 +1173,7 @@ Game.sortPlayer = function(){
         var idPlayer = parseInt(bankPlayerArray[i][0].replace('player',''));
         console.log(idPlayer);
         var name = Game.listNamePLayer.get(idPlayer);
-        console.log(name);
+        console.log("Salut");
         $('<li>'+String(parseInt(i+1))+') '+ String(name)+': '+bankPlayerArray[i][1]+' € </li>').appendTo(rankHtml);
 
     }
